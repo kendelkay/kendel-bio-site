@@ -1,14 +1,433 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.5">
-  <style type="text/css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kendel kay | official links</title>
+  <meta name="description" content="official links for kendel kay" />
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <style>
+    :root {
+      --soft-white: rgba(255,255,255,0.92);
+      --text: #151515;
+      --button-shadow: 0 12px 25px rgba(0,0,0,0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: white;
+      background: #f7f0ec;
+    }
+
+    body { overflow-x: hidden; }
+
+    .background-image,
+    .background-video {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      z-index: -5;
+    }
+
+    .background-image {
+      background-image: url("background.jpg");
+      background-position: center top;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .video-softener {
+      position: fixed;
+      inset: 0;
+      z-index: -4;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.24)),
+        linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.23));
+      pointer-events: none;
+    }
+
+    .left-silk {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      background: linear-gradient(116deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.18) 23%, transparent 23.4%);
+      mix-blend-mode: screen;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 10px 16px 24px;
+    }
+
+    .bio-wrap {
+      width: 100%;
+      max-width: 430px;
+      min-height: calc(100vh - 34px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 4px;
+    }
+
+    .profile-photo {
+      width: 86px;
+      height: 86px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.94);
+      background: rgba(255,255,255,0.35);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .profile-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    h1 {
+      margin: 12px 0 8px;
+      font-size: clamp(34px, 9vw, 50px);
+      line-height: 0.96;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+      text-align: center;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 32px;
+    }
+
+    .social-icons a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 900;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.24);
+    }
+
+    .links {
+      width: 100%;
+      display: grid;
+      gap: 16px;
+    }
+
+    .link-button,
+    .small-button,
+    .copy-button,
+    .back-button {
+      width: 100%;
+      min-height: 62px;
+      border-radius: 999px;
+      background: var(--soft-white);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 17px 28px;
+      border: 1px solid rgba(255,255,255,0.72);
+      text-decoration: none;
+      font-size: clamp(18px, 4.5vw, 24px);
+      font-weight: 430;
+      letter-spacing: -0.03em;
+      box-shadow: var(--button-shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      cursor: pointer;
+      appearance: none;
+      font-family: inherit;
+      transition: 160ms ease;
+    }
+
+    .link-button:hover,
+    .small-button:hover,
+    .copy-button:hover,
+    .back-button:hover {
+      transform: translateY(-2px);
+      background: white;
+    }
+
+    .matcha-card,
+    .support-card,
+    .crypto-card {
+      width: 100%;
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.22);
+      border: 1px solid rgba(255,255,255,0.28);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.12);
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      color: white;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 760;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.28);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .small-button {
+      min-height: 52px;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-weight: 760;
+    }
+
+    .support-page,
+    .crypto-page {
+      display: none;
+      width: 100%;
+    }
+
+    .support-page.active,
+    .crypto-page.active,
+    .home-page.active {
+      display: block;
+    }
+
+    .home-page.hidden {
+      display: none;
+    }
+
+    .wallet-block {
+      background: rgba(255,255,255,0.20);
+      border: 1px solid rgba(255,255,255,0.30);
+      border-radius: 24px;
+      padding: 14px;
+      margin-bottom: 12px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .wallet-title {
+      color: white;
+      margin: 0 0 8px;
+      text-align: center;
+      font-size: 17px;
+      font-weight: 800;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.28);
+    }
+
+    .wallet-address {
+      width: 100%;
+      overflow-wrap: anywhere;
+      text-align: center;
+      color: rgba(255,255,255,0.95);
+      font-size: 12px;
+      line-height: 1.4;
+      margin: 0 0 10px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.28);
+    }
+
+    .copy-button,
+    .back-button {
+      min-height: 48px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 760;
+    }
+
+    .back-button {
+      margin-top: 10px;
+    }
+
+    .cash-referral {
+      display: block;
+      margin-top: 12px;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.26);
+    }
+
+    .footer {
+      margin-top: auto;
+      padding-top: 26px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.92);
+      font-size: 10px;
+      font-weight: 800;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    }
+
+    .footer a {
+      color: rgba(255,255,255,0.92);
+      text-decoration: none;
+    }
   </style>
 </head>
+
 <body>
+  <div class="background-image"></div>
+
+  <video class="background-video" autoplay muted loop playsinline poster="background.jpg">
+    <source src="background.mp4" type="video/mp4" />
+  </video>
+
+  <div class="video-softener"></div>
+  <div class="left-silk"></div>
+
+  <main class="page">
+    <section class="bio-wrap">
+      <div class="profile-photo">
+        <img src="avatar.jpg" alt="kendel kay profile photo" />
+      </div>
+
+      <h1>kendel kay</h1>
+
+      <nav class="social-icons">
+        <a href="https://www.instagram.com/Kendelkay/" target="_blank">◎</a>
+        <a href="https://x.com/kendelkay" target="_blank">𝕏</a>
+        <a href="https://www.youtube.com/@kendelkay" target="_blank">▶</a>
+        <a href="https://www.tiktok.com/@Kendelkay" target="_blank">♪</a>
+        <a href="https://www.snapchat.com/@kendel_kay" target="_blank">👻</a>
+      </nav>
+
+      <div id="homePage" class="home-page active">
+        <div class="links">
+          <a class="link-button" href="https://onlyfans.com/kendelkay" target="_blank">free exclusive content 💖</a>
+          <a class="link-button" href="https://fansly.com/KendelKayxo/" target="_blank">fansly 🎀</a>
+          <a class="link-button" href="https://www.youtube.com/@kendelkay" target="_blank">vlogs 🎥</a>
+          <a class="link-button" href="https://www.amazon.com/registries/gl/guest-view/15Q7J6COMX8AT" target="_blank">my amazon wishlist 💝</a>
+        </div>
+
+        <section class="matcha-card">
+          <p class="section-title">make my day a little sweeter with matcha 💗</p>
+          <div class="two-col">
+            <a class="small-button" href="https://cash.app/$misskendel/15" target="_blank">$15 matcha 🤍</a>
+            <a class="small-button" href="https://cash.app/$misskendel" target="_blank">make me blush ☺️</a>
+          </div>
+          <a class="cash-referral" href="https://cash.app/app/3ZGKCKCW" target="_blank">new to cash app? start here ✨</a>
+        </section>
+
+        <button class="link-button" type="button" id="openSupport">show the fairy some love 🧚</button>
+      </div>
+
+      <div id="supportPage" class="support-page">
+        <section class="support-card">
+          <p class="section-title">show the fairy some love 🧚</p>
+          <div class="links">
+            <a class="link-button" href="https://cash.app/$misskendel" target="_blank">cash app 💗</a>
+            <a class="link-button" href="https://venmo.com/YOURVENMOUSERNAME" target="_blank">venmo 💗</a>
+            <button class="link-button" type="button" id="openCrypto">crypto 🧚</button>
+          </div>
+          <button class="back-button" type="button" id="backHomeFromSupport">back</button>
+        </section>
+      </div>
+
+      <div id="cryptoPage" class="crypto-page">
+        <section class="crypto-card">
+          <p class="section-title">show the fairy some love 🧚</p>
+
+          <div class="wallet-block">
+            <p class="wallet-title">ethereum 💓</p>
+            <p class="wallet-address">0x4d27C43f86e158485e888aF7783c2378d31deddB</p>
+            <button class="copy-button" type="button" data-copy="0x4d27C43f86e158485e888aF7783c2378d31deddB">copy ethereum address</button>
+          </div>
+
+          <div class="wallet-block">
+            <p class="wallet-title">bitcoin 💞</p>
+            <p class="wallet-address">3NSzbydWvgD9dvE6SH8KKY3YwRpcFXBj7b</p>
+            <button class="copy-button" type="button" data-copy="3NSzbydWvgD9dvE6SH8KKY3YwRpcFXBj7b">copy bitcoin address</button>
+          </div>
+
+          <button class="back-button" type="button" id="backSupportFromCrypto">back</button>
+        </section>
+      </div>
+
+      <footer class="footer">
+        <a href="terms.html">terms</a>
+        <span>|</span>
+        <a href="privacy.html">privacy policy</a>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    const homePage = document.getElementById('homePage');
+    const supportPage = document.getElementById('supportPage');
+    const cryptoPage = document.getElementById('cryptoPage');
+
+    document.getElementById('openSupport').addEventListener('click', () => {
+      homePage.classList.add('hidden');
+      supportPage.classList.add('active');
+      cryptoPage.classList.remove('active');
+    });
+
+    document.getElementById('openCrypto').addEventListener('click', () => {
+      homePage.classList.add('hidden');
+      supportPage.classList.remove('active');
+      cryptoPage.classList.add('active');
+    });
+
+    document.getElementById('backHomeFromSupport').addEventListener('click', () => {
+      homePage.classList.remove('hidden');
+      supportPage.classList.remove('active');
+      cryptoPage.classList.remove('active');
+    });
+
+    document.getElementById('backSupportFromCrypto').addEventListener('click', () => {
+      supportPage.classList.add('active');
+      cryptoPage.classList.remove('active');
+    });
+
+    document.querySelectorAll('.copy-button').forEach(button => {
+      button.addEventListener('click', async () => {
+        const original = button.textContent;
+        try {
+          await navigator.clipboard.writeText(button.dataset.copy);
+          button.textContent = 'copied 💗';
+        } catch {
+          button.textContent = 'copy manually';
+        }
+        setTimeout(() => {
+          button.textContent = original;
+        }, 1600);
+      });
+    });
+  </script>
 </body>
 </html>
