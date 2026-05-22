@@ -3,71 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kendel kay | official links</title>
-  <meta name="description" content="official links for kendel kay" />
-
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-  </script>
+  <title>kendel kay</title>
+  <meta name="description" content="kendel kay official links" />
 
   <style>
-    :root {
-      --soft-white: rgba(255,255,255,0.92);
-      --text: #151515;
-      --button-shadow: 0 12px 25px rgba(0,0,0,0.08);
-    }
-
     * { box-sizing: border-box; }
 
     html, body {
       margin: 0;
       min-height: 100%;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: white;
-      background: #f7f0ec;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: #f4ede8;
+      color: #fff;
     }
 
     body { overflow-x: hidden; }
 
-    .background-image,
-    .background-video {
+    .background-video,
+    .background-fallback {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center top;
-      z-index: -5;
-    }
-
-    .background-image {
-      background-image: url("background.jpg");
-      background-position: center top;
-      background-size: cover;
-      background-repeat: no-repeat;
-    }
-
-    .video-softener {
-      position: fixed;
-      inset: 0;
       z-index: -4;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.24)),
-        linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.23));
-      pointer-events: none;
     }
 
-    .left-silk {
+    .background-fallback {
+      background-image: url("avatar.jpg");
+      background-size: cover;
+      background-position: center top;
+      filter: blur(10px);
+      transform: scale(1.05);
+    }
+
+    .soft-overlay {
       position: fixed;
       inset: 0;
       z-index: -3;
+      background:
+        linear-gradient(180deg, rgba(245, 234, 228, 0.16) 0%, rgba(245, 234, 228, 0.10) 40%, rgba(0, 0, 0, 0.10) 100%),
+        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.12));
       pointer-events: none;
-      background: linear-gradient(116deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.18) 23%, transparent 23.4%);
-      mix-blend-mode: screen;
     }
 
     .page {
@@ -75,32 +53,29 @@
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      padding: 10px 16px 24px;
+      padding: 24px 32px 22px;
     }
 
-    .bio-wrap {
+    .bio {
       width: 100%;
-      max-width: 430px;
-      min-height: calc(100vh - 34px);
+      max-width: 645px;
+      min-height: calc(100vh - 46px);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 4px;
     }
 
-    .profile-photo {
-      width: 86px;
-      height: 86px;
+    .avatar {
+      width: 96px;
+      height: 96px;
       border-radius: 10px;
       overflow: hidden;
-      border: 2px solid rgba(255,255,255,0.94);
-      background: rgba(255,255,255,0.35);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.22);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      border: 3px solid rgba(255,255,255,0.92);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+      background: rgba(255,255,255,0.3);
     }
 
-    .profile-photo img {
+    .avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -108,275 +83,217 @@
     }
 
     h1 {
-      margin: 12px 0 8px;
-      font-size: clamp(34px, 9vw, 50px);
-      line-height: 0.96;
-      letter-spacing: -0.06em;
-      font-weight: 900;
+      margin: 26px 0 14px;
+      font-size: clamp(46px, 10vw, 68px);
+      line-height: 0.9;
+      font-weight: 800;
+      letter-spacing: -0.065em;
       text-align: center;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      color: #fff;
+      text-shadow: 0 4px 24px rgba(0,0,0,0.24);
     }
 
-    .social-icons {
+    .socials {
       display: flex;
-      justify-content: center;
       align-items: center;
-      gap: 13px;
-      margin-bottom: 32px;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 52px;
     }
 
-    .social-icons a {
+    .socials a {
+      width: 24px;
+      height: 24px;
       color: white;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       text-decoration: none;
-      font-size: 18px;
-      font-weight: 900;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.24);
+      filter: drop-shadow(0 3px 10px rgba(0,0,0,0.25));
+      opacity: 0.96;
+      transition: transform 150ms ease, opacity 150ms ease;
     }
+
+    .socials a:hover { transform: translateY(-1px); opacity: 1; }
+    .socials svg { width: 22px; height: 22px; fill: currentColor; }
 
     .links {
       width: 100%;
       display: grid;
-      gap: 16px;
+      gap: 70px;
     }
 
-    .link-button,
-    .small-button,
-    .copy-button,
-    .back-button {
+    .button {
       width: 100%;
-      min-height: 62px;
+      min-height: 92px;
       border-radius: 999px;
-      background: var(--soft-white);
-      color: var(--text);
+      background: rgba(255,255,255,0.94);
+      color: #111;
+      border: 1px solid rgba(255,255,255,0.72);
+      box-shadow: 0 12px 34px rgba(0,0,0,0.06);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 17px 28px;
-      border: 1px solid rgba(255,255,255,0.72);
       text-decoration: none;
-      font-size: clamp(18px, 4.5vw, 24px);
-      font-weight: 430;
-      letter-spacing: -0.03em;
-      box-shadow: var(--button-shadow);
+      font-size: clamp(24px, 5.2vw, 34px);
+      font-weight: 420;
+      letter-spacing: -0.035em;
+      padding: 24px 36px;
+      transition: transform 150ms ease, background 150ms ease, box-shadow 150ms ease;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      background: #fff;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.10);
+    }
+
+    .matcha-card {
+      width: 100%;
+      margin-top: 34px;
+      padding: 18px;
+      border-radius: 34px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.26);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      cursor: pointer;
-      appearance: none;
-      font-family: inherit;
-      transition: 160ms ease;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.08);
     }
 
-    .link-button:hover,
-    .small-button:hover,
-    .copy-button:hover,
-    .back-button:hover {
-      transform: translateY(-2px);
-      background: white;
-    }
-
-    .matcha-card,
-    .support-card,
-    .crypto-card {
-      width: 100%;
-      margin-top: 18px;
-      padding: 15px;
-      border-radius: 30px;
-      background: rgba(255,255,255,0.22);
-      border: 1px solid rgba(255,255,255,0.28);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 14px 36px rgba(0,0,0,0.12);
-    }
-
-    .section-title {
-      margin: 0 0 12px;
-      color: white;
+    .matcha-title {
+      margin: 0 0 14px;
       text-align: center;
+      color: #fff;
       font-size: 15px;
-      font-weight: 760;
+      font-weight: 750;
       letter-spacing: -0.02em;
       text-shadow: 0 2px 12px rgba(0,0,0,0.28);
     }
 
-    .two-col {
+    .matcha-buttons {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 12px;
     }
 
-    .small-button {
-      min-height: 52px;
-      padding: 12px 14px;
+    .mini-button {
+      min-height: 54px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.94);
+      color: #111;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       font-size: 15px;
       font-weight: 760;
-    }
-
-    .support-page,
-    .crypto-page {
-      display: none;
-      width: 100%;
-    }
-
-    .support-page.active,
-    .crypto-page.active,
-    .home-page.active {
-      display: block;
-    }
-
-    .home-page.hidden {
-      display: none;
-    }
-
-    .wallet-block {
-      background: rgba(255,255,255,0.20);
-      border: 1px solid rgba(255,255,255,0.30);
-      border-radius: 24px;
-      padding: 14px;
-      margin-bottom: 12px;
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-    }
-
-    .wallet-title {
-      color: white;
-      margin: 0 0 8px;
-      text-align: center;
-      font-size: 17px;
-      font-weight: 800;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.28);
-    }
-
-    .wallet-address {
-      width: 100%;
-      overflow-wrap: anywhere;
-      text-align: center;
-      color: rgba(255,255,255,0.95);
-      font-size: 12px;
-      line-height: 1.4;
-      margin: 0 0 10px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.28);
-    }
-
-    .copy-button,
-    .back-button {
-      min-height: 48px;
-      padding: 12px 16px;
-      font-size: 14px;
-      font-weight: 760;
-    }
-
-    .back-button {
-      margin-top: 10px;
+      letter-spacing: -0.02em;
+      padding: 12px 14px;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.07);
     }
 
     .cash-referral {
       display: block;
-      margin-top: 12px;
-      color: white;
+      margin-top: 13px;
+      color: #fff;
       text-align: center;
       text-decoration: none;
       font-size: 12px;
       font-weight: 700;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.26);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.28);
     }
 
     .footer {
       margin-top: auto;
-      padding-top: 26px;
+      padding-top: 34px;
       display: flex;
       justify-content: center;
-      gap: 8px;
+      gap: 9px;
       color: rgba(255,255,255,0.92);
       font-size: 10px;
       font-weight: 800;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.36);
     }
 
     .footer a {
       color: rgba(255,255,255,0.92);
       text-decoration: none;
     }
+
+    @media (max-width: 600px) {
+      .page { padding: 24px 32px 20px; }
+      .avatar { width: 88px; height: 88px; }
+      h1 { margin-top: 24px; }
+      .socials { margin-bottom: 44px; }
+      .links { gap: 64px; }
+      .button { min-height: 88px; }
+    }
+
+    @media (max-height: 760px) {
+      .page { padding-top: 18px; }
+      .avatar { width: 76px; height: 76px; }
+      h1 { margin: 18px 0 10px; font-size: 44px; }
+      .socials { margin-bottom: 30px; }
+      .links { gap: 30px; }
+      .button { min-height: 70px; font-size: 25px; }
+      .matcha-card { margin-top: 24px; }
+    }
   </style>
 </head>
-
 <body>
-  <div class="background-image"></div>
-
-  <video class="background-video" autoplay muted loop playsinline poster="background.jpg">
+  <div class="background-fallback"></div>
+  <video class="background-video" autoplay muted loop playsinline>
     <source src="background.mp4" type="video/mp4" />
   </video>
-
-  <div class="video-softener"></div>
-  <div class="left-silk"></div>
+  <div class="soft-overlay"></div>
 
   <main class="page">
-    <section class="bio-wrap">
-      <div class="profile-photo">
-        <img src="avatar.jpg" alt="kendel kay profile photo" />
+    <section class="bio">
+      <div class="avatar">
+        <img src="avatar.jpg" alt="kendel kay" />
       </div>
 
       <h1>kendel kay</h1>
 
-      <nav class="social-icons">
-        <a href="https://www.instagram.com/Kendelkay/" target="_blank">◎</a>
-        <a href="https://x.com/kendelkay" target="_blank">𝕏</a>
-        <a href="https://www.youtube.com/@kendelkay" target="_blank">▶</a>
-        <a href="https://www.tiktok.com/@Kendelkay" target="_blank">♪</a>
-        <a href="https://www.snapchat.com/@kendel_kay" target="_blank">👻</a>
+      <nav class="socials" aria-label="social links">
+        <a href="https://www.tiktok.com/@Kendelkay" target="_blank" rel="noopener noreferrer" aria-label="tiktok">
+          <svg viewBox="0 0 24 24"><path d="M19.6 7.2c-1.6-.1-3.1-.8-4.1-2V14c0 3.6-2.9 6.5-6.5 6.5S2.5 17.6 2.5 14 5.4 7.5 9 7.5c.5 0 1 .1 1.5.2v3.8c-.4-.2-.9-.3-1.5-.3-1.5 0-2.8 1.2-2.8 2.8s1.2 2.8 2.8 2.8 2.8-1.2 2.8-2.8V2.5h3.7c.4 2.1 2.1 3.8 4.1 4.1v.6z"/></svg>
+        </a>
+        <a href="https://x.com/kendelkay" target="_blank" rel="noopener noreferrer" aria-label="x">
+          <svg viewBox="0 0 24 24"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-7.4L6.3 22H3.2l7.3-8.4L2.8 2h6.4l4.5 6.8L18.9 2zm-1.1 17.9h1.7L8.2 4H6.4l11.4 15.9z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/Kendelkay/" target="_blank" rel="noopener noreferrer" aria-label="instagram">
+          <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.8A4.2 4.2 0 1 1 7.8 12 4.2 4.2 0 0 1 12 7.8zm0 2A2.2 2.2 0 1 0 14.2 12 2.2 2.2 0 0 0 12 9.8zM17.7 6.6a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@kendelkay" target="_blank" rel="noopener noreferrer" aria-label="youtube">
+          <svg viewBox="0 0 24 24"><path d="M21.6 7.2s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.4-1C15 3.6 12 3.6 12 3.6s-3 0-6.3.3c-.5.1-1.5.1-2.4 1-.7.7-.9 2.3-.9 2.3S2.2 9.1 2.2 11v1.8c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2.1.9 2.6 1 1.9.2 6.1.3 6.1.3s3 0 6.3-.3c.5-.1 1.5-.1 2.4-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8V11c0-1.9-.2-3.8-.2-3.8zM9.9 14.8V8.9l5.4 3-5.4 2.9z"/></svg>
+        </a>
+        <a href="https://www.snapchat.com/@kendel_kay" target="_blank" rel="noopener noreferrer" aria-label="snapchat">
+          <svg viewBox="0 0 24 24"><path d="M12 2.2c2.9 0 5.1 2.1 5.1 5v2.2c0 .4.2.7.6.8l1.1.4c.5.2.7.8.5 1.3-.3.7-1.1 1.2-2.1 1.5.6 1.3 1.8 2.2 3.2 2.6.5.1.8.6.7 1.1-.1.5-.5.9-1 .9-.8.1-1.5.3-2.1.7-.6.4-1 .9-1.5 1.4-.4.4-.9.5-1.4.3-1-.4-2-.6-3.1-.6s-2.1.2-3.1.6c-.5.2-1 .1-1.4-.3-.5-.5-.9-1-1.5-1.4-.6-.4-1.3-.6-2.1-.7-.5 0-.9-.4-1-.9-.1-.5.2-1 .7-1.1 1.4-.4 2.6-1.3 3.2-2.6-1-.3-1.8-.8-2.1-1.5-.2-.5 0-1.1.5-1.3l1.1-.4c.4-.1.6-.4.6-.8V7.2c0-2.9 2.2-5 5.1-5z"/></svg>
+        </a>
       </nav>
 
-      <div id="homePage" class="home-page active">
-        <div class="links">
-          <a class="link-button" href="https://onlyfans.com/kendelkay" target="_blank">free exclusive content 💖</a>
-          <a class="link-button" href="https://fansly.com/KendelKayxo/" target="_blank">fansly 🎀</a>
-          <a class="link-button" href="https://www.youtube.com/@kendelkay" target="_blank">vlogs 🎥</a>
-          <a class="link-button" href="https://www.amazon.com/registries/gl/guest-view/15Q7J6COMX8AT" target="_blank">my amazon wishlist 💝</a>
+      <div class="links">
+        <a class="button" href="https://onlyfans.com/kendelkay" target="_blank" rel="noopener noreferrer">free exclusive content 💖</a>
+        <a class="button" href="https://fansly.com/KendelKayxo/" target="_blank" rel="noopener noreferrer">fansly 🎀</a>
+        <a class="button" href="https://www.youtube.com/@kendelkay" target="_blank" rel="noopener noreferrer">vlogs 🎥</a>
+        <a class="button" href="https://www.amazon.com/registries/gl/guest-view/15Q7J6COMX8AT" target="_blank" rel="noopener noreferrer">my amazon wishlist 💝</a>
+      </div>
+
+      <section class="matcha-card">
+        <p class="matcha-title">make my day a little sweeter with matcha 💗</p>
+        <div class="matcha-buttons">
+          <a class="mini-button" href="https://cash.app/$misskendel/15" target="_blank" rel="noopener noreferrer">$15 matcha 🤍</a>
+          <a class="mini-button" href="https://cash.app/$misskendel" target="_blank" rel="noopener noreferrer">make me blush ☺️</a>
         </div>
-
-        <section class="matcha-card">
-          <p class="section-title">make my day a little sweeter with matcha 💗</p>
-          <div class="two-col">
-            <a class="small-button" href="https://cash.app/$misskendel/15" target="_blank">$15 matcha 🤍</a>
-            <a class="small-button" href="https://cash.app/$misskendel" target="_blank">make me blush ☺️</a>
-          </div>
-          <a class="cash-referral" href="https://cash.app/app/3ZGKCKCW" target="_blank">new to cash app? start here ✨</a>
-        </section>
-
-        <button class="link-button" type="button" id="openSupport">show the fairy some love 🧚</button>
-      </div>
-
-      <div id="supportPage" class="support-page">
-        <section class="support-card">
-          <p class="section-title">show the fairy some love 🧚</p>
-          <div class="links">
-            <a class="link-button" href="https://cash.app/$misskendel" target="_blank">cash app 💗</a>
-            <a class="link-button" href="https://venmo.com/YOURVENMOUSERNAME" target="_blank">venmo 💗</a>
-            <button class="link-button" type="button" id="openCrypto">crypto 🧚</button>
-          </div>
-          <button class="back-button" type="button" id="backHomeFromSupport">back</button>
-        </section>
-      </div>
-
-      <div id="cryptoPage" class="crypto-page">
-        <section class="crypto-card">
-          <p class="section-title">show the fairy some love 🧚</p>
-
-          <div class="wallet-block">
-            <p class="wallet-title">ethereum 💓</p>
-            <p class="wallet-address">0x4d27C43f86e158485e888aF7783c2378d31deddB</p>
-            <button class="copy-button" type="button" data-copy="0x4d27C43f86e158485e888aF7783c2378d31deddB">copy ethereum address</button>
-          </div>
-
-          <div class="wallet-block">
-            <p class="wallet-title">bitcoin 💞</p>
-            <p class="wallet-address">3NSzbydWvgD9dvE6SH8KKY3YwRpcFXBj7b</p>
-            <button class="copy-button" type="button" data-copy="3NSzbydWvgD9dvE6SH8KKY3YwRpcFXBj7b">copy bitcoin address</button>
-          </div>
-
-          <button class="back-button" type="button" id="backSupportFromCrypto">back</button>
-        </section>
-      </div>
+        <a class="cash-referral" href="https://cash.app/app/3ZGKCKCW" target="_blank" rel="noopener noreferrer">new to cash app? start here ✨</a>
+      </section>
 
       <footer class="footer">
         <a href="terms.html">terms</a>
@@ -385,49 +302,5 @@
       </footer>
     </section>
   </main>
-
-  <script>
-    const homePage = document.getElementById('homePage');
-    const supportPage = document.getElementById('supportPage');
-    const cryptoPage = document.getElementById('cryptoPage');
-
-    document.getElementById('openSupport').addEventListener('click', () => {
-      homePage.classList.add('hidden');
-      supportPage.classList.add('active');
-      cryptoPage.classList.remove('active');
-    });
-
-    document.getElementById('openCrypto').addEventListener('click', () => {
-      homePage.classList.add('hidden');
-      supportPage.classList.remove('active');
-      cryptoPage.classList.add('active');
-    });
-
-    document.getElementById('backHomeFromSupport').addEventListener('click', () => {
-      homePage.classList.remove('hidden');
-      supportPage.classList.remove('active');
-      cryptoPage.classList.remove('active');
-    });
-
-    document.getElementById('backSupportFromCrypto').addEventListener('click', () => {
-      supportPage.classList.add('active');
-      cryptoPage.classList.remove('active');
-    });
-
-    document.querySelectorAll('.copy-button').forEach(button => {
-      button.addEventListener('click', async () => {
-        const original = button.textContent;
-        try {
-          await navigator.clipboard.writeText(button.dataset.copy);
-          button.textContent = 'copied 💗';
-        } catch {
-          button.textContent = 'copy manually';
-        }
-        setTimeout(() => {
-          button.textContent = original;
-        }, 1600);
-      });
-    });
-  </script>
 </body>
 </html>
