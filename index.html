@@ -27,10 +27,16 @@
       height: 100%;
       object-fit: cover;
       object-position: center top;
+    }
+
+    .background-video {
       z-index: -4;
+      opacity: 1;
+      background: transparent;
     }
 
     .background-fallback {
+      z-index: -5;
       background-image: url("avatar.jpg");
       background-size: cover;
       background-position: center top;
@@ -248,8 +254,8 @@
 </head>
 <body>
   <div class="background-fallback"></div>
-  <video class="background-video" autoplay muted loop playsinline>
-    <source src="background.mp4" type="video/mp4" />
+  <video id="bgVideo" class="background-video" autoplay muted loop playsinline webkit-playsinline preload="auto">
+    <source src="background.mp4?v=3" type="video/mp4" />
   </video>
   <div class="soft-overlay"></div>
 
@@ -302,5 +308,21 @@
       </footer>
     </section>
   </main>
+<script>
+    const bgVideo = document.getElementById('bgVideo');
+
+    function startBackgroundVideo() {
+      if (!bgVideo) return;
+      bgVideo.muted = true;
+      bgVideo.playsInline = true;
+      bgVideo.play().catch(() => {
+        console.log('background video autoplay was blocked by the browser');
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', startBackgroundVideo);
+    window.addEventListener('load', startBackgroundVideo);
+    document.addEventListener('touchstart', startBackgroundVideo, { once: true });
+  </script>
 </body>
 </html>
