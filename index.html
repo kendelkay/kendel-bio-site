@@ -29,14 +29,14 @@
       object-position: center top;
     }
 
-    .background-video {
-      z-index: -4;
-      opacity: 1;
-      background: transparent;
-    }
+  .background-video {
+  z-index: 0;
+  opacity: 1;
+  background: transparent;
+}
 
     .background-fallback {
-      z-index: -5;
+      z-index: -1;
       background-image: url("avatar.jpg");
       background-size: cover;
       background-position: center top;
@@ -47,20 +47,23 @@
     .soft-overlay {
       position: fixed;
       inset: 0;
-      z-index: -3;
+      z-index: 1;
       background:
         linear-gradient(180deg, rgba(245, 234, 228, 0.16) 0%, rgba(245, 234, 228, 0.10) 40%, rgba(0, 0, 0, 0.10) 100%),
         linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.12));
       pointer-events: none;
     }
 
-    .page {
-      width: 100%;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      padding: 24px 32px 22px;
-    }
+     .page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 24px 32px 22px;
+
+  position: relative;
+  z-index: 2;
+}
 
     .bio {
       width: 100%;
