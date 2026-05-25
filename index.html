@@ -265,8 +265,13 @@
       </nav>
 
       <div class="links">
-        <a class="button" href="https://onlyfans.com/kendelkay" target="_blank">free exclusive content 💖</a>
-        <a class="button" href="https://fansly.com/KendelKayxo/" target="_blank">fansly 🎀</a>
+<a class="button" href="#" onclick="openAgeModal('https://onlyfans.com/kendelkay'); return false;">
+  free exclusive content 💖
+</a>
+
+<a class="button" href="#" onclick="openAgeModal('https://fansly.com/KendelKayxo/'); return false;">
+  fansly 🎀
+</a>
         <a class="button" href="https://www.youtube.com/@kendelkay" target="_blank">vlogs 🎥</a>
         <a class="button" href="https://www.amazon.com/registries/gl/guest-view/15Q7J6COMX8AT" target="_blank">my amazon wishlist 💝</a>
       </div>
@@ -304,5 +309,24 @@
     window.addEventListener("load", startVideo);
     document.addEventListener("touchstart", startVideo, { once: true });
   </script>
+  <div id="ageModal" class="age-modal">
+  <div class="age-modal-content">
+    <div class="age-icon">👁️</div>
+
+    <h3>Sensitive Content</h3>
+
+    <p>
+      This destination may contain content intended for adults.
+      Please confirm that you are at least 18 years of age before continuing.
+    </p>
+
+    <div class="age-buttons">
+      <button onclick="continueToDestination()">I am 18+ • Continue</button>
+      <button onclick="closeAgeModal()" class="secondary">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
