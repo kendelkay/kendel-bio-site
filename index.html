@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>kendel kay</title>
-  <meta name="description" content="kendel kay official links" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     * { box-sizing: border-box; }
@@ -12,78 +15,58 @@
     html, body {
       margin: 0;
       min-height: 100%;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-      background: #f4ede8;
-      color: #fff;
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f3ebe7;
+      overflow-x: hidden;
     }
 
-    body { overflow-x: hidden; }
-
-    .background-video,
-    .background-fallback {
+    .background-video {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 15%;
+      object-position: 65% 15%;
+      z-index: 0;
+      filter: brightness(1.08) contrast(1.16) saturate(1.22) sepia(0.04);
     }
 
- .background-video {
-  z-index: 0;
-  opacity: 1;
-  background: transparent;
-  filter: brightness(1.08) contrast(1.16) saturate(1.22) sepia(0.04);
-}
-
-    .background-fallback {
-      z-index: -1;
-      background-image: url("avatar.jpg");
-      background-size: cover;
-      background-position: center top;
-      filter: blur(10px);
-      transform: scale(1.05);
-      filter: brightness(1.05) contrast(1.05) saturate(1.12);
+    .soft-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.10)),
+        linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.08));
+      pointer-events: none;
     }
 
-      .soft-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0.12) 100%),
-    linear-gradient(180deg, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.10) 100%);
-  pointer-events: none;
-}
-
-     .page {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  padding: 24px 32px 22px;
-
-  position: relative;
-  z-index: 2;
-}
+    .page {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 22px 24px 14px;
+    }
 
     .bio {
       width: 100%;
-      max-width: 645px;
-      min-height: calc(100vh - 46px);
+      max-width: 620px;
+      min-height: calc(100vh - 36px);
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
     .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 10px;
+      width: 118px;
+      height: 118px;
+      border-radius: 12px;
       overflow: hidden;
-      border: 3px solid rgba(255,255,255,0.92);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.18);
-      background: rgba(255,255,255,0.3);
+      border: 2px solid rgba(255,255,255,0.95);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+      background: rgba(255,255,255,0.35);
     }
 
     .avatar img {
@@ -93,15 +76,15 @@
       display: block;
     }
 
-    h1 {
-      margin: 26px 0 14px;
-      font-size: clamp(46px, 10vw, 68px);
-      line-height: 0.9;
+    .name {
+      margin: 12px 0 4px;
+      color: white;
+      font-size: clamp(52px, 7vw, 72px);
+      line-height: 0.95;
       font-weight: 800;
-      letter-spacing: -0.065em;
+      letter-spacing: -0.06em;
       text-align: center;
-      color: #fff;
-      text-shadow: 0 4px 24px rgba(0,0,0,0.24);
+      text-shadow: 0 4px 18px rgba(0,0,0,0.24);
     }
 
     .socials {
@@ -109,56 +92,36 @@
       align-items: center;
       justify-content: center;
       gap: 18px;
-      margin-bottom: 52px;
+      margin-bottom: 44px;
     }
 
     .socials a {
-      width: 24px;
-      height: 24px;
+      width: 18px;
+      height: 18px;
       color: white;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      filter: drop-shadow(0 3px 10px rgba(0,0,0,0.25));
-      opacity: 0.96;
-      transition: transform 150ms ease, opacity 150ms ease;
-    }
-
-    .socials a:hover { transform: translateY(-1px); opacity: 1; }
-    .socials svg { width: 22px; height: 22px; fill: currentColor; }
-
-   .links {
-  width: 100%;
-  display: grid;
-  gap: 32px;
-  justify-items: center;
-}
-
-    .button {
-      width: 78%;
-      min-height: 58px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.94);
-      color: #111;
-      border: 1px solid rgba(255,255,255,0.72);
-      box-shadow: 0 12px 34px rgba(0,0,0,0.06);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      text-decoration: none;
-         .links {
+      opacity: 0.96;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.25));
+    }
+
+    .socials svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+
+    .links {
       width: 100%;
       display: grid;
-      gap: 70px;
+      gap: 34px;
+      justify-items: center;
     }
 
     .button {
-      width: 100%;
-      min-height: 92px;
+      width: 58%;
+      min-height: 56px;
       border-radius: 999px;
       background: rgba(255,255,255,0.94);
       color: #111;
@@ -171,59 +134,12 @@
       justify-content: center;
       text-align: center;
       text-decoration: none;
-      font-size: clamp(24px, 5.2vw, 34px);
-      font-weight: 420;
-      letter-spacing: -0.035em;
-.links {
-  width: 100%;
-  display: grid;
-  gap: 34px;
-  justify-items: center;
-}
-
-    .button {
-      width: 64%;
-      min-height: 58px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.94);
-      color: #111;
-      border: 1px solid rgba(255,255,255,0.72);
-      box-shadow: 0 12px 34px rgba(0,0,0,0.06);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      text-decoration: none;
-      font-size: clamp(18px, 2vw, 24px);
+      font-size: clamp(18px, 2.4vw, 24px);
       font-weight: 500;
       letter-spacing: -0.035em;
-      padding: 16px 28px;
+      padding: 12px 22px;
       transition: transform 150ms ease, background 150ms ease, box-shadow 150ms ease;
       cursor: pointer;
-      font-family: inherit;
-    }
-
-    .button:hover {
-      transform: translateY(-2px);
-      background: #fff;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.10);
-      transition: transform 150ms ease, background 150ms ease, box-shadow 150ms ease;
-      cursor: pointer;
-      font-family: inherit;
-    }
-
-    .button:hover {
-      transform: translateY(-2px);
-      background: #fff;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.10);
-      font-weight: 420;
-      letter-spacing: -0.035em;
-      padding: 14px 22px;
-      transition: transform 150ms ease, background 150ms ease, box-shadow 150ms ease;
-      cursor: pointer;
-      font-family: inherit;
     }
 
     .button:hover {
@@ -232,88 +148,71 @@
       box-shadow: 0 18px 40px rgba(0,0,0,0.10);
     }
 
-      .matcha-card {
-  width: 72%;
-  margin: 14px auto 0;
-  padding: 12px;
-  border-radius: 22px;
-  background: rgba(255,255,255,0.24);
-  border: 1px solid rgba(255,255,255,0.38);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.10);
-}
+    .matcha-card {
+      width: 58%;
+      margin: 24px auto 0;
+      padding: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
 
-.matcha-title {
-  margin: 0 0 10px;
-  color: white;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 700;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.28);
-}
+    .matcha-title {
+      margin: 0 0 11px;
+      color: white;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+    }
 
-.matcha-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
+    .matcha-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
 
-.matcha-button {
-  min-height: 38px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.94);
-  color: #111;
-  border: 1px solid rgba(255,255,255,0.72);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 8px 10px;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-}
-
-    .mini-button {
-      min-height: 54px;
+    .matcha-bubble {
+      min-height: 42px;
       border-radius: 999px;
       background: rgba(255,255,255,0.94);
       color: #111;
-      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.72);
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      font-size: 15px;
-      font-weight: 760;
-      letter-spacing: -0.02em;
-      padding: 12px 14px;
-      box-shadow: 0 10px 22px rgba(0,0,0,0.07);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 9px 12px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
     .cash-referral {
       display: block;
-      margin-top: 13px;
-      color: #fff;
+      margin-top: 9px;
+      color: white;
       text-align: center;
       text-decoration: none;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.28);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
     }
 
     .footer {
       margin-top: auto;
       padding-top: 34px;
+      padding-bottom: 8px;
       display: flex;
       justify-content: center;
-      gap: 9px;
+      gap: 8px;
       color: rgba(255,255,255,0.92);
       font-size: 10px;
-      font-weight: 800;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.36);
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
     }
 
     .footer a {
@@ -321,31 +220,25 @@
       text-decoration: none;
     }
 
-    @media (max-width: 600px) {
-      .page { padding: 24px 32px 20px; }
-      .avatar { width: 88px; height: 88px; }
-      h1 { margin-top: 24px; }
-      .socials { margin-bottom: 44px; }
-      .links { gap: 64px; }
-      .button { min-height: 88px; }
-    }
-
-    @media (max-height: 760px) {
-      .page { padding-top: 18px; }
-      .avatar { width: 76px; height: 76px; }
-      h1 { margin: 18px 0 10px; font-size: 44px; }
-      .socials { margin-bottom: 30px; }
-      .links { gap: 30px; }
-      .button { min-height: 70px; font-size: 25px; }
-      .matcha-card { margin-top: 24px; }
+    @media (max-width: 700px) {
+      .page { padding: 16px 18px 12px; }
+      .bio { max-width: 100%; }
+      .avatar { width: 92px; height: 92px; }
+      .name { font-size: clamp(42px, 11vw, 58px); }
+      .socials { margin-bottom: 34px; gap: 14px; }
+      .button { width: 86%; min-height: 58px; font-size: 18px; }
+      .links { gap: 24px; }
+      .matcha-card { width: 86%; }
+      .matcha-title { font-size: 13px; }
     }
   </style>
 </head>
+
 <body>
-  <div class="background-fallback"></div>
   <video id="bgVideo" class="background-video" autoplay muted loop playsinline webkit-playsinline preload="auto">
-    <source src="background.mp4?v=3" type="video/mp4" />
+    <source src="background.mp4?v=10" type="video/mp4" />
   </video>
+
   <div class="soft-overlay"></div>
 
   <main class="page">
@@ -354,44 +247,41 @@
         <img src="avatar.jpg" alt="kendel kay" />
       </div>
 
-      <h1>kendel kay</h1>
+      <h1 class="name">kendel kay</h1>
 
-      <nav class="socials" aria-label="social links">
-        <a href="https://www.tiktok.com/@Kendelkay" target="_blank" rel="noopener noreferrer" aria-label="tiktok">
-          <svg viewBox="0 0 24 24"><path d="M19.6 7.2c-1.6-.1-3.1-.8-4.1-2V14c0 3.6-2.9 6.5-6.5 6.5S2.5 17.6 2.5 14 5.4 7.5 9 7.5c.5 0 1 .1 1.5.2v3.8c-.4-.2-.9-.3-1.5-.3-1.5 0-2.8 1.2-2.8 2.8s1.2 2.8 2.8 2.8 2.8-1.2 2.8-2.8V2.5h3.7c.4 2.1 2.1 3.8 4.1 4.1v.6z"/></svg>
+      <nav class="socials">
+        <a href="https://www.tiktok.com/@Kendelkay" target="_blank" aria-label="tiktok">
+          <svg viewBox="0 0 24 24"><path d="M19.6 7.2c-1.5 0-2.9-.5-4-1.5v8.5c0 4.1-3.3 7.4-7.4 7.4S.8 18.3.8 14.2s3.3-7.4 7.4-7.4c.4 0 .8 0 1.2.1v4.1c-.4-.1-.8-.2-1.2-.2-1.9 0-3.4 1.5-3.4 3.4s1.5 3.4 3.4 3.4 3.4-1.5 3.4-3.4V2.4h4c.4 2.4 2.1 4.3 4 4.8v4z"/></svg>
         </a>
-        <a href="https://x.com/kendelkay" target="_blank" rel="noopener noreferrer" aria-label="x">
-          <svg viewBox="0 0 24 24"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-7.4L6.3 22H3.2l7.3-8.4L2.8 2h6.4l4.5 6.8L18.9 2zm-1.1 17.9h1.7L8.2 4H6.4l11.4 15.9z"/></svg>
+        <a href="https://x.com/kendelkay" target="_blank" aria-label="x">
+          <svg viewBox="0 0 24 24"><path d="M18.9 2h3.4l-7.5 8.6L23.6 22h-6.9l-5.4-7.1L5.1 22H1.7l8-9.2L1.2 2h7.1l4.9 6.5L18.9 2zm-1.2 18h1.9L7.3 3.9h-2L17.7 20z"/></svg>
         </a>
-        <a href="https://www.instagram.com/Kendelkay/" target="_blank" rel="noopener noreferrer" aria-label="instagram">
-          <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.8A4.2 4.2 0 1 1 7.8 12 4.2 4.2 0 0 1 12 7.8zm0 2A2.2 2.2 0 1 0 14.2 12 2.2 2.2 0 0 0 12 9.8zM17.7 6.6a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
+        <a href="https://www.instagram.com/Kendelkay/" target="_blank" aria-label="instagram">
+          <svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm0 2C5.7 4 4 5.7 4 7.8v8.4C4 18.3 5.7 20 7.8 20h8.4c2.1 0 3.8-1.7 3.8-3.8V7.8C20 5.7 18.3 4 16.2 4H7.8zm4.2 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8zm0 2a2.9 2.9 0 1 0 0 5.8 2.9 2.9 0 0 0 0-5.8zm5.2-2.2a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/></svg>
         </a>
-        <a href="https://www.youtube.com/@kendelkay" target="_blank" rel="noopener noreferrer" aria-label="youtube">
-          <svg viewBox="0 0 24 24"><path d="M21.6 7.2s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.4-1C15 3.6 12 3.6 12 3.6s-3 0-6.3.3c-.5.1-1.5.1-2.4 1-.7.7-.9 2.3-.9 2.3S2.2 9.1 2.2 11v1.8c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2.1.9 2.6 1 1.9.2 6.1.3 6.1.3s3 0 6.3-.3c.5-.1 1.5-.1 2.4-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8V11c0-1.9-.2-3.8-.2-3.8zM9.9 14.8V8.9l5.4 3-5.4 2.9z"/></svg>
-        </a>
-        <a href="https://www.snapchat.com/@kendel_kay" target="_blank" rel="noopener noreferrer" aria-label="snapchat">
-          <svg viewBox="0 0 24 24"><path d="M12 2.2c2.9 0 5.1 2.1 5.1 5v2.2c0 .4.2.7.6.8l1.1.4c.5.2.7.8.5 1.3-.3.7-1.1 1.2-2.1 1.5.6 1.3 1.8 2.2 3.2 2.6.5.1.8.6.7 1.1-.1.5-.5.9-1 .9-.8.1-1.5.3-2.1.7-.6.4-1 .9-1.5 1.4-.4.4-.9.5-1.4.3-1-.4-2-.6-3.1-.6s-2.1.2-3.1.6c-.5.2-1 .1-1.4-.3-.5-.5-.9-1-1.5-1.4-.6-.4-1.3-.6-2.1-.7-.5 0-.9-.4-1-.9-.1-.5.2-1 .7-1.1 1.4-.4 2.6-1.3 3.2-2.6-1-.3-1.8-.8-2.1-1.5-.2-.5 0-1.1.5-1.3l1.1-.4c.4-.1.6-.4.6-.8V7.2c0-2.9 2.2-5 5.1-5z"/></svg>
+        <a href="https://www.snapchat.com/@kendel_kay" target="_blank" aria-label="snapchat">
+          <svg viewBox="0 0 24 24"><path d="M12 2.2c3 0 5.1 2.2 5.1 5.3 0 .8-.1 1.5-.1 2.1.2.1.5.2.8.2.8.1 1.3.4 1.3.9 0 .7-.8 1.1-1.7 1.4-.4.1-.6.2-.6.4.1.7 1.4 2.3 3.2 2.6.5.1.8.4.8.8 0 .6-.8.9-2.3 1.1-.2.1-.3.5-.5.8-.2.3-.5.5-.9.5-.5 0-1.1-.2-1.7-.2-.9 0-1.6.4-2.3.9-.5.4-.9.7-1.3.7s-.8-.3-1.3-.7c-.7-.5-1.4-.9-2.3-.9-.6 0-1.2.2-1.7.2-.4 0-.7-.2-.9-.5-.2-.3-.3-.7-.5-.8-1.5-.2-2.3-.5-2.3-1.1 0-.4.3-.7.8-.8 1.8-.3 3.1-1.9 3.2-2.6 0-.2-.2-.3-.6-.4-.9-.3-1.7-.7-1.7-1.4 0-.5.5-.8 1.3-.9.3 0 .6-.1.8-.2 0-.6-.1-1.3-.1-2.1C6.9 4.4 9 2.2 12 2.2z"/></svg>
         </a>
       </nav>
 
       <div class="links">
-        <a class="button" href="https://onlyfans.com/kendelkay" target="_blank" rel="noopener noreferrer">free exclusive content 💖</a>
-        <a class="button" href="https://fansly.com/KendelKayxo/" target="_blank" rel="noopener noreferrer">fansly 🎀</a>
-        <a class="button" href="https://www.youtube.com/@kendelkay" target="_blank" rel="noopener noreferrer">vlogs 🎥</a>
-        <a class="button" href="https://www.amazon.com/registries/gl/guest-view/15Q7J6COMX8AT" target="_blank" rel="noopener noreferrer">my amazon wishlist 💝</a>
+        <a class="button" href="https://onlyfans.com/kendelkay" target="_blank">free exclusive content 💖</a>
+        <a class="button" href="https://fansly.com/KendelKayxo/" target="_blank">fansly 🎀</a>
+        <a class="button" href="https://www.youtube.com/@kendelkay" target="_blank">vlogs 🎥</a>
+        <a class="button" href="https://www.amazon.com/registries/gl/guest-view/15Q7J6COMX8AT" target="_blank">my amazon wishlist 💝</a>
       </div>
 
-    <section class="matcha-card">
-  <p class="matcha-title">make my day a little sweeter with matcha 💗</p>
+      <section class="matcha-card">
+        <p class="matcha-title">make my day a little sweeter with matcha 💗</p>
 
-  <div class="matcha-actions">
-    <a class="matcha-button" href="https://cash.app/$misskendel/15" target="_blank">$15 matcha 🤍</a>
-    <a class="matcha-button" href="https://cash.app/$misskendel" target="_blank">make me blush ☺️</a>
-  </div>
+        <div class="matcha-actions">
+          <a class="matcha-bubble" href="https://cash.app/$misskendel/15" target="_blank">$15 matcha 🤍</a>
+          <a class="matcha-bubble" href="https://cash.app/$misskendel" target="_blank">make me blush ☺️</a>
+        </div>
 
-  <a class="cash-referral" href="https://cash.app/app/3ZGKCKCW" target="_blank">new to cash app? start here ✨</a>
-</section
-  
+        <a class="cash-referral" href="https://cash.app/app/3ZGKCKCW" target="_blank">new to cash app? start here ✨</a>
+      </section>
+
       <footer class="footer">
         <a href="terms.html">terms</a>
         <span>|</span>
@@ -399,21 +289,20 @@
       </footer>
     </section>
   </main>
-<script>
-    const bgVideo = document.getElementById('bgVideo');
 
-    function startBackgroundVideo() {
+  <script>
+    const bgVideo = document.getElementById("bgVideo");
+
+    function startVideo() {
       if (!bgVideo) return;
       bgVideo.muted = true;
       bgVideo.playsInline = true;
-      bgVideo.play().catch(() => {
-        console.log('background video autoplay was blocked by the browser');
-      });
+      bgVideo.play().catch(() => {});
     }
 
-    document.addEventListener('DOMContentLoaded', startBackgroundVideo);
-    window.addEventListener('load', startBackgroundVideo);
-    document.addEventListener('touchstart', startBackgroundVideo, { once: true });
+    document.addEventListener("DOMContentLoaded", startVideo);
+    window.addEventListener("load", startVideo);
+    document.addEventListener("touchstart", startVideo, { once: true });
   </script>
 </body>
 </html>
