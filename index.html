@@ -230,33 +230,49 @@
       box-shadow: 0 18px 40px rgba(0,0,0,0.10);
     }
 
-    .matcha-card {
-      width: 100%;
-      margin-top: 34px;
-      padding: 18px;
-      border-radius: 34px;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.26);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow: 0 14px 34px rgba(0,0,0,0.08);
-    }
+      .matcha-card {
+  width: 72%;
+  margin: 14px auto 0;
+  padding: 12px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.24);
+  border: 1px solid rgba(255,255,255,0.38);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.10);
+}
 
-    .matcha-title {
-      margin: 0 0 14px;
-      text-align: center;
-      color: #fff;
-      font-size: 15px;
-      font-weight: 750;
-      letter-spacing: -0.02em;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.28);
-    }
+.matcha-title {
+  margin: 0 0 10px;
+  color: white;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.28);
+}
 
-    .matcha-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+.matcha-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.matcha-button {
+  min-height: 38px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.94);
+  color: #111;
+  border: 1px solid rgba(255,255,255,0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 10px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
 
     .mini-button {
       min-height: 54px;
@@ -363,15 +379,17 @@
         <a class="button" href="https://www.amazon.com/registries/gl/guest-view/15Q7J6COMX8AT" target="_blank" rel="noopener noreferrer">my amazon wishlist 💝</a>
       </div>
 
-      <section class="matcha-card">
-        <p class="matcha-title">make my day a little sweeter with matcha 💗</p>
-        <div class="matcha-buttons">
-          <a class="mini-button" href="https://cash.app/$misskendel/15" target="_blank" rel="noopener noreferrer">$15 matcha 🤍</a>
-          <a class="mini-button" href="https://cash.app/$misskendel" target="_blank" rel="noopener noreferrer">make me blush ☺️</a>
-        </div>
-        <a class="cash-referral" href="https://cash.app/app/3ZGKCKCW" target="_blank" rel="noopener noreferrer">new to cash app? start here ✨</a>
-      </section>
+    <section class="matcha-card">
+  <p class="matcha-title">make my day a little sweeter with matcha 💗</p>
 
+  <div class="matcha-actions">
+    <a class="matcha-button" href="https://cash.app/$misskendel/15" target="_blank">$15 matcha 🤍</a>
+    <a class="matcha-button" href="https://cash.app/$misskendel" target="_blank">make me blush ☺️</a>
+  </div>
+
+  <a class="cash-referral" href="https://cash.app/app/3ZGKCKCW" target="_blank">new to cash app? start here ✨</a>
+</section
+  
       <footer class="footer">
         <a href="terms.html">terms</a>
         <span>|</span>
