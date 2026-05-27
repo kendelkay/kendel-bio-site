@@ -1,0 +1,103 @@
+{
+
+  "rewrites": [
+
+    {
+
+      "source": "/xo",
+
+      "destination": "/index.html"
+
+    },
+
+    {
+
+      "source": "/kk",
+
+      "destination": "/index.html"
+
+    },
+
+    {
+
+      "source": "/kendel",
+
+      "destination": "/index.html"
+
+    },
+
+    {
+
+      "source": "/ringtoss",
+
+      "destination": "/index.html"
+
+    },
+
+    {
+
+      "source": "/diary",
+
+      "destination": "/index.html"
+
+    },
+
+    {
+
+      "source": "/archives",
+
+      "destination": "/index.html"
+
+    },
+
+    {
+
+      "source": "/closet",
+
+      "destination": "/index.html"
+
+    },
+
+    {
+
+      "source": "/model",
+
+      "destination": "/index.html"
+
+    },
+
+    {
+
+      "source": "/x",
+
+      "destination": "/index.html"
+
+    },
+
+    {
+
+      "source": "/xx",
+
+      "destination": "/index.html"
+
+    },
+
+    {
+
+      "source": "/tt",
+
+      "destination": "/index.html"
+
+    },
+
+    {
+
+      "source": "/yt",
+
+      "destination": "/index.html"
+
+    }
+
+  ]
+
+}
