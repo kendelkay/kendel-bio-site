@@ -381,6 +381,33 @@ function continueToDestination() {
     document.addEventListener("DOMContentLoaded", startVideo);
     window.addEventListener("load", startVideo);
     document.addEventListener("touchstart", startVideo, { once: true });
+    const routeMap = {
+  "/xo": "instagram_kendelkay",
+  "/kk": "instagram_bykendelkay",
+  "/kendel": "instagram_kendelkayy",
+  "/ringtoss": "instagram_ringtossgirl",
+  "/diary": "instagram_kendelkaydiary",
+  "/archives": "instagram_kendelkayarchives",
+  "/closet": "instagram_kendelkaycloset",
+  "/model": "instagram_kendelkay_ai",
+
+  "/x": "x_kendelkay",
+  "/xx": "x_bykendelkay",
+
+  "/tt": "tiktok_kendelkay",
+  "/yt": "youtube_kendelkay"
+};
+
+const currentPath = window.location.pathname;
+
+if (routeMap[currentPath]) {
+  const newUrl =
+    window.location.origin +
+    "/?src=" +
+    encodeURIComponent(routeMap[currentPath]);
+
+  window.location.replace(newUrl);
+}
   </script>
   <div id="ageModal" class="age-modal">
   <div class="age-modal-content">
