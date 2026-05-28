@@ -10,6 +10,11 @@
 
     },
 
+{
+  "source": "/official",
+  "destination": "/index.html"
+},
+    
     {
 
       "source": "/kk",
