@@ -3,7 +3,6 @@
     { "source": "/brandy", "destination": "/brandy/", "permanent": false }
   ],
   "rewrites": [
-    { "source": "/brandy/", "destination": "/index.html" },
-    { "source": "/((?!brandy/).*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

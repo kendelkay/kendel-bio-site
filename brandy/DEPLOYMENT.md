@@ -11,22 +11,24 @@ no redesign.
 > a temporary project would be the only fallback — it wasn't needed: `/brandy/` on
 > the one deployment is validated and ready.
 
-This folder-per-creator model is the **interim** step toward the Phase-2
-resolution layer (URL → creator → config) in `../ARCHITECTURE.md`. When that
-lands, Brandy moves to a fully URL-resolved config and this folder retires. The
-engine is **never edited**.
+Brandy is **not** hardcoded as a special case — she is **registry entry #1** of
+the generic creator-routing model in `../ROUTING.md` (the locked temporary
+architecture). Adding `/kendel/ /jade/ /alexis/ …` later is one folder + one
+redirect line each, evolving toward data-driven `/<slug>/` resolution with the
+same URLs. The engine is **never edited**.
 
 ---
 
-## How one engine serves two creators (validated)
+## How one engine serves every creator (validated)
 
-Routing is pure config in the root `../vercel.json`:
+Routing is pure config in the root `../vercel.json` — a generic catch-all plus a
+one-line-per-creator redirect registry (no Brandy-specific rewrite):
 
 ```
-/            → root index.html + root config.js   → Kendel
-/brandy/     → root index.html + /brandy/config.js → Brandy   (rewrite to /index.html)
-/brandy      → 307 redirect → /brandy/                         (guarantees relative paths resolve)
-/brandy/*    → served as static files (config.js, avatar.jpg, terms/privacy) — excluded from the SPA rewrite
+/            → root index.html + root config.js    → Kendel
+/brandy/     → root index.html + /brandy/config.js → Brandy   (generic catch-all rewrite)
+/brandy      → 307 redirect → /brandy/                        (registry line; makes relative paths resolve)
+/brandy/*    → static files served directly (filesystem is checked BEFORE rewrites)
 ```
 
 Verified with a Vercel-accurate mock (redirects → filesystem → rewrites) + headless render:
