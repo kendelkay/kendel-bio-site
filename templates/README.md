@@ -2,6 +2,9 @@
 
 **One engine. Many personalities.**
 
+> Target platform architecture (one deployment · unlimited creators): see
+> [`../ARCHITECTURE.md`](../ARCHITECTURE.md).
+
 The renderer (`/index.html`) is a single, never-forked engine. Every creator's
 page is defined entirely by a **config variant** (`SITE_CONFIG`). You launch a
 creator by **selecting a template**, not by editing HTML.
