@@ -1,29 +1,44 @@
-# Link-in-Bio Templates
+# Link-in-Bio Template System
 
-Reusable config variants for the Link-in-Bio rendering engine (`/index.html`).
-The engine is unchanged; each template is just a `SITE_CONFIG` you drop in as a
-creator's `config.js`.
+**One engine. Many personalities.**
 
-## Template V2 — `v2.config.js`
+The renderer (`/index.html`) is a single, never-forked engine. Every creator's
+page is defined entirely by a **config variant** (`SITE_CONFIG`). You launch a
+creator by **selecting a template**, not by editing HTML.
 
-Executive Design Revision, based 1:1 on Kendel Kay's production design (same
-engine, same Midnight design language, same components). Only two revisions from
-the base:
+- Keep one rendering engine (`index.html`).
+- Creator-specific content is entirely config-driven.
+- Never fork the engine for an individual creator.
+- Every improvement becomes a reusable template variant here.
 
-1. **Hero headline** (`bio`): `what i can't post on other socials 😏`
-2. **Support section** (`tipCard`): title `spoil me a little ☕️`, with **Cash App**
-   and **Venmo** (via the plug-and-play `payments` map — identical `.matcha-card`
-   styling to Kendel's tip card).
+## Catalog — `templates.json`
 
-Layout is left at the default (classic) order, so the hero headline renders
-directly under the name — no layout, spacing, typography, or animation changes.
+| ID | Name | Theme | Layout | Funnel |
+|----|------|-------|--------|--------|
+| V1  | Classic | soft (base) | classic | clean |
+| V2  | Social Curiosity | soft (base) | classic | exclusive |
+| V3  | Luxury | luxury (gold/black) | luxury | clean |
+| V4  | Girlfriend Experience | rose | creator | exclusive |
+| V5  | Fitness | charcoal + lime | personal-brand | clean |
+| V6  | Cosplay | violet + magenta | creator | clean |
+| V7  | Gaming | dark + neon | creator | clean |
+| V8  | Minimal | minimal | minimal | clean |
+| V9  | VIP | luxury (gold/black) | exclusive | exclusive |
+| V10 | Custom Enterprise | indigo | business | clean |
 
-### Use it for a creator
-1. Copy `templates/v2.config.js` → the creator's `config.js`.
-2. Fill in the per-creator placeholders: `name` / `pageTitle`, `socials`, `links`,
-   the `tipCard.payments` handles (`cashapp`, `venmo`) and optional `referral`,
-   and swap `avatar` / `background` assets.
-3. Leave `theme` unset to inherit the base design; set `pageType` per funnel
-   (`exclusive` for age-gated NSFW, `clean` for SFW).
+Each variant leans on the engine's built-in **theme presets** (`soft`, `dark`,
+`minimal`, `luxury`) and **layout presets** (`classic`, `creator`,
+`personal-brand`, `business`, `exclusive`, `minimal`, `luxury`), or supplies its
+own palette via `theme.colors` — all config, no engine changes.
 
-Blank/missing fields simply don't render — no empty buttons or spacing.
+## Launch a creator
+
+1. Pick a template from the catalog above.
+2. Copy `templates/<id>.config.js` → the creator's `config.js`.
+3. Fill in the per-creator fields: `name`/`pageTitle`, `socials`, `links`,
+   `tipCard` payment handles, `avatar`/`background` assets, `gtmId`.
+4. Set `pageType` (`exclusive` = age-gated, `clean` = SFW). Leave `theme`/`layout`
+   as the template sets them, or override any subset.
+
+Blank/missing fields don't render — no empty buttons or spacing. The engine is
+never touched; a new personality is always a new config.

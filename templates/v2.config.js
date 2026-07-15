@@ -19,7 +19,7 @@
  * ========================================================================== */
 
 window.SITE_CONFIG = {
-  meta: { module: "link-in-bio", schemaVersion: "1.0.0", template: "v2" },
+  meta: { module: "link-in-bio", schemaVersion: "1.0.0", template: "v2", templateName: "Social Curiosity" },
 
   /* --- Per-creator (fill in) --- */
   pageTitle: "creator name",

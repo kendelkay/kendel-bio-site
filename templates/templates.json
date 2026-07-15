@@ -1,0 +1,17 @@
+{
+  "$comment": "Link-in-Bio Template System catalog. ONE engine (../index.html) renders every template; each entry is a config variant (SITE_CONFIG). Launch a creator by SELECTING a template, not by editing HTML.",
+  "engine": "index.html",
+  "schemaVersion": "1.0.0",
+  "templates": [
+    { "id": "v1",  "name": "Classic",            "file": "v1.config.js",  "theme": "soft (base)",        "layout": "classic",       "funnel": "clean",     "personality": "Neutral baseline — the original design." },
+    { "id": "v2",  "name": "Social Curiosity",   "file": "v2.config.js",  "theme": "soft (base)",        "layout": "classic",       "funnel": "exclusive", "personality": "\"what i can't post on other socials 😏\" + \"spoil me a little ☕️\"." },
+    { "id": "v3",  "name": "Luxury",             "file": "v3.config.js",  "theme": "luxury (gold/black)","layout": "luxury",        "funnel": "clean",     "personality": "High-end, by-appointment." },
+    { "id": "v4",  "name": "Girlfriend Experience","file": "v4.config.js","theme": "rose (config)",      "layout": "creator",       "funnel": "exclusive", "personality": "Warm, intimate, personal." },
+    { "id": "v5",  "name": "Fitness",            "file": "v5.config.js",  "theme": "charcoal+lime (config)","layout": "personal-brand","funnel": "clean",  "personality": "Energetic, athletic coaching." },
+    { "id": "v6",  "name": "Cosplay",            "file": "v6.config.js",  "theme": "violet+magenta (config)","layout": "creator",    "funnel": "clean",     "personality": "Playful, vibrant, maker." },
+    { "id": "v7",  "name": "Gaming",             "file": "v7.config.js",  "theme": "dark+neon (config)", "layout": "creator",       "funnel": "clean",     "personality": "Dark neon streamer." },
+    { "id": "v8",  "name": "Minimal",            "file": "v8.config.js",  "theme": "minimal",            "layout": "minimal",       "funnel": "clean",     "personality": "Typographic, stripped-back." },
+    { "id": "v9",  "name": "VIP",                "file": "v9.config.js",  "theme": "luxury (gold/black)","layout": "exclusive",     "funnel": "exclusive", "personality": "Inner-circle, fully gated." },
+    { "id": "v10", "name": "Custom Enterprise",  "file": "v10.config.js", "theme": "indigo (config)",    "layout": "business",      "funnel": "clean",     "personality": "Full-capability showcase (A/B, payments, newsletter, custom)." }
+  ]
+}
