@@ -36,3 +36,8 @@ ROUTING FIX (vercel.json only; config.js untouched, build id unchanged):
 
 RENDERING FIX (2026-07-16T04:33:53Z): background.image "hero.jpg" -> "/hero.jpg" (root-absolute)
   so the <img> always resolves to the domain root regardless of served path.
+
+CACHE-BUST FIX (2026-07-16T04:52:57Z): background.image "/hero.jpg" -> "/hero.jpg?v=2".
+  304 was reusing a stale cache entry (HTML from the pre-fix SPA rewrite); the
+  <img> could not decode it (naturalWidth 0) -> fallback color. ?v= forces a
+  fresh fetch of the real JPEG (same pattern as Kendel's background.mp4?v=10).
