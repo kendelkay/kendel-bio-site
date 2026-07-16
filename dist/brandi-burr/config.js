@@ -23,7 +23,7 @@
  * ========================================================================== */
 
 window.SITE_CONFIG = {
-  meta: { module: "link-in-bio", schemaVersion: "1.0.0", template: "v2", templateName: "Social Curiosity", release: "brandi-production-v2", build: "2026-07-16T02:07:32Z" },
+  meta: { module: "link-in-bio", schemaVersion: "1.0.0", template: "v2", templateName: "Social Curiosity", release: "brandi-production-v2", build: "2026-07-16T03:31:21Z" },
 
   pageTitle: "Brandi Burr",
   name: "Brandi Burr",
@@ -58,13 +58,15 @@ window.SITE_CONFIG = {
       "--lb-name-tracking": "0.08em",
       /* breathing room — luxury negative space between sections */
       "--lb-gap-bio": "34px",
-      "--lb-gap-tip": "58px",   /* optical: CTA + support cohere as one cluster */
+      "--lb-gap-tip": "34px",   /* CTA + "spoil me" read as one emotional beat (#5) */
       "--lb-pay-gap": "16px",   /* air between the two experience buttons */
       "--lb-links-gap": "26px",
       /* lighter, softer controls + more frost */
       "--lb-btn-min-h": "54px",
-      "--lb-btn-font": "17px",
+      "--lb-btn-font": "16px",        /* hero CTA text ~5% smaller — secondary to the masthead */
       "--lb-btn-weight": "400",
+      "--lb-btn-pad-y": "11px",       /* CTA padding ~10% tighter */
+      "--lb-btn-pad-x": "20px",
       "--lb-glass-blur": "22px",
     },
   },
@@ -93,12 +95,14 @@ window.SITE_CONFIG = {
     /* name + curiosity line form one editorial header at the very top; a spacer
        drops the support cluster into the lower third (kept where it was); a
        second spacer pushes the footer to the very bottom (~98%). */
-    order: ["name", "cta", "spacer", "tipCard", "footer"],
+    /* Header = masthead + socials only. The `spacer` then drops the whole SUPPORT
+       cluster (CTA + spoil-me + bubbles) into the lower third as one cohesive
+       unit; footer + Midnight sit at the very bottom. */
+    order: ["name", "socials", "spacer", "cta", "tipCard", "footer", "custom"],
     vars: {
       "--lb-content-pb": "0.5vh",
-      /* footer decoupled from the cluster: holds the support cluster EXACTLY at
-         its locked spot while the footer sits at ~98% (almost hidden). */
-      "--lb-footer-mt": "5.5vh",
+      "--lb-footer-mt": "0.5vh",     /* whole support cluster ~3.5% lower (#1) */
+      "--lb-gap-socials": "16px",    /* space under the social row (header) */
     },
   },
 
@@ -135,6 +139,28 @@ window.SITE_CONFIG = {
       { text: "make me blush 🥺",  href: "https://venmo.com/u/Brandi-Burr-51", method: "venmo" },
     ],
   },
+
+  /* Brandi-scoped optical polish via the engine's own customSections mechanism
+     (config-only; NOT an engine change — nothing here touches the shared engine,
+     so no other creator is affected). The injected <style> hides its own wrapper
+     and applies refinements that aren't exposed as tokens:
+       - tip bubbles inherit the EXACT hero-CTA hover (values copied verbatim
+         from `.button:hover` — same lift, glow, timing, easing; not a new anim);
+       - terms | privacy sit tighter to the Powered-by-Midnight capsule;
+       - a little air below the social row. */
+  customSections: [
+    {
+      id: "brandi-polish",
+      html:
+        "<style>" +
+        "[data-lb-id='brandi-polish']{display:none !important}" +
+        ".matcha-bubble{transition:transform var(--lb-anim) ease, background var(--lb-anim) ease, box-shadow var(--lb-anim) ease}" +
+        ".matcha-bubble:hover{transform:translateY(-2px);background:var(--lb-btn-bg-hover);box-shadow:0 18px 40px rgba(0,0,0,0.10)}" +
+        ".socials{margin-top:14px}" +
+        ".lb-refsig{margin-top:2px}" +
+        "</style>",
+    },
+  ],
 
   /* Footer. */
   footerLinks: [

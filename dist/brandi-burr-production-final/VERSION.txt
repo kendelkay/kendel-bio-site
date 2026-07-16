@@ -1,20 +1,24 @@
-BUNDLE:   brandi-burr-production-final  =  BRANDI PRODUCTION V2
-BUILD:    2026-07-16T02:07:32Z   (epoch 1784167652)   (supersedes V1 build 2026-07-16T01:11:24Z)
-config.js meta.release = "brandi-production-v2", meta.build = "2026-07-16T02:07:32Z"
+BUNDLE:   brandi-burr-production-final  =  BRANDI PRODUCTION V2  (same version)
+BUILD:    2026-07-16T03:31:21Z   (epoch 1784172681)   (V2 baseline UPDATED — refinement build, NOT a version bump)
+config.js meta.release = "brandi-production-v2", meta.build = "2026-07-16T03:31:21Z"
   -> confirm meta.build on live /config.js after deploy.
 
-MASTHEAD FONT (platform): Playfair Display — now the official Template-V2 luxury
-  masthead default (templates/v2.config.js). Brandi inherits/sets it here too.
+THIS BUILD (production refinements, still V2):
+  - Hero CTA grouped into the support cluster; CTA<->"spoil me" gap tightened to
+    34px (one emotional beat).
+  - Whole support cluster nudged ~3.5% lower.
+  - CTA + 5 iced latte + make me blush share ONE interaction (exact .button
+    hover: lift/glow/timing/easing, copied verbatim; config-scoped, no engine edit).
+  - Social header = shared engine component (same as Kendel: spacing/opacity/no-hover).
+  - Playfair masthead, hero photo, no avatar, footer tight to Powered by Midnight.
 
-FINAL (V2):
-  Playfair masthead (~18% larger) | name + "what i can't post on other socials 😉"
-  as one top header | hero photo background, no avatar | lower cluster held EXACTLY
-  at its locked spot: "spoil me a little 🤍", "$15 iced latte ☕️", "make me blush 🥺"
-  | footer at ~98% | Powered by Midnight (engine default, unchanged)
-  | no visible payment words
+MISSING CREATOR DATA (page ships but is incomplete until provided):
+  - socials: instagram / x / tiktok / snapchat  (blank -> auto-hidden)
+  - hero.jpg  (the real photo file)
+  - brandi-burr Vercel project access (for the actual publish)
 
 SHA-256:
-  config.js   72a03cfdd1b466f86f7e2e702ee88699b593a8a2e8d6e986c6303760114b85b4
+  config.js   a913c89a08c21f68b9d1fca97268ee9c4169be17105bad9d1c93bf2c1c45ad00
   index.html  4e3ff422d4205d6c8c9676c54e1a58d66c37fb76976783a133d39108aee6383d
 
-BEFORE DEPLOY: add real  hero.jpg  in this folder -> vercel --prod (brandi-burr)
+BEFORE DEPLOY: add real hero.jpg here + fill the 4 social URLs -> vercel --prod (brandi-burr)
