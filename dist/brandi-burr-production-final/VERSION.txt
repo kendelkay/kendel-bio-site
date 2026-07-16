@@ -1,5 +1,5 @@
 BUNDLE:  brandi-burr-production-final  =  BRANDI PRODUCTION V2 (no version bump)
-BUILD:   2026-07-16T03:56:34Z
+BUILD:   2026-07-16T04:33:53Z  (hero-path rendering fix)
 config.js meta.release="brandi-production-v2", meta.build="2026-07-16T03:56:34Z"
 
 PRODUCTION VALUES (final, validated URL formats):
@@ -33,3 +33,6 @@ ROUTING FIX (vercel.json only; config.js untouched, build id unchanged):
   routes fall back to index.html. Fixes brandiburr.com/hero.jpg -> index.html.
   Verified: /hero.jpg -> image/jpeg, /config.js -> application/javascript,
   / -> text/html; hero image loads as background.
+
+RENDERING FIX (2026-07-16T04:33:53Z): background.image "hero.jpg" -> "/hero.jpg" (root-absolute)
+  so the <img> always resolves to the domain root regardless of served path.

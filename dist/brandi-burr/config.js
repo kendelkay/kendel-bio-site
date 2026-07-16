@@ -23,7 +23,7 @@
  * ========================================================================== */
 
 window.SITE_CONFIG = {
-  meta: { module: "link-in-bio", schemaVersion: "1.0.0", template: "v2", templateName: "Social Curiosity", release: "brandi-production-v2", build: "2026-07-16T03:56:34Z" },
+  meta: { module: "link-in-bio", schemaVersion: "1.0.0", template: "v2", templateName: "Social Curiosity", release: "brandi-production-v2", build: "2026-07-16T04:33:53Z" },
 
   pageTitle: "Brandi Burr",
   name: "Brandi Burr",
@@ -76,7 +76,7 @@ window.SITE_CONFIG = {
      her out, so the photography leads the first impression. */
   background: {
     type: "image",
-    image: "hero.jpg",
+    image: "/hero.jpg",
     position: "50% 30%",
     filter: "contrast(1.03) saturate(1.04)",
     /* Editorial double-scrim: a soft top veil so the brand name reads over the
