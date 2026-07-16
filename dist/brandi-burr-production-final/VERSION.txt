@@ -1,22 +1,28 @@
-BUNDLE:  brandi-burr-production-final  =  BRANDI PRODUCTION V2  (same version, no bump)
-BUILD:   2026-07-16T03:43:39Z   (epoch 1784173419)
-config.js meta.release = "brandi-production-v2", meta.build = "2026-07-16T03:43:39Z"
-  -> confirm meta.build on live /config.js after deploy.
+BUNDLE:  brandi-burr-production-final  =  BRANDI PRODUCTION V2 (no version bump)
+BUILD:   2026-07-16T03:56:34Z
+config.js meta.release="brandi-production-v2", meta.build="2026-07-16T03:56:34Z"
 
-FINAL V2 (deploy-ready):
-  masthead Playfair "Brandi Burr" -> social row -> hero photo ->
-  "what i can't post on other socials 😉" (one line, age-gated -> OnlyFans) ->
-  "spoil me a little 🤍" (CTA gap 26px, one emotional beat) ->
-  "$15 iced latte ☕️" / "make me blush 🥺" (share the exact CTA hover) ->
-  terms | privacy -> Powered by Midnight (shared engine component).
+PRODUCTION VALUES (final, validated URL formats):
+  name      : Brandi Burr
+  OnlyFans  : https://onlyfans.com/burr_brandi      (age-gated)
+  Instagram : https://www.instagram.com/brandiburrr
+  TikTok    : https://www.tiktok.com/@brandiburrxo
+  Snapchat  : https://www.snapchat.com/@brandiburrx
+  X         : (not supplied -> blank -> auto-hidden)
+  Cash App  : https://cash.app/$brandiburr/15
+  Venmo     : https://venmo.com/u/Brandi-Burr-51
+  Fansly/Wishlist: (none supplied)
 
-TO COMPLETE + DEPLOY (creator data, sourced separately):
-  - add real  hero.jpg  in this folder
-  - fill socials: instagram / x / tiktok / snapchat  (blank -> auto-hidden)
-  - deploy:  vercel link (brandi-burr) -> vercel --prod
-  - post-deploy: confirm /config.js build id, disable Deployment Protection,
-    (brandiburr.com: GoDaddy nameservers -> Vercel if still on Hostinger)
+VALIDATED (headless): 6/6 link formats OK | 3 social icons render (ig/tt/sc) |
+  age gate opens before OnlyFans | hero background wired | bubbles share CTA hover
+  | Powered by Midnight present (sheen) | 0 regressions/errors.
 
-SHA-256:
-  config.js   13584e5fd20106913d4fedf2093b5a28f1a61123eb496e62c9453d92b33fc8ec
-  index.html  4e3ff422d4205d6c8c9676c54e1a58d66c37fb76976783a133d39108aee6383d
+ONE ASSET STILL REQUIRED at deploy (cannot be embedded from chat):
+  hero.jpg  <- the real beach photo file. Drop it in THIS folder before deploy.
+             (It came through visually but not as a readable file on my side.)
+
+DEPLOY:  add hero.jpg -> vercel link (brandi-burr) -> vercel --prod
+  post: confirm /config.js build id, disable Deployment Protection,
+        brandiburr.com -> GoDaddy nameservers to Vercel if still on Hostinger.
+
+SHA-256 config.js: 7bc29809a8edeced351186a46f23abccadd68590cf265a59183d88f06c86a2ab

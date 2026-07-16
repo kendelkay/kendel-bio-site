@@ -23,7 +23,7 @@
  * ========================================================================== */
 
 window.SITE_CONFIG = {
-  meta: { module: "link-in-bio", schemaVersion: "1.0.0", template: "v2", templateName: "Social Curiosity", release: "brandi-production-v2", build: "2026-07-16T03:43:39Z" },
+  meta: { module: "link-in-bio", schemaVersion: "1.0.0", template: "v2", templateName: "Social Curiosity", release: "brandi-production-v2", build: "2026-07-16T03:56:34Z" },
 
   pageTitle: "Brandi Burr",
   name: "Brandi Burr",
@@ -113,12 +113,13 @@ window.SITE_CONFIG = {
   /* No avatar — the hero photo is the identity. No separate headline line: her
      line now lives inside the CTA below (one strong touch, in her voice). */
 
-  /* Socials — none supplied; blank URLs auto-hide. */
+  /* Socials — real handles (canonical URLs; share/tracking params stripped).
+     X not supplied by OTG -> blank -> auto-hidden (add later if she has one). */
   socials: {
-    instagram: "",
+    instagram: "https://www.instagram.com/brandiburrr",
     x:         "",
-    tiktok:    "",
-    snapchat:  "",
+    tiktok:    "https://www.tiktok.com/@brandiburrxo",
+    snapchat:  "https://www.snapchat.com/@brandiburrx",
   },
 
   /* HERO CTA — Brandi's line IS the button. ageGate:true routes through the 18+
