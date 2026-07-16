@@ -23,7 +23,7 @@
  * ========================================================================== */
 
 window.SITE_CONFIG = {
-  meta: { module: "link-in-bio", schemaVersion: "1.0.0", template: "v2", templateName: "Social Curiosity", release: "brandi-production-v2", build: "2026-07-16T03:31:21Z" },
+  meta: { module: "link-in-bio", schemaVersion: "1.0.0", template: "v2", templateName: "Social Curiosity", release: "brandi-production-v2", build: "2026-07-16T03:43:39Z" },
 
   pageTitle: "Brandi Burr",
   name: "Brandi Burr",
@@ -58,7 +58,7 @@ window.SITE_CONFIG = {
       "--lb-name-tracking": "0.08em",
       /* breathing room — luxury negative space between sections */
       "--lb-gap-bio": "34px",
-      "--lb-gap-tip": "34px",   /* CTA + "spoil me" read as one emotional beat (#5) */
+      "--lb-gap-tip": "26px",   /* CTA + "spoil me" read as one emotional beat (#5) */
       "--lb-pay-gap": "16px",   /* air between the two experience buttons */
       "--lb-links-gap": "26px",
       /* lighter, softer controls + more frost */
