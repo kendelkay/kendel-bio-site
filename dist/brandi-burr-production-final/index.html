@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG -->
+  <script src="config.js"></script>
+
+  <!-- Early setup: analytics container, title, fonts — all driven by config -->
+  <script>
+    (function () {
+      var CFG = window.SITE_CONFIG || {};
+      var theme = CFG.theme || {};
+      var font = theme.font || {};
+
+      if (CFG.pageTitle) document.title = CFG.pageTitle;
+
+      if (CFG.gtmId) {
+        (function (w, d, s, l, i) {
+          w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+          var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+          j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+          f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', CFG.gtmId);
+      }
+
+      function loadFont(family, weights) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' +
+          encodeURIComponent(family).replace(/%20/g, '+') + ':wght@' +
+          (weights || '400;500;600;700;800') + '&display=swap';
+        document.head.appendChild(link);
+      }
+      var fam = font.family || 'Poppins';
+      loadFont(fam, font.weights);
+      if (font.family) {
+        document.documentElement.style.setProperty(
+          '--lb-font', '"' + fam + '", system-ui, -apple-system, BlinkMacSystemFont, sans-serif');
+      }
+      // Optional display/headline font (editorial art direction). Falls back to
+      // the body font, so pages without it are unchanged.
+      if (font.display) {
+        loadFont(font.display, font.displayWeights || '400;600;700;800;900');
+        document.documentElement.style.setProperty('--lb-font-display', '"' + font.display + '", var(--lb-font)');
+      }
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <style>
+    /* ---- Design tokens. Defaults reproduce the original design exactly;
+       theme/layout presets and config.theme override them via CSS variables. */
+    :root {
+      --lb-font: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      --lb-body: #f3ebe7;
+      --lb-text: #ffffff;
+      --lb-text-muted: rgba(255,255,255,0.92);
+      --lb-btn-bg: rgba(255,255,255,0.94);
+      --lb-btn-bg-hover: #ffffff;
+      --lb-btn-text: #111111;
+      --lb-btn-border: rgba(255,255,255,0.72);
+      --lb-accent: #111111;
+      --lb-accent-text: #ffffff;
+      /* spacing / typography / button style / glass / animation tokens */
+      --lb-radius: 999px;
+      --lb-glass-blur: 16px;
+      --lb-anim: 150ms;
+      --lb-links-gap: 34px;
+      --lb-name-tracking: -0.06em;
+      /* optional sizing tokens (defaults reproduce the original design) */
+      --lb-name-size: clamp(55px, 7.35vw, 76px);
+      --lb-name-weight: 800;
+      --lb-btn-min-h: 56px;
+      --lb-btn-pad-y: 12px;
+      --lb-btn-pad-x: 22px;
+      --lb-btn-font: clamp(19px, 2.5vw, 25px);
+      --lb-btn-weight: 500;
+      --lb-gap-bio: 22px;
+      --lb-gap-socials: 44px;
+      --lb-gap-tip: 24px;
+    }
+
+    .age-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.age-modal-content {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255,255,255,0.96);
+  border-radius: 24px;
+  padding: 28px;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+}
+
+.age-icon {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+
+.age-modal-content h3 {
+  margin: 0 0 10px;
+  font-size: 24px;
+}
+
+.age-modal-content p {
+  margin: 0;
+  line-height: 1.5;
+  color: #444;
+}
+
+.age-buttons {
+  margin-top: 20px;
+  display: grid;
+  gap: 10px;
+}
+
+.age-buttons button {
+  min-height: 50px;
+  border: none;
+  border-radius: var(--lb-radius);
+  background: var(--lb-accent);
+  color: var(--lb-accent-text);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.age-buttons .secondary {
+  background: #ececec;
+  color: #111;
+}
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: var(--lb-font);
+      background: var(--lb-body);
+      overflow-x: hidden;
+    }
+
+    .background-media {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .soft-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.10)),
+        linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.08));
+      pointer-events: none;
+    }
+
+    .page {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 22px 24px 14px;
+    }
+
+    .bio {
+      width: 100%;
+      max-width: 620px;
+      min-height: calc(100vh - 36px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: var(--lb-content-pb, 0);
+    }
+
+    .avatar {
+      width: 118px;
+      height: 118px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.95);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+      background: rgba(255,255,255,0.35);
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .name {
+      margin: 12px 0 4px;
+      color: var(--lb-text);
+      font-family: var(--lb-font-display, var(--lb-font));
+      font-size: var(--lb-name-size);
+      line-height: 0.95;
+      font-weight: var(--lb-name-weight);
+      letter-spacing: var(--lb-name-tracking);
+      text-align: center;
+      text-shadow: var(--lb-name-shadow, 0 4px 18px rgba(0,0,0,0.24));
+    }
+
+    .bio-text {
+      width: 72%;
+      margin: 6px 0 var(--lb-gap-bio);
+      color: var(--lb-text);
+      text-align: center;
+      font-size: 15px;
+      line-height: 1.55;
+      font-weight: 500;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+    }
+
+ .socials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: var(--lb-gap-socials);
+}
+
+.socials a {
+  color: var(--lb-text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-shadow: 0 3px 8px rgba(0,0,0,0.45);
+  opacity: 1;
+}
+
+.socials svg {
+  width: 23px;
+  height: 23px;
+  fill: currentColor;
+}
+
+    .links {
+      width: 100%;
+      display: grid;
+      gap: var(--lb-links-gap);
+      justify-items: center;
+    }
+
+    .button {
+      width: 58%;
+      min-height: var(--lb-btn-min-h);
+      border-radius: var(--lb-radius);
+      background: var(--lb-btn-bg);
+      color: var(--lb-btn-text);
+      border: 1px solid var(--lb-btn-border);
+      box-shadow: 0 12px 34px rgba(0,0,0,0.06);
+      backdrop-filter: blur(var(--lb-glass-blur));
+      -webkit-backdrop-filter: blur(var(--lb-glass-blur));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-decoration: none;
+      font-size: var(--lb-btn-font);
+      font-weight: var(--lb-btn-weight);
+      letter-spacing: -0.035em;
+      padding: var(--lb-btn-pad-y) var(--lb-btn-pad-x);
+      transition: transform var(--lb-anim) ease, background var(--lb-anim) ease, box-shadow var(--lb-anim) ease;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      background: var(--lb-btn-bg-hover);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.10);
+    }
+
+    .matcha-card {
+      width: 58%;
+      margin: var(--lb-gap-tip) auto 0;
+      padding: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    .matcha-title {
+      margin: 0 0 11px;
+      color: var(--lb-text);
+      text-align: center;
+      font-size: 15px;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+    }
+
+    .matcha-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--lb-pay-gap, 12px);
+    }
+
+    .matcha-bubble {
+      min-height: 42px;
+      border-radius: var(--lb-radius);
+      background: var(--lb-btn-bg);
+      color: var(--lb-btn-text);
+      border: 1px solid var(--lb-btn-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-decoration: none;
+      font-size: var(--lb-bubble-font, 14px);
+      font-weight: 700;
+      padding: 9px 12px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+      backdrop-filter: blur(var(--lb-glass-blur));
+      -webkit-backdrop-filter: blur(var(--lb-glass-blur));
+    }
+
+    .cash-referral {
+      display: block;
+      margin-top: 9px;
+      color: var(--lb-text);
+      text-align: center;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    }
+
+    /* Newsletter component (optional) */
+    .newsletter { width: 58%; margin: 24px auto 0; }
+    .newsletter-form { display: grid; gap: 12px; }
+    .newsletter-form input {
+      min-height: 52px;
+      border-radius: var(--lb-radius);
+      border: 1px solid var(--lb-btn-border);
+      background: var(--lb-btn-bg);
+      color: var(--lb-btn-text);
+      padding: 0 20px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 500;
+      text-align: center;
+      backdrop-filter: blur(var(--lb-glass-blur));
+      -webkit-backdrop-filter: blur(var(--lb-glass-blur));
+    }
+    .newsletter-form .button { width: 100%; }
+
+    /* Custom section (optional) */
+    .custom-section { width: 58%; margin: 24px auto 0; color: var(--lb-text); text-align: center; }
+
+    /* Optional flexible spacer (used via a "spacer" entry in layout.order) to
+       push controls into the lower negative space of a hero photo. */
+    .lb-spacer { flex: 1 1 auto; min-height: 0; }
+
+    .footer {
+      margin-top: var(--lb-footer-mt, auto);
+      padding-top: 34px;
+      padding-bottom: 8px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      color: var(--lb-text-muted);
+      font-size: 10px;
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    }
+
+    .footer a {
+      color: var(--lb-text-muted);
+      text-decoration: none;
+    }
+
+    /* Referral signature — Midnight's quiet distribution mark. Isolated from the
+       creator's own links so it can't be mistaken for one. Text is neutral and
+       inherits the page's theme tokens (adapts to dark/light); the accent is
+       fixed Midnight Cyan, never the creator's accent. When
+       referralSignature:false, nothing renders — no element, no leftover space. */
+    .lb-refsig {
+      --lb-refsig-accent: #01B4BE;
+      margin-top: 10px;          /* small, fixed gap below the Terms/Privacy row; footer above now bottom-anchors the pair */
+      padding-top: 0;
+      padding-bottom: 8px;
+      display: flex;
+      justify-content: center;
+    }
+    /* Premium glass capsule. Fill + border derive from the page's own text token
+       (currentColor), so the pill reads correctly on dark AND light pages. Minimal
+       depth, light backdrop blur, no heavy shadow, no glow. */
+    .lb-refsig-capsule {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      padding: 6px 13px 5px;
+      border-radius: 999px;
+      color: var(--lb-text-muted);
+      background: color-mix(in srgb, currentColor 5%, transparent);
+      border: 1px solid color-mix(in srgb, currentColor 13%, transparent);
+      -webkit-backdrop-filter: blur(9px) saturate(1.08);
+      backdrop-filter: blur(9px) saturate(1.08);
+      box-shadow: inset 0 1px 0 color-mix(in srgb, currentColor 7%, transparent),
+                  0 5px 14px -14px rgba(0,0,0,0.5);
+      transition: transform .22s ease, border-color .22s ease, background .22s ease;
+    }
+    .lb-refsig-capsule:hover {
+      transform: translateY(-1.5px);
+      border-color: color-mix(in srgb, currentColor 24%, transparent);
+      background: color-mix(in srgb, currentColor 7%, transparent);
+    }
+    .lb-refsig-capsule:hover .lb-refsig-mark { opacity: 0.85; }
+
+    /* Reflective light sweep — a narrow, soft, blurred band, brighter at its
+       centre. It travels left→right once (JS-triggered on a randomised 8–12s
+       cadence), then fully disappears. Never brighter than the CTA. */
+    .lb-refsig-sheen {
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 0;
+      width: 55%;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(-170%);
+      background: linear-gradient(100deg,
+        transparent 30%,
+        rgba(255,255,255,0.04) 42%,
+        rgba(255,255,255,0.14) 50%,
+        rgba(255,255,255,0.04) 58%,
+        transparent 70%);
+      filter: blur(3px);
+    }
+    .lb-refsig-capsule.is-sweeping .lb-refsig-sheen {
+      animation: lb-refsig-sweep 0.95s ease-in-out;
+    }
+    @keyframes lb-refsig-sweep {
+      0%   { opacity: 0; transform: translateX(-170%); }
+      12%  { opacity: 1; }
+      88%  { opacity: 1; }
+      100% { opacity: 0; transform: translateX(230%); }
+    }
+
+    .lb-refsig-mark {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--lb-text-muted);
+      text-decoration: none;
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      opacity: 0.5;
+      transition: opacity .2s ease;
+    }
+    .lb-refsig-spark { display: inline-flex; color: var(--lb-refsig-accent); opacity: 0.6; }
+    .lb-refsig-spark svg {
+      width: 10px; height: 10px;
+      stroke: currentColor; stroke-width: 1.6;
+      stroke-linejoin: round; stroke-linecap: round; fill: none;
+    }
+    /* Maker's mark — deliberately recessive: much smaller and lower-contrast
+       than the CTA, no glow. Reads as a quiet signature, not an advertisement. */
+    .lb-refsig-by {
+      position: relative;
+      z-index: 1;
+      color: var(--lb-text-muted);
+      opacity: 0.3;
+      font-size: 7.5px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      margin-top: 1px;
+    }
+    /* Reduced motion: no travelling sweep at all — the capsule still reads as a
+       complete, finished glass mark. */
+    @media (prefers-reduced-motion: reduce) {
+      .lb-refsig-sheen { display: none; }
+      .lb-refsig-capsule.is-sweeping .lb-refsig-sheen { animation: none; }
+    }
+
+    @media (max-width: 700px) {
+      /* mobile defaults expressed as tokens so config can still override them */
+      :root {
+        --lb-name-size: clamp(44px, 11.55vw, 61px);
+        --lb-btn-min-h: 58px;
+        --lb-btn-font: 19px;
+        --lb-gap-socials: 34px;
+        --lb-links-gap: 24px;
+      }
+      .page { padding: 16px 18px 12px; }
+      .bio { max-width: 100%; }
+      .avatar { width: 92px; height: 92px; }
+      .bio-text { width: 88%; }
+      .socials { gap: 14px; }
+      .button { width: 86%; }
+      .matcha-card { width: 86%; }
+      .matcha-title { font-size: 13px; }
+      .newsletter { width: 86%; }
+      .custom-section { width: 86%; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Background media (video / image / none) is injected here from config -->
+  <div id="bgRoot" data-lb-component="background"></div>
+
+  <div class="soft-overlay" id="softOverlay"></div>
+
+  <main class="page">
+    <section class="bio" id="bio"><!-- components rendered from config --></section>
+  </main>
+
+  <div id="ageModal" class="age-modal" data-lb-component="ageGate">
+    <div class="age-modal-content">
+      <div class="age-icon" id="ageIcon"></div>
+      <h3 id="ageTitle"></h3>
+      <p id="ageBody"></p>
+      <div class="age-buttons">
+        <button id="ageConfirm" data-lb-id="age-confirm" onclick="continueToDestination()"></button>
+        <button id="ageCancel" data-lb-id="age-cancel" onclick="closeAgeModal()" class="secondary"></button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  /* ==========================================================================
+   * Link-in-Bio rendering engine (Midnight Link-in-Bio Platform foundation).
+   *
+   * The template holds NO client data. The page is assembled from a list of
+   * optional COMPONENTS, ordered by a LAYOUT preset, styled by a THEME preset,
+   * with all content read from window.SITE_CONFIG. Missing/blank/disabled ->
+   * not rendered. Elements carry data-lb-* hooks for future analytics, and
+   * CTAs support A/B variants — none of which require template changes.
+   * ======================================================================== */
+  (function () {
+    "use strict";
+
+    var CONFIG = window.SITE_CONFIG || {};
+
+    /* ---- Registries (generic, brand-neutral defaults; not client-specific) - */
+    var SOCIAL_REGISTRY = {
+      instagram: { label: "ig",  ariaLabel: "instagram" },
+      tiktok:    { label: "tt",  ariaLabel: "tiktok" },
+      youtube:   { label: "yt",  ariaLabel: "youtube" },
+      x:         { label: "𝕏", ariaLabel: "x" },
+      twitter:   { label: "𝕏", ariaLabel: "x" },
+      threads:   { label: "th",  ariaLabel: "threads" },
+      snapchat:  { label: "sc",  ariaLabel: "snapchat" },
+      reddit:    { label: "rd",  ariaLabel: "reddit" },
+      telegram:  { label: "tg",  ariaLabel: "telegram" },
+      onlyfans:  { label: "of",  ariaLabel: "onlyfans" },
+      fansly:    { label: "fs",  ariaLabel: "fansly" },
+      website:   { label: "web", ariaLabel: "website" }
+    };
+    var PAYMENT_REGISTRY = {
+      cashapp:  { label: "cash app" }, venmo: { label: "venmo" },
+      paypal:   { label: "paypal" },   coinbase: { label: "coinbase" },
+      crypto:   { label: "crypto" },   wishlist: { label: "wishlist" }
+    };
+
+    // Theme presets control colors + style tokens (spacing/glass/radius/anim).
+    // Unknown presets fall back to "soft" (the original design). Reserved names
+    // (gaming/fitness/creator/holiday) are placeholders for future themes.
+    var THEME_PRESETS = {
+      soft: {},
+      dark: { colors: {
+        body: "#0f172a", text: "#e2e8f0", textMuted: "rgba(226,232,240,0.75)",
+        buttonBg: "rgba(255,255,255,0.10)", buttonBgHover: "rgba(255,255,255,0.18)",
+        buttonText: "#e2e8f0", buttonBorder: "rgba(255,255,255,0.18)",
+        accent: "#e2e8f0", accentText: "#0f172a" } },
+      minimal: {
+        colors: { buttonBg: "#ffffff", buttonBgHover: "#ffffff", buttonBorder: "rgba(0,0,0,0.08)" },
+        vars: { "--lb-radius": "14px", "--lb-glass-blur": "0px", "--lb-links-gap": "18px" } },
+      luxury: {
+        colors: {
+          body: "#0b0b0d", text: "#f5efe1", textMuted: "rgba(245,239,225,0.75)",
+          buttonBg: "rgba(20,18,16,0.55)", buttonBgHover: "rgba(30,27,24,0.7)",
+          buttonText: "#f5efe1", buttonBorder: "rgba(200,162,75,0.5)",
+          accent: "#c8a24b", accentText: "#0b0b0d" },
+        vars: { "--lb-radius": "6px" } },
+      gaming: {}, fitness: {}, creator: {}, holiday: {} // reserved for future themes
+    };
+
+    // Layout presets control which components render and in what order (and
+    // may set spacing vars). Unknown presets fall back to "classic".
+    var DEFAULT_ORDER = ["avatar", "name", "bio", "socials", "cta", "tipCard", "newsletter", "custom", "footer"];
+    var LAYOUT_PRESETS = {
+      classic:          { order: DEFAULT_ORDER },
+      creator:          { order: ["avatar", "name", "bio", "socials", "cta", "tipCard", "newsletter", "custom", "footer"] },
+      "personal-brand": { order: ["avatar", "name", "bio", "cta", "socials", "newsletter", "custom", "footer"] },
+      business:         { order: ["avatar", "name", "bio", "cta", "newsletter", "socials", "custom", "footer"] },
+      exclusive:        { order: ["avatar", "name", "socials", "cta", "tipCard", "custom", "footer"] },
+      minimal:          { order: ["name", "cta", "footer"], vars: { "--lb-links-gap": "18px" } },
+      luxury:           { order: ["avatar", "name", "bio", "cta", "socials", "tipCard", "footer"] }
+    };
+
+    /* ---- Helpers ---------------------------------------------------------- */
+    function has(v) { return v !== null && v !== undefined && String(v).trim() !== ""; }
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+    function slug(s) {
+      return has(s) ? String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") : "";
+    }
+    function withEmoji(label, emoji) {
+      var l = has(label) ? String(label) : "", e = has(emoji) ? String(emoji) : "";
+      return (l && e) ? (l + " " + e) : (l || e);
+    }
+    function normalizeCollection(raw, registry, keyField) {
+      var out = [];
+      if (!raw) return out;
+      if (Array.isArray(raw)) {
+        raw.forEach(function (item) {
+          if (!item) return;
+          var def = (item[keyField] && registry[item[keyField]]) || {};
+          out.push(Object.assign({}, def, item));
+        });
+      } else if (typeof raw === "object") {
+        Object.keys(raw).forEach(function (key) {
+          var v = raw[key];
+          if (typeof v === "string") v = { href: v };
+          if (!v || typeof v !== "object") return;
+          var merged = Object.assign({}, registry[key] || {}, v);
+          merged[keyField] = key;
+          out.push(merged);
+        });
+      }
+      return out;
+    }
+    function usable(items) {
+      return items.filter(function (x) {
+        return x && has(x.href) && x.hidden !== true && x.enabled !== false;
+      });
+    }
+
+    /* ---- A/B variant selection (config-ready; no experiment engine yet) ---
+     * A CTA may declare `variants` (array or map). The active variant comes
+     * from ?variant=<key> or config.abTest.active; default = first. This lets
+     * Midnight generate "Preview A / Preview B" from one config. */
+    function activeVariant() {
+      try {
+        var q = new URLSearchParams(window.location.search).get("variant");
+        if (has(q)) return q;
+      } catch (e) {}
+      if (CONFIG.abTest && has(CONFIG.abTest.active)) return CONFIG.abTest.active;
+      return null;
+    }
+    var ACTIVE_VARIANT = activeVariant();
+    function pickVariant(item) {
+      if (!item || !item.variants) return item;
+      var v = item.variants, chosen, vk = ACTIVE_VARIANT;
+      if (Array.isArray(v)) {
+        chosen = (vk != null && v[vk] != null) ? v[vk] : v[0];
+      } else if (typeof v === "object") {
+        var keys = Object.keys(v);
+        chosen = (vk && v[vk]) ? v[vk] : v[keys[0]];
+        if (!has(item.variantKey)) item = Object.assign({}, item, { variantKey: (vk && v[vk]) ? vk : keys[0] });
+      }
+      var merged = Object.assign({}, item, chosen);
+      delete merged.variants;
+      return merged;
+    }
+
+    /* ---- Page mode -------------------------------------------------------- */
+    var IS_CLEAN = CONFIG.pageType === "clean";
+
+    function componentEnabled(name) {
+      var c = CONFIG.components || {};
+      // "hero" is a convenience group for avatar + name + bio
+      if ((name === "avatar" || name === "name" || name === "bio") && c.hero === false) return false;
+      var v = c[name];
+      if (v === false) return false;
+      if (v && typeof v === "object" && v.enabled === false) return false;
+      return true;
+    }
+    var AGE_GATE_ENABLED = !IS_CLEAN && !!CONFIG.ageGate && componentEnabled("ageGate");
+
+    /* ---- Theme / layout resolution ---------------------------------------- */
+    function resolveTheme() {
+      var t = CONFIG.theme || {};
+      var preset = THEME_PRESETS[t.preset] || {};
+      return {
+        colors: Object.assign({}, preset.colors, t.colors),
+        vars: Object.assign({}, preset.vars, t.vars),
+        emojiSet: t.emojiSet || preset.emojiSet
+      };
+    }
+    var THEME = resolveTheme();
+
+    function resolveLayout() {
+      var l = CONFIG.layout || {};
+      var preset = LAYOUT_PRESETS[l.preset] || LAYOUT_PRESETS.classic;
+      return { order: l.order || preset.order || DEFAULT_ORDER, vars: Object.assign({}, preset.vars, l.vars) };
+    }
+    var LAYOUT = resolveLayout();
+
+    function applyTokens() {
+      var root = document.documentElement.style, c = THEME.colors || {};
+      var colorMap = {
+        "--lb-body": c.body,
+        "--lb-text": c.text,
+        "--lb-text-muted": has(c.textMuted) ? c.textMuted : c.text,
+        "--lb-btn-bg": c.buttonBg,
+        "--lb-btn-bg-hover": has(c.buttonBgHover) ? c.buttonBgHover : c.buttonBg,
+        "--lb-btn-text": c.buttonText,
+        "--lb-btn-border": c.buttonBorder,
+        "--lb-accent": c.accent,
+        "--lb-accent-text": c.accentText
+      };
+      Object.keys(colorMap).forEach(function (k) { if (has(colorMap[k])) root.setProperty(k, colorMap[k]); });
+      // style tokens from theme + layout presets
+      [THEME.vars, LAYOUT.vars].forEach(function (vars) {
+        if (!vars) return;
+        Object.keys(vars).forEach(function (k) { if (has(vars[k])) root.setProperty(k, vars[k]); });
+      });
+    }
+
+    /* ---- Background (media abstraction) ----------------------------------- */
+    function resolveBackground() {
+      var b = CONFIG.background || {};
+      var legacyVideo = CONFIG.backgroundVideo;
+      var fallbackColor = (THEME.colors && THEME.colors.body) || "#f3ebe7";
+      var source = b.source || b.video || b.image || legacyVideo || "";
+      var type = b.type;
+      if (!type) {
+        if (b.image) type = "image";
+        else if (b.video || legacyVideo) type = "video";
+        else if (source) type = /\.(mp4|webm|mov|ogg)(\?|$)/i.test(source) ? "video" : "image";
+        else type = "color";
+      }
+      // Filter: explicit `filter` wins; otherwise compose from media props.
+      var filter = b.filter;
+      if (!has(filter)) {
+        var parts = [];
+        if (has(b.brightness)) parts.push("brightness(" + b.brightness + ")");
+        if (has(b.contrast)) parts.push("contrast(" + b.contrast + ")");
+        if (has(b.saturate)) parts.push("saturate(" + b.saturate + ")");
+        if (has(b.blur)) parts.push("blur(" + b.blur + "px)");
+        filter = parts.length ? parts.join(" ") : "brightness(1.08) contrast(1.16) saturate(1.22) sepia(0.04)";
+      }
+      return {
+        type: type, source: source,
+        color: b.color || fallbackColor, gradient: b.gradient || null,
+        position: b.position || "65% 15%", filter: filter,
+        opacity: b.opacity, overlay: b.overlay
+      };
+    }
+    function renderBackground() {
+      var root = document.getElementById("bgRoot");
+      var overlayEl = document.getElementById("softOverlay");
+      var b = resolveBackground();
+      document.body.style.background = b.gradient || b.color;
+
+      if (!componentEnabled("background")) { root.innerHTML = ""; overlayEl.style.display = "none"; return; }
+
+      var style = "object-position:" + esc(b.position) + ";filter:" + esc(b.filter) + ";" +
+        (has(b.opacity) ? ("opacity:" + esc(b.opacity) + ";") : "");
+      if ((b.type === "video") && has(b.source)) {
+        root.innerHTML =
+          '<video id="bgVideo" class="background-media" autoplay muted loop playsinline ' +
+          'webkit-playsinline preload="auto" style="' + style + '">' +
+          '<source src="' + esc(b.source) + '" type="video/mp4" /></video>';
+      } else if ((b.type === "image") && has(b.source)) {
+        root.innerHTML = '<img id="bgImage" class="background-media" alt="" style="' + style + '" src="' + esc(b.source) + '" />';
+      } else {
+        root.innerHTML = "";
+      }
+      if (b.overlay === false) { overlayEl.style.display = "none"; }
+      else {
+        overlayEl.style.display = "";
+        if (b.overlay && typeof b.overlay === "object" && has(b.overlay.color)) overlayEl.style.background = b.overlay.color;
+      }
+    }
+
+    /* ---- Component builders (each returns "" when it has no content) ------- */
+    function buildAvatar() {
+      if (!has(CONFIG.avatar)) return "";
+      var alt = has(CONFIG.avatarAlt) ? CONFIG.avatarAlt : (CONFIG.name || "");
+      // avatarPosition lets a full-body photo focus on the face (CSS object-position).
+      var pos = has(CONFIG.avatarPosition) ? ' style="object-position:' + esc(CONFIG.avatarPosition) + '"' : '';
+      return '<div class="avatar" data-lb-component="avatar"><img src="' + esc(CONFIG.avatar) + '" alt="' + esc(alt) + '"' + pos + ' /></div>';
+    }
+    function buildName() {
+      if (!has(CONFIG.name)) return "";
+      return '<h1 class="name" data-lb-component="name">' + esc(CONFIG.name) + '</h1>';
+    }
+    function buildBio() {
+      var raw = CONFIG.bio;
+      if (raw && typeof raw === "object" && has(raw.html)) {
+        return '<div class="bio-text" data-lb-component="bio">' + String(raw.html) + '</div>';
+      }
+      var text = (typeof raw === "string") ? raw : (raw && raw.text);
+      if (!has(text)) return "";
+      return '<p class="bio-text" data-lb-component="bio">' + esc(text) + '</p>';
+    }
+    function buildSocials() {
+      var items = usable(normalizeCollection(CONFIG.socials, SOCIAL_REGISTRY, "platform"));
+      if (!items.length) return "";
+      var inner = items.map(function (s, i) {
+        var disp = has(s.emoji) ? s.emoji : (has(s.label) ? s.label : (s.ariaLabel || s.platform || ""));
+        var aria = has(s.ariaLabel) ? s.ariaLabel : (s.platform || "");
+        var id = s.id || s.platform || slug(disp) || ("social-" + i);
+        return '<a data-lb-id="' + esc(id) + '" data-lb-platform="' + esc(s.platform || "") + '" href="' +
+          esc(s.href) + '" target="_blank" aria-label="' + esc(aria) + '">' + esc(disp) + '</a>';
+      }).join("\n  ");
+      return '<nav class="socials" data-lb-component="socials">\n  ' + inner + '\n</nav>';
+    }
+    function buildLinks() {
+      var raw = (CONFIG.links || []).filter(Boolean).map(pickVariant);
+      var items = raw.filter(function (l) {
+        return has(l.href) && has(l.text || l.label) && l.hidden !== true && l.enabled !== false;
+      });
+      if (!items.length) return "";
+      var inner = items.map(function (l, i) {
+        var text = esc(withEmoji(l.text || l.label, l.emoji));
+        var id = l.id || slug(l.text || l.label) || ("cta-" + i);
+        var attrs = 'data-lb-id="' + esc(id) + '"' + (has(l.variantKey) ? (' data-lb-variant="' + esc(l.variantKey) + '"') : "");
+        if (l.ageGate && AGE_GATE_ENABLED) {
+          return '<a class="button" ' + attrs + ' href="#" onclick="LB.openAgeModal(\'' + esc(l.href) + '\'); return false;">' + text + '</a>';
+        }
+        return '<a class="button" ' + attrs + ' href="' + esc(l.href) + '" target="_blank">' + text + '</a>';
+      }).join("\n");
+      return '<div class="links" data-lb-component="cta">' + inner + '</div>';
+    }
+    function buildTipCard() {
+      var tc = CONFIG.tipCard;
+      if (!tc || tc.hidden === true) return "";
+      var bubbles = [];
+      (tc.bubbles || []).filter(Boolean).forEach(function (b) {
+        bubbles.push({ text: b.text || b.label, href: b.href, emoji: b.emoji, id: b.id, method: b.method, hidden: b.hidden, enabled: b.enabled });
+      });
+      normalizeCollection(tc.payments, PAYMENT_REGISTRY, "method").forEach(function (p) {
+        bubbles.push({ text: p.text || p.label, href: p.href, emoji: p.emoji, id: p.id, method: p.method, hidden: p.hidden, enabled: p.enabled });
+      });
+      bubbles = bubbles.filter(function (b) { return has(b.href) && has(b.text) && b.hidden !== true && b.enabled !== false; });
+      var referral = (tc.referral && has(tc.referral.href) && has(tc.referral.text)) ? tc.referral : null;
+      if (!bubbles.length && !referral && !has(tc.title)) return "";
+
+      var html = '<section class="matcha-card" data-lb-component="tipCard">';
+      if (has(tc.title)) html += '<p class="matcha-title">' + esc(tc.title) + '</p>';
+      if (bubbles.length) {
+        html += '<div class="matcha-actions">' + bubbles.map(function (b, i) {
+          var id = b.id || b.method || slug(b.text) || ("tip-" + i);
+          return '<a class="matcha-bubble" data-lb-id="' + esc(id) + '" data-lb-method="' + esc(b.method || "") +
+            '" href="' + esc(b.href) + '" target="_blank">' + esc(withEmoji(b.text, b.emoji)) + '</a>';
+        }).join("\n          ") + '</div>';
+      }
+      if (referral) {
+        html += '<a class="cash-referral" data-lb-id="tip-referral" href="' + esc(referral.href) +
+          '" target="_blank">' + esc(withEmoji(referral.text, referral.emoji)) + '</a>';
+      }
+      return html + '</section>';
+    }
+    function buildNewsletter() {
+      var n = CONFIG.newsletter;
+      if (!n || n.hidden === true) return "";
+      if (!has(n.action) && !has(n.title) && !has(n.buttonText)) return "";
+      var ph = has(n.placeholder) ? n.placeholder : "your email";
+      var btn = has(n.buttonText) ? n.buttonText : "subscribe";
+      var id = n.id || "newsletter";
+      var titleHtml = has(n.title) ? '<p class="matcha-title">' + esc(n.title) + '</p>' : "";
+      var formOpen = has(n.action)
+        ? '<form class="newsletter-form" action="' + esc(n.action) + '" method="post" target="_blank" data-lb-id="' + esc(id) + '">'
+        : '<form class="newsletter-form" onsubmit="return false;" data-lb-id="' + esc(id) + '">';
+      return '<section class="newsletter" data-lb-component="newsletter">' + titleHtml + formOpen +
+        '<input type="email" name="email" placeholder="' + esc(ph) + '" required />' +
+        '<button type="submit" class="button newsletter-submit">' + esc(withEmoji(btn, n.emoji)) + '</button>' +
+        '</form></section>';
+    }
+    function buildCustom() {
+      var list = CONFIG.customSections || (CONFIG.custom ? [CONFIG.custom] : []);
+      if (!Array.isArray(list) || !list.length) return "";
+      return list.filter(Boolean).map(function (c, i) {
+        if (c.hidden === true) return "";
+        var hasHtml = has(c.html), hasText = has(c.text), hasTitle = has(c.title);
+        if (!hasHtml && !hasText && !hasTitle) return "";
+        var inner = hasHtml ? String(c.html) : (hasText ? "<p>" + esc(c.text) + "</p>" : "");
+        var t = hasTitle ? '<p class="matcha-title">' + esc(c.title) + '</p>' : "";
+        return '<section class="custom-section" data-lb-component="custom" data-lb-id="' + esc(c.id || ("custom-" + i)) + '">' + t + inner + '</section>';
+      }).join("");
+    }
+    function buildFooter() {
+      var items = (CONFIG.footerLinks || []).filter(function (f) {
+        return f && has(f.text) && has(f.href) && f.hidden !== true && f.enabled !== false;
+      });
+      if (!items.length) return "";
+      var inner = items.map(function (f, i) {
+        var id = f.id || slug(f.text) || ("footer-" + i);
+        var link = '<a data-lb-id="' + esc(id) + '" href="' + esc(f.href) + '">' + esc(f.text) + '</a>';
+        return i === 0 ? link : '<span>|</span>' + link;
+      }).join("\n        ");
+      return '<footer class="footer" data-lb-component="footer">' + inner + '</footer>';
+    }
+
+    /* Referral signature (Module 5) — Midnight's quiet distribution engine.
+     * On by default; set `referralSignature: false` to remove it entirely.
+     * Object form allows overrides without touching the template:
+     *   referralSignature: { enabled, text, poweredBy, url, ref, campaign }
+     * Referral attribution (`ref`) resolves: explicit ref -> client.id ->
+     * config.slug -> slug(name); omitted only when the creator has no identifier.
+     * UTM parameters are always attached for analytics (no cookies/tracking). */
+    function buildReferralSignature() {
+      var rs = CONFIG.referralSignature;
+      if (rs === false) return "";
+      var opt = (rs && typeof rs === "object") ? rs : {};
+      if (opt.enabled === false) return "";
+
+      var base = has(opt.url) ? String(opt.url) : "https://themidnightcreator.com";
+      var by   = has(opt.poweredBy) ? String(opt.poweredBy) : "Powered by Midnight";
+      var ref  = has(opt.ref) ? String(opt.ref)
+               : (CONFIG.client && has(CONFIG.client.id)) ? String(CONFIG.client.id)
+               : has(CONFIG.slug) ? String(CONFIG.slug)
+               : has(CONFIG.name) ? slug(CONFIG.name) : "";
+
+      var params = [];
+      if (has(ref)) params.push("ref=" + encodeURIComponent(ref));
+      params.push("utm_source=creator_page");
+      params.push("utm_medium=referral");
+      params.push("utm_campaign=" + encodeURIComponent(has(opt.campaign) ? opt.campaign : "midnight_signature"));
+      var href = base + (base.indexOf("?") >= 0 ? "&" : "?") + params.join("&");
+
+      var spark = '<span class="lb-refsig-spark" aria-hidden="true">' +
+        '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3.2l1.7 5.6 5.6 1.7-5.6 1.7L12 17.8l-1.7-5.6L4.7 10.5l5.6-1.7z"/></svg></span>';
+
+      return '<div class="lb-refsig" data-lb-component="referralSignature">' +
+        '<div class="lb-refsig-capsule">' +
+          '<span class="lb-refsig-sheen" aria-hidden="true"></span>' +
+          '<a class="lb-refsig-mark" data-lb-id="referral-signature" href="' + esc(href) + '" target="_blank" rel="noopener noreferrer">' +
+            spark + '<span>' + esc(by) + '</span>' +
+          '</a>' +
+        '</div>' +
+      '</div>';
+    }
+
+    /* Schedules the reflective sweep: one pass, then nothing, on a randomised
+     * 8–12s cadence so it never feels mechanical. Disabled entirely under
+     * prefers-reduced-motion (the capsule stays complete without it). */
+    function startReferralSheen() {
+      try {
+        if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        var cap = document.querySelector(".lb-refsig-capsule");
+        if (!cap) return;
+        var sheen = cap.querySelector(".lb-refsig-sheen");
+        if (!sheen) return;
+        var busy = false;
+        sheen.addEventListener("animationend", function () { cap.classList.remove("is-sweeping"); busy = false; });
+        function sweep() { if (busy) return; busy = true; cap.classList.add("is-sweeping"); }
+        function next() {
+          var delay = 8000 + Math.random() * 4000;   // 8–12s, re-rolled each cycle
+          window.setTimeout(function () { sweep(); next(); }, delay);
+        }
+        next();
+      } catch (e) {}
+    }
+
+    var COMPONENTS = {
+      avatar: buildAvatar, name: buildName, bio: buildBio, socials: buildSocials,
+      cta: buildLinks, tipCard: buildTipCard, newsletter: buildNewsletter,
+      custom: buildCustom, footer: buildFooter
+    };
+
+    /* ---- Render ----------------------------------------------------------- */
+    function renderSite() {
+      applyTokens();
+      renderBackground();
+
+      var html = "";
+      LAYOUT.order.forEach(function (name) {
+        if (name === "spacer") { html += '<div class="lb-spacer" aria-hidden="true"></div>'; return; }
+        var build = COMPONENTS[name];
+        if (!build) return;
+        if (!componentEnabled(name)) return;
+        html += build();
+      });
+      html += buildReferralSignature();   // always last, isolated at the absolute bottom
+      document.getElementById("bio").innerHTML = html;
+
+      var g = CONFIG.ageGate || {};
+      document.getElementById("ageIcon").textContent = g.icon || "";
+      document.getElementById("ageTitle").textContent = g.title || "";
+      document.getElementById("ageBody").textContent = g.body || "";
+      document.getElementById("ageConfirm").textContent = g.confirmText || "Continue";
+      document.getElementById("ageCancel").textContent = g.cancelText || "Cancel";
+    }
+
+    /* ---- Age gate --------------------------------------------------------- */
+    var destinationUrl = "";
+    function openAgeModal(url) {
+      if (!AGE_GATE_ENABLED) { window.open(url, "_blank"); return; }
+      destinationUrl = url;
+      document.getElementById("ageModal").style.display = "flex";
+    }
+    function closeAgeModal() { document.getElementById("ageModal").style.display = "none"; }
+    function continueToDestination() { window.open(destinationUrl, "_blank"); closeAgeModal(); }
+
+    /* ---- Background video autoplay (mobile-friendly) ---------------------- */
+    function startVideo() {
+      var v = document.getElementById("bgVideo");
+      if (!v) return;
+      v.muted = true; v.playsInline = true;
+      v.play().catch(function () {});
+    }
+
+    /* ---- Vanity path -> ?src= attribution redirect ------------------------ */
+    function applyRouteRedirect() {
+      var routeMap = CONFIG.routeMap || {};
+      var path = window.location.pathname;
+      if (routeMap[path]) {
+        var extra = window.location.search ? window.location.search.replace(/^\?/, "&") : "";
+        window.location.replace(window.location.origin + "/?src=" + encodeURIComponent(routeMap[path]) + extra);
+        return true;
+      }
+      return false;
+    }
+
+    window.LB = { openAgeModal: openAgeModal, closeAgeModal: closeAgeModal, continueToDestination: continueToDestination };
+    window.openAgeModal = openAgeModal;
+    window.closeAgeModal = closeAgeModal;
+    window.continueToDestination = continueToDestination;
+
+    if (!applyRouteRedirect()) {
+      renderSite();
+      startReferralSheen();
+      document.addEventListener("DOMContentLoaded", startVideo);
+      window.addEventListener("load", startVideo);
+      document.addEventListener("touchstart", startVideo, { once: true });
+      startVideo();
+    }
+  })();
+  </script>
+</body>
+</html>

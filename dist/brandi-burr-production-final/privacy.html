@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Privacy Policy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{ --bg:#0b0b0d; --text:rgba(255,255,255,0.92); --muted:rgba(255,255,255,0.56); --line:rgba(255,255,255,0.10); --accent:#01B4BE; }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      line-height:1.65;-webkit-font-smoothing:antialiased;padding:0 22px}
+    .wrap{max-width:680px;margin:0 auto;padding:64px 0 96px}
+    .back{display:inline-flex;align-items:center;gap:7px;color:var(--muted);text-decoration:none;font-size:14px;transition:color .18s}
+    .back:hover{color:var(--accent)}
+    h1{font-size:clamp(28px,5vw,38px);letter-spacing:-0.02em;margin:30px 0 6px;font-weight:700}
+    .updated{color:var(--muted);font-size:13.5px;margin:0 0 34px}
+    h2{font-size:18px;font-weight:600;letter-spacing:-0.01em;margin:34px 0 8px}
+    p{color:rgba(255,255,255,0.80);font-size:15.5px;margin:0 0 14px}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .name{color:var(--text)}
+    footer{border-top:1px solid var(--line);margin-top:48px;padding-top:22px;color:var(--muted);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; Back</a>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: July 2026</p>
+
+    <p>This policy explains how <span class="name" data-creator-name>this page</span> handles information when you visit. We keep it simple: this is a static links page, and we collect as little as possible.</p>
+
+    <h2>1. Information we collect</h2>
+    <p>We do not ask you to create an account or submit personal information on this page. We do not sell your data.</p>
+
+    <h2>2. Analytics</h2>
+    <p>This site may use privacy-conscious analytics (such as Google Tag Manager / Google Analytics) to understand aggregate traffic — for example, how many people visit and which links are popular. This may involve cookies or similar technologies that collect standard, non-identifying information like your browser type, approximate region, and the pages you view. You can block cookies in your browser settings.</p>
+
+    <h2>3. Links to other sites</h2>
+    <p>This page links to third-party platforms (such as social media, subscription, and payment services). Once you follow a link, that destination's own privacy policy applies. We have no control over, and are not responsible for, how those third parties handle your information.</p>
+
+    <h2>4. Your choices</h2>
+    <p>You can decline cookies, use private browsing, or leave the site at any time. Because we do not collect identifying information here, there is no account to delete.</p>
+
+    <h2>5. Children</h2>
+    <p>This site is intended for adults (18+) and is not directed to children.</p>
+
+    <h2>6. Changes</h2>
+    <p>We may update this policy from time to time. The "last updated" date above reflects the most recent version.</p>
+
+    <h2>7. Contact</h2>
+    <p>Questions about privacy can be directed through the contact options linked on the main page.</p>
+
+    <footer>&copy; <span data-creator-name>this creator</span>. All rights reserved.</footer>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    (function () {
+      try {
+        var name = (window.SITE_CONFIG && window.SITE_CONFIG.name) ? String(window.SITE_CONFIG.name) : "";
+        if (name) {
+          document.title = "Privacy Policy — " + name;
+          var nodes = document.querySelectorAll("[data-creator-name]");
+          for (var i = 0; i < nodes.length; i++) nodes[i].textContent = name;
+        }
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>
