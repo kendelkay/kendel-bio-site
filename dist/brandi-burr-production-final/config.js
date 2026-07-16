@@ -23,7 +23,7 @@
  * ========================================================================== */
 
 window.SITE_CONFIG = {
-  meta: { module: "link-in-bio", schemaVersion: "1.0.0", template: "v2", templateName: "Social Curiosity", release: "brandi-burr-production-final", build: "2026-07-16T01:11:24Z" },
+  meta: { module: "link-in-bio", schemaVersion: "1.0.0", template: "v2", templateName: "Social Curiosity", release: "brandi-production-v2", build: "2026-07-16T02:07:32Z" },
 
   pageTitle: "Brandi Burr",
   name: "Brandi Burr",
@@ -38,6 +38,10 @@ window.SITE_CONFIG = {
      and Template V2 are unchanged). Lighter type, airier rhythm, frosted-glass
      controls that float over the photography. */
   theme: {
+    /* Masthead display font only (body/buttons stay Poppins for readability).
+       Playfair Display — the fashion-magazine masthead serif: high-contrast,
+       elegant, commanding. Selected as the strongest editorial choice. */
+    font: { display: "Playfair Display", displayWeights: "500;600;700" },
     colors: {
       text: "#ffffff",
       textMuted: "rgba(255,255,255,0.86)",
@@ -48,10 +52,10 @@ window.SITE_CONFIG = {
       buttonBorder: "rgba(255,255,255,0.42)",
     },
     vars: {
-      /* medium-editorial name — elegant, wide-tracked, immediately readable */
-      "--lb-name-size": "clamp(30px, 8.5vw, 42px)",
-      "--lb-name-weight": "500",
-      "--lb-name-tracking": "0.11em",
+      /* masthead — ~18% larger, soft feminine serif, elegant wide tracking */
+      "--lb-name-size": "clamp(35px, 10vw, 50px)",
+      "--lb-name-weight": "600",
+      "--lb-name-tracking": "0.08em",
       /* breathing room — luxury negative space between sections */
       "--lb-gap-bio": "34px",
       "--lb-gap-tip": "58px",   /* optical: CTA + support cohere as one cluster */
@@ -86,8 +90,16 @@ window.SITE_CONFIG = {
      interface (CTA + support) collects as one floating cluster in the lower third.
      Photography first, interface second. */
   layout: {
-    order: ["name", "spacer", "cta", "tipCard", "footer"],
-    vars: { "--lb-content-pb": "6vh" },   /* optical: lift the cluster off the bottom safe area */
+    /* name + curiosity line form one editorial header at the very top; a spacer
+       drops the support cluster into the lower third (kept where it was); a
+       second spacer pushes the footer to the very bottom (~98%). */
+    order: ["name", "cta", "spacer", "tipCard", "footer"],
+    vars: {
+      "--lb-content-pb": "0.5vh",
+      /* footer decoupled from the cluster: holds the support cluster EXACTLY at
+         its locked spot while the footer sits at ~98% (almost hidden). */
+      "--lb-footer-mt": "5.5vh",
+    },
   },
 
   /* Platform signature ON — restored exactly as the other creator sites (engine
@@ -117,7 +129,7 @@ window.SITE_CONFIG = {
      behind them (method kept subtle in data-lb-method — no "cash app"/"venmo"
      wording on the button face). */
   tipCard: {
-    title: "spoil me a little ☕️",
+    title: "spoil me a little 🤍",
     bubbles: [
       { text: "$15 iced latte ☕️", href: "https://cash.app/$brandiburr/15", method: "cashapp" },
       { text: "make me blush 🥺",  href: "https://venmo.com/u/Brandi-Burr-51", method: "venmo" },

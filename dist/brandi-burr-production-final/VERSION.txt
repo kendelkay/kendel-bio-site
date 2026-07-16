@@ -1,22 +1,20 @@
-BUNDLE:   brandi-burr-production-final   (LOCKED — production baseline)
-BUILD:    2026-07-16T01:11:24Z   (epoch 1784164284)
-config.js embeds meta.build = "2026-07-16T01:11:24Z"
-  -> after deploy, open /config.js and confirm meta.build matches. If it does
-     not, an OLD bundle was deployed; re-deploy this one.
+BUNDLE:   brandi-burr-production-final  =  BRANDI PRODUCTION V2
+BUILD:    2026-07-16T02:07:32Z   (epoch 1784167652)   (supersedes V1 build 2026-07-16T01:11:24Z)
+config.js meta.release = "brandi-production-v2", meta.build = "2026-07-16T02:07:32Z"
+  -> confirm meta.build on live /config.js after deploy.
 
-VARIANT: B (locked) — brand masthead at top, photo owns the frame, CTA+support
-         cluster floats in the lower third; optical spacing pass applied.
+MASTHEAD FONT (platform): Playfair Display — now the official Template-V2 luxury
+  masthead default (templates/v2.config.js). Brandi inherits/sets it here too.
+
+FINAL (V2):
+  Playfair masthead (~18% larger) | name + "what i can't post on other socials 😉"
+  as one top header | hero photo background, no avatar | lower cluster held EXACTLY
+  at its locked spot: "spoil me a little 🤍", "$15 iced latte ☕️", "make me blush 🥺"
+  | footer at ~98% | Powered by Midnight (engine default, unchanged)
+  | no visible payment words
 
 SHA-256:
-  config.js   72400171ff41e0e74d8048b5bacd7ce2ee10b43eae15213d7f25e4ab77e1c997
+  config.js   72a03cfdd1b466f86f7e2e702ee88699b593a8a2e8d6e986c6303760114b85b4
   index.html  4e3ff422d4205d6c8c9676c54e1a58d66c37fb76976783a133d39108aee6383d
 
-FINAL (verified 11/11):
-  Brandi Burr (masthead, top)  |  hero photo background, no avatar
-  CTA: "what i can't post on other socials 😉" -> OnlyFans (age-gated)
-  support "spoil me a little ☕️": "$15 iced latte ☕️" (Cash App $brandiburr/15),
-          "make me blush 🥺" (Venmo Brandi-Burr-51)
-  no visible payment words | frosted-glass UI | Powered by Midnight (engine default, restored)
-
-BEFORE DEPLOY: add the real photo as  hero.jpg  in this folder, then:
-  vercel link  (brandi-burr project)  ->  vercel --prod
+BEFORE DEPLOY: add real  hero.jpg  in this folder -> vercel --prod (brandi-burr)

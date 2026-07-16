@@ -31,9 +31,14 @@ window.SITE_CONFIG = {
   /* Google Tag Manager container id (omit / "" to disable analytics) */
   gtmId: "",
 
-  /* Branding: no overrides — inherits the base Midnight design language exactly,
-     just like Kendel's live site. */
-  // theme: { ... }
+  /* Branding: inherits the base Midnight design language, with ONE Template-V2
+     default — Playfair Display as the official luxury masthead font for this
+     template family (applied to the name only; body/buttons stay the base font
+     for readability). Loaded from Google Fonts by the engine. Creators may still
+     override any of this in their own config. */
+  theme: {
+    font: { display: "Playfair Display", displayWeights: "500;600;700" },
+  },
 
   /* Background — same treatment as the base (video). Swap the asset per creator;
      omit the whole block to fall back to the default color. */
