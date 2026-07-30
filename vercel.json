@@ -1,8 +1,8 @@
 {
+  "redirects": [
+    { "source": "/brandy", "destination": "/brandy/", "permanent": false }
+  ],
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
