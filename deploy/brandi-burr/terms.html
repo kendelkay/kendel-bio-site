@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Terms of Use</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{ --bg:#0b0b0d; --text:rgba(255,255,255,0.92); --muted:rgba(255,255,255,0.56); --line:rgba(255,255,255,0.10); --accent:#01B4BE; }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      line-height:1.65;-webkit-font-smoothing:antialiased;padding:0 22px}
+    .wrap{max-width:680px;margin:0 auto;padding:64px 0 96px}
+    .back{display:inline-flex;align-items:center;gap:7px;color:var(--muted);text-decoration:none;font-size:14px;transition:color .18s}
+    .back:hover{color:var(--accent)}
+    h1{font-size:clamp(28px,5vw,38px);letter-spacing:-0.02em;margin:30px 0 6px;font-weight:700}
+    .updated{color:var(--muted);font-size:13.5px;margin:0 0 34px}
+    h2{font-size:18px;font-weight:600;letter-spacing:-0.01em;margin:34px 0 8px}
+    p{color:rgba(255,255,255,0.80);font-size:15.5px;margin:0 0 14px}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .name{color:var(--text)}
+    footer{border-top:1px solid var(--line);margin-top:48px;padding-top:22px;color:var(--muted);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; Back</a>
+    <h1>Terms of Use</h1>
+    <p class="updated">Last updated: July 2026</p>
+
+    <p>Welcome to <span class="name" data-creator-name>this page</span>. By accessing or using this site, you agree to these Terms of Use. If you do not agree, please do not use the site.</p>
+
+    <h2>1. Adults only (18+)</h2>
+    <p>This site and the destinations it links to may contain content intended for adults. By continuing, you confirm that you are at least 18 years of age (or the age of majority in your jurisdiction) and that it is legal for you to view such content where you live.</p>
+
+    <h2>2. The links on this page</h2>
+    <p>This page is a directory of links to profiles and services operated on third-party platforms (for example social media, subscription, and payment services). Those destinations are governed by their own terms and privacy policies. We are not responsible for the content, availability, or practices of any third-party site.</p>
+
+    <h2>3. Acceptable use</h2>
+    <p>You agree not to misuse this site — including attempting to disrupt it, access it through unauthorized means, or use it for any unlawful purpose. All content, names, and marks shown here remain the property of their respective owners and may not be copied or redistributed without permission.</p>
+
+    <h2>4. No warranty</h2>
+    <p>This site is provided "as is," without warranties of any kind. We do not guarantee that the site or its links will always be available, accurate, or error-free.</p>
+
+    <h2>5. Limitation of liability</h2>
+    <p>To the fullest extent permitted by law, we are not liable for any damages arising from your use of this site or any linked third-party destination.</p>
+
+    <h2>6. Changes</h2>
+    <p>These terms may be updated from time to time. Continued use of the site after changes means you accept the updated terms.</p>
+
+    <h2>7. Contact</h2>
+    <p>Questions about these terms can be directed through the contact options linked on the main page.</p>
+
+    <footer>&copy; <span data-creator-name>this creator</span>. All rights reserved.</footer>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    (function () {
+      try {
+        var name = (window.SITE_CONFIG && window.SITE_CONFIG.name) ? String(window.SITE_CONFIG.name) : "";
+        if (name) {
+          document.title = "Terms of Use — " + name;
+          var nodes = document.querySelectorAll("[data-creator-name]");
+          for (var i = 0; i < nodes.length; i++) nodes[i].textContent = name;
+        }
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>
