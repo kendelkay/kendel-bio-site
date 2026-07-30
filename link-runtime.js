@@ -200,7 +200,9 @@
       "font-size:14.5px;font-weight:600;border:1px solid transparent;cursor:pointer;}" +
       "#" + OVERLAY_ID + " .lb-rt-primary{background:#f4f1f6;color:#17141b;}" +
       "#" + OVERLAY_ID + " .lb-rt-secondary{background:transparent;color:#f4f1f6;border-color:rgba(255,255,255,.22);}" +
-      "#" + OVERLAY_ID + " .lb-rt-ghost{background:transparent;color:#9a94a4;border:0;font-weight:500;margin-top:4px;}";
+      "#" + OVERLAY_ID + " .lb-rt-ghost{background:transparent;color:#9a94a4;border:0;font-weight:500;margin-top:4px;}" +
+      "#" + OVERLAY_ID + " .lb-rt-instr{margin:0 0 14px;font-size:12.5px;line-height:1.5;color:#c9c3d1;}" +
+      "#" + OVERLAY_ID + " .lb-rt-note{display:none;margin:12px 0 0;padding:10px 12px;border-radius:10px;background:rgba(120,225,160,.12);font-size:12.5px;line-height:1.45;color:#bfeccd;}";
     var el = doc.createElement("style");
     el.id = STYLE_ID; el.textContent = css; doc.head.appendChild(el);
   }
@@ -218,8 +220,11 @@
       doc.body.appendChild(t); t.select(); doc.execCommand("copy"); doc.body.removeChild(t);
     } catch (e) {}
   }
-  function copyLink(url, btn) {
-    var done = function () { btn.textContent = "Link copied ✓"; };
+  function copyLink(url, btn, hint) {
+    var done = function () {
+      btn.textContent = "Link copied ✓";
+      if (hint) hint.style.display = "block"; // step 5: reveal the "open Safari and paste" instruction
+    };
     try {
       if (nav && nav.clipboard && nav.clipboard.writeText) {
         nav.clipboard.writeText(url).then(done, function () { legacyCopy(url); done(); });
@@ -241,12 +246,22 @@
     overlay.id = OVERLAY_ID; overlay.setAttribute("role", "dialog"); overlay.setAttribute("aria-modal", "true");
     var card = doc.createElement("div"); card.className = "lb-rt-card";
 
-    var h = doc.createElement("h2"); h.textContent = "Open in your browser";
-    var p = doc.createElement("p");
-    p.textContent = "You're in an in-app browser. To keep your account safe, tap the ⋯ menu " +
-      "(top corner) and choose “Open in browser” — or use an option below.";
+    var h = doc.createElement("h2"); h.textContent = "Open in your browser to continue safely";
+    var intro = doc.createElement("p");
+    intro.textContent = "You're in an in-app browser. For your safety this link isn't opened here automatically.";
     var hostEl = doc.createElement("span"); hostEl.className = "lb-rt-host"; hostEl.textContent = host; // TEXT, never HTML
-    card.appendChild(h); card.appendChild(p); card.appendChild(hostEl);
+
+    // Step 6 — platform-specific escape instruction. iOS wording targets Instagram's
+    // own menu item ("Open in external browser"); exact wording to be confirmed on-device.
+    var instr = doc.createElement("p"); instr.className = "lb-rt-instr";
+    instr.textContent = env.platform === "android"
+      ? "Or tap ••• (top-right) → “Open in external browser.”"
+      : "To open in Safari: tap ••• (top-right) → “Open in external browser.”";
+    card.appendChild(h); card.appendChild(intro); card.appendChild(hostEl); card.appendChild(instr);
+
+    // Step 5 — revealed immediately after Copy link.
+    var pasteHint = doc.createElement("div"); pasteHint.className = "lb-rt-note";
+    pasteHint.textContent = "Link copied. Now open Safari and paste the link to continue.";
 
     if (env.platform === "android") {
       var openBtn = doc.createElement("button");
@@ -254,14 +269,19 @@
       openBtn.addEventListener("click", function () { tryAndroidIntent(dest, env); });
       card.appendChild(openBtn);
     }
+
+    // Step 4 — primary action on iOS/other is COPY LINK (the most reliable escape path).
     var copyBtn = doc.createElement("button");
     copyBtn.className = env.platform === "android" ? "lb-rt-secondary" : "lb-rt-primary";
     copyBtn.type = "button"; copyBtn.textContent = "Copy link";
-    copyBtn.addEventListener("click", function () { copyLink(dest.url, copyBtn); track("link_runtime.copy", dest, env); });
+    copyBtn.addEventListener("click", function () { copyLink(dest.url, copyBtn, pasteHint); track("link_runtime.copy", dest, env); });
     card.appendChild(copyBtn);
+    card.appendChild(pasteHint);
 
+    // Steps 7–8 — secondary, and explicit that it stays inside Instagram (a deliberate choice).
     var contBtn = doc.createElement("button");
-    contBtn.className = "lb-rt-secondary"; contBtn.type = "button"; contBtn.textContent = "Continue here";
+    contBtn.className = "lb-rt-secondary"; contBtn.type = "button";
+    contBtn.textContent = "Continue here — stays inside Instagram";
     contBtn.addEventListener("click", function () {
       track("link_runtime.continue", dest, env); closeFallback(); openNative(dest.url); // destination never lost
     });
