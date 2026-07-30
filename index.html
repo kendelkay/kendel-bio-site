@@ -4,10 +4,12 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG -->
   <script src="config.js"></script>
 
-  <!-- In-app browser escape layer (centralized outbound-link handler). Isolated
-       and removable: delete this tag + escape.js, or set LB_ESCAPE_ENABLED=false.
-       Outside embedded webviews it is inert; the renderer is never forked. -->
-  <script src="escape.js"></script>
+  <!-- Link Runtime — the canonical owner of every outbound-navigation concern
+       (destination validation, attribution, age-gate continuation, embedded-browser
+       handling, platform routing, analytics). Isolated and removable: delete this
+       tag + link-runtime.js, or set LINK_RUNTIME_ENABLED=false. The renderer is
+       never forked; outside embedded webviews the runtime opens natively. -->
+  <script src="link-runtime.js"></script>
 
   <!-- Early setup: analytics container, title, fonts — all driven by config -->
   <script>
@@ -1012,11 +1014,14 @@
 
     /* ---- Age gate --------------------------------------------------------- */
     var destinationUrl = "";
-    // Outbound opener — routes through the escape layer when present, else opens
-    // natively. Keeping this indirection in one place means the age gate still
-    // resolves to the correct destination whether or not escape.js is loaded.
+    // Outbound opener — the ONLY outbound-navigation call site in the engine.
+    // Per the platform contract, all outbound navigation goes through the Link
+    // Runtime; this indirection keeps the age gate resolving to the correct
+    // destination whether or not link-runtime.js is loaded (graceful fallback).
     function lbOpen(url) {
-      if (window.LBEscape && window.LB_ESCAPE_ENABLED !== false) return window.LBEscape.open(url);
+      if (window.LinkRuntime && window.LINK_RUNTIME_ENABLED !== false) {
+        return window.LinkRuntime.navigate({ url: url, ageRestricted: true });
+      }
       window.open(url, "_blank", "noopener");
     }
     function openAgeModal(url) {

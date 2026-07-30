@@ -1,5 +1,6 @@
-# In-App Browser Escape — QA
+# Link Runtime — QA
 
+In-app browser escape is one capability of the Link Runtime (see `LINK_RUNTIME.md`).
 Two classes of verification, kept honestly separate.
 
 ## Class A — Deterministic (auto-verified in this environment)
@@ -7,7 +8,7 @@ Two classes of verification, kept honestly separate.
 Runs with no build and no third-party deps:
 
 ```
-node escape.selfcheck.mjs        # pure logic: detection · URL validation · intent build (22 checks)
+node link-runtime.selfcheck.mjs   # pure logic + Destination + Environment Provider (21 checks)
 ```
 
 DOM behavior was verified headless (Playwright/Chromium) against a local server
