@@ -8,8 +8,11 @@
        (destination validation, attribution, age-gate continuation, embedded-browser
        handling, platform routing, analytics). Isolated and removable: delete this
        tag + link-runtime.js, or set LINK_RUNTIME_ENABLED=false. The renderer is
-       never forked; outside embedded webviews the runtime opens natively. -->
-  <script src="link-runtime.js"></script>
+       never forked; outside embedded webviews the runtime opens natively.
+       Absolute src (shared engine asset) so it loads at every path depth — a
+       relative src 404s when the engine is served under a sub-path. config.js
+       stays relative (per-page/creator). -->
+  <script src="/link-runtime.js"></script>
 
   <!-- Early setup: analytics container, title, fonts — all driven by config -->
   <script>
