@@ -200,7 +200,11 @@
       "font-size:14.5px;font-weight:600;border:1px solid transparent;cursor:pointer;}" +
       "#" + OVERLAY_ID + " .lb-rt-primary{background:#f4f1f6;color:#17141b;}" +
       "#" + OVERLAY_ID + " .lb-rt-secondary{background:transparent;color:#f4f1f6;border-color:rgba(255,255,255,.22);}" +
-      "#" + OVERLAY_ID + " .lb-rt-ghost{background:transparent;color:#9a94a4;border:0;font-weight:500;margin-top:4px;}";
+      "#" + OVERLAY_ID + " .lb-rt-ghost{background:transparent;color:#9a94a4;border:0;font-weight:500;margin-top:4px;}" +
+      "#" + OVERLAY_ID + " .lb-rt-note{display:none;margin:12px 0 0;padding:10px 12px;border-radius:10px;background:rgba(120,225,160,.12);font-size:12.5px;line-height:1.45;color:#bfeccd;}" +
+      "#lb-rt-callout{position:fixed;top:calc(env(safe-area-inset-top, 0px) + 10px);right:12px;z-index:2147483002;display:flex;align-items:center;gap:6px;padding:9px 13px;border-radius:999px;background:#f4f1f6;color:#17141b;font:700 13px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;box-shadow:0 10px 28px rgba(0,0,0,.45);animation:lbRtBounce 1.1s ease-in-out infinite;}" +
+      "#lb-rt-callout .lb-rt-arrow{font-size:16px;line-height:1;transform:translateY(-1px);}" +
+      "@keyframes lbRtBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}";
     var el = doc.createElement("style");
     el.id = STYLE_ID; el.textContent = css; doc.head.appendChild(el);
   }
@@ -218,8 +222,8 @@
       doc.body.appendChild(t); t.select(); doc.execCommand("copy"); doc.body.removeChild(t);
     } catch (e) {}
   }
-  function copyLink(url, btn) {
-    var done = function () { btn.textContent = "Link copied ✓"; };
+  function copyLink(url, btn, hint) {
+    var done = function () { btn.textContent = "Link copied ✓"; if (hint) hint.style.display = "block"; };
     try {
       if (nav && nav.clipboard && nav.clipboard.writeText) {
         nav.clipboard.writeText(url).then(done, function () { legacyCopy(url); done(); });
@@ -227,6 +231,17 @@
       }
     } catch (e) {}
     legacyCopy(url); done();
+  }
+
+  /** Human-friendly destination brand for the copy button (provider-neutral: derived from the host). */
+  function brandOf(url) {
+    try {
+      var h = new URL(url).hostname.replace(/^www\./, "").toLowerCase();
+      if (/(^|\.)onlyfans\.com$/.test(h)) return "OnlyFans";
+      if (/(^|\.)fansly\.com$/.test(h)) return "Fansly";
+      if (/(^|\.)fanvue\.com$/.test(h)) return "Fanvue";
+      return null;
+    } catch (e) { return null; }
   }
 
   function showFallback(dest, env) {
@@ -241,36 +256,77 @@
     overlay.id = OVERLAY_ID; overlay.setAttribute("role", "dialog"); overlay.setAttribute("aria-modal", "true");
     var card = doc.createElement("div"); card.className = "lb-rt-card";
 
-    var h = doc.createElement("h2"); h.textContent = "Open in your browser";
-    var p = doc.createElement("p");
-    p.textContent = "You're in an in-app browser. To keep your account safe, tap the ⋯ menu " +
-      "(top corner) and choose “Open in browser” — or use an option below.";
-    var hostEl = doc.createElement("span"); hostEl.className = "lb-rt-host"; hostEl.textContent = host; // TEXT, never HTML
-    card.appendChild(h); card.appendChild(p); card.appendChild(hostEl);
+    var iosEmbedded = env.embedded && env.platform === "ios";
+    var brand = brandOf(dest.url);
 
-    if (env.platform === "android") {
-      var openBtn = doc.createElement("button");
-      openBtn.className = "lb-rt-primary"; openBtn.type = "button"; openBtn.textContent = "Open in Chrome";
-      openBtn.addEventListener("click", function () { tryAndroidIntent(dest, env); });
-      card.appendChild(openBtn);
+    if (iosEmbedded) {
+      // HARD STOP — inside Instagram/iOS we NEVER navigate to the destination.
+      // No "Continue here", no direct open, no anchor/window.open/location: the only
+      // way forward is the system browser via Instagram's ••• menu.
+      var callout = doc.createElement("div");
+      callout.id = "lb-rt-callout"; callout.setAttribute("aria-hidden", "true");
+      var cText = doc.createElement("span"); cText.textContent = "Tap •••";
+      var cArrow = doc.createElement("span"); cArrow.className = "lb-rt-arrow"; cArrow.textContent = "↗";
+      callout.appendChild(cText); callout.appendChild(cArrow);
+      overlay.appendChild(callout); // child of overlay → removed together
+
+      var creatorName = "";
+      try { creatorName = (root.SITE_CONFIG && root.SITE_CONFIG.name) ? String(root.SITE_CONFIG.name) : ""; } catch (e) {}
+
+      var h = doc.createElement("h2"); h.textContent = "Open in your browser";
+      var p = doc.createElement("p");
+      p.textContent = "Tap the ••• menu in the top-right corner, then choose “Open in browser” to continue to " +
+        (creatorName ? (creatorName + "’s page") : "this page") + ".";
+      var hostEl = doc.createElement("span"); hostEl.className = "lb-rt-host"; hostEl.textContent = host;
+      card.appendChild(h); card.appendChild(p); card.appendChild(hostEl);
+
+      var note = doc.createElement("div"); note.className = "lb-rt-note";
+      note.textContent = "Now tap the ••• menu above and choose “Open in browser.”";
+
+      var copyBtn = doc.createElement("button");
+      copyBtn.className = "lb-rt-primary"; copyBtn.type = "button";
+      copyBtn.textContent = brand ? ("Copy " + brand + " link") : "Copy link";
+      copyBtn.addEventListener("click", function () { copyLink(dest.url, copyBtn, note); track("link_runtime.copy", dest, env); });
+      card.appendChild(copyBtn);
+      card.appendChild(note);
+
+      var cancel = doc.createElement("button");
+      cancel.className = "lb-rt-ghost"; cancel.type = "button"; cancel.textContent = "Cancel";
+      cancel.addEventListener("click", closeFallback);
+      card.appendChild(cancel);
+    } else {
+      // Non-iOS embedded (Android intent handoff + fallback). Behavior unchanged.
+      var h2 = doc.createElement("h2"); h2.textContent = "Open in your browser";
+      var p2 = doc.createElement("p");
+      p2.textContent = "You're in an in-app browser. To keep your account safe, tap the ⋯ menu " +
+        "(top corner) and choose “Open in browser” — or use an option below.";
+      var hostEl2 = doc.createElement("span"); hostEl2.className = "lb-rt-host"; hostEl2.textContent = host;
+      card.appendChild(h2); card.appendChild(p2); card.appendChild(hostEl2);
+
+      if (env.platform === "android") {
+        var openBtn = doc.createElement("button");
+        openBtn.className = "lb-rt-primary"; openBtn.type = "button"; openBtn.textContent = "Open in Chrome";
+        openBtn.addEventListener("click", function () { tryAndroidIntent(dest, env); });
+        card.appendChild(openBtn);
+      }
+      var copyBtn2 = doc.createElement("button");
+      copyBtn2.className = env.platform === "android" ? "lb-rt-secondary" : "lb-rt-primary";
+      copyBtn2.type = "button"; copyBtn2.textContent = "Copy link";
+      copyBtn2.addEventListener("click", function () { copyLink(dest.url, copyBtn2); track("link_runtime.copy", dest, env); });
+      card.appendChild(copyBtn2);
+
+      var contBtn = doc.createElement("button");
+      contBtn.className = "lb-rt-secondary"; contBtn.type = "button"; contBtn.textContent = "Continue here";
+      contBtn.addEventListener("click", function () {
+        track("link_runtime.continue", dest, env); closeFallback(); openNative(dest.url); // destination never lost
+      });
+      card.appendChild(contBtn);
+
+      var dismiss = doc.createElement("button");
+      dismiss.className = "lb-rt-ghost"; dismiss.type = "button"; dismiss.textContent = "Cancel";
+      dismiss.addEventListener("click", closeFallback);
+      card.appendChild(dismiss);
     }
-    var copyBtn = doc.createElement("button");
-    copyBtn.className = env.platform === "android" ? "lb-rt-secondary" : "lb-rt-primary";
-    copyBtn.type = "button"; copyBtn.textContent = "Copy link";
-    copyBtn.addEventListener("click", function () { copyLink(dest.url, copyBtn); track("link_runtime.copy", dest, env); });
-    card.appendChild(copyBtn);
-
-    var contBtn = doc.createElement("button");
-    contBtn.className = "lb-rt-secondary"; contBtn.type = "button"; contBtn.textContent = "Continue here";
-    contBtn.addEventListener("click", function () {
-      track("link_runtime.continue", dest, env); closeFallback(); openNative(dest.url); // destination never lost
-    });
-    card.appendChild(contBtn);
-
-    var dismiss = doc.createElement("button");
-    dismiss.className = "lb-rt-ghost"; dismiss.type = "button"; dismiss.textContent = "Cancel";
-    dismiss.addEventListener("click", closeFallback);
-    card.appendChild(dismiss);
 
     overlay.appendChild(card);
     overlay.addEventListener("click", function (e) { if (e.target === overlay) closeFallback(); });
