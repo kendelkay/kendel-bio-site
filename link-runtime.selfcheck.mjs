@@ -59,5 +59,10 @@ ok(intent.indexOf("S.browser_fallback_url=" + encodeURIComponent("https://onlyfa
 console.log("navigate() boundary:");
 ok(LR.navigate("javascript:alert(1)") === false, "navigate rejects invalid destination");
 
+console.log("diagnostics (temporary production probe):");
+const d = LR.diagnostics();
+ok(d.version === 1 && typeof d.build === "string" && d.build.length > 0, "diagnostics exposes version + build tag");
+ok("environment" in d && "intercepted" in d && "loaded" in d, "diagnostics exposes environment + intercepted + loaded");
+
 console.log("\nSELF-CHECK: " + pass + " passed, " + fail + " failed");
 process.exit(fail === 0 ? 0 : 1);
