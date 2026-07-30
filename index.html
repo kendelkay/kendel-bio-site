@@ -4,6 +4,11 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG -->
   <script src="config.js"></script>
 
+  <!-- In-app browser escape layer (centralized outbound-link handler). Isolated
+       and removable: delete this tag + escape.js, or set LB_ESCAPE_ENABLED=false.
+       Outside embedded webviews it is inert; the renderer is never forked. -->
+  <script src="escape.js"></script>
+
   <!-- Early setup: analytics container, title, fonts — all driven by config -->
   <script>
     (function () {
@@ -1007,13 +1012,20 @@
 
     /* ---- Age gate --------------------------------------------------------- */
     var destinationUrl = "";
+    // Outbound opener — routes through the escape layer when present, else opens
+    // natively. Keeping this indirection in one place means the age gate still
+    // resolves to the correct destination whether or not escape.js is loaded.
+    function lbOpen(url) {
+      if (window.LBEscape && window.LB_ESCAPE_ENABLED !== false) return window.LBEscape.open(url);
+      window.open(url, "_blank", "noopener");
+    }
     function openAgeModal(url) {
-      if (!AGE_GATE_ENABLED) { window.open(url, "_blank"); return; }
+      if (!AGE_GATE_ENABLED) { lbOpen(url); return; }
       destinationUrl = url;
       document.getElementById("ageModal").style.display = "flex";
     }
     function closeAgeModal() { document.getElementById("ageModal").style.display = "none"; }
-    function continueToDestination() { window.open(destinationUrl, "_blank"); closeAgeModal(); }
+    function continueToDestination() { lbOpen(destinationUrl); closeAgeModal(); }
 
     /* ---- Background video autoplay (mobile-friendly) ---------------------- */
     function startVideo() {
