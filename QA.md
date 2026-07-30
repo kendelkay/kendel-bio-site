@@ -63,3 +63,25 @@ Expected outcome legend: **Native** = destination opens normally, no fallback ·
 - Detection is UA-based and conservative: exotic or spoofed embedded browsers not
   on the token list fall through to Native (safe default — never a false prompt in
   a real browser).
+
+## Temporary production diagnostic (remove once execution is proven)
+
+Purpose: prove the Link Runtime executes on production and answer four questions
+on a real device without a console.
+
+- **Console banner (always):** on load the runtime logs
+  `[LinkRuntime] v1 build lr-diag-1 loaded; env=<source>/<platform> embedded=<bool>`.
+- **On-page badge (opt-in):** append `?lrdebug=1` to the URL (or set
+  `localStorage.lr_debug='1'`, or `window.LINK_RUNTIME_DEBUG=true`). A small
+  bottom-left badge shows: build, loaded, enabled, detected environment, and a live
+  interception counter.
+- **Programmatic:** `window.LinkRuntime.diagnostics()` →
+  `{ version, build, loaded, enabled, environment, intercepted, last }`.
+
+Answers: (1) loaded? badge/console present. (2) which build? `build` tag (maps to a
+commit/PR; authoritative SHA in Vercel's deployment). (3) detection embedded?
+`env … embedded=true`. (4) interception executed? `intercepted` increments and
+`last=fallback` after tapping a protected CTA.
+
+**Remove** this block (the diagnostic section of `link-runtime.js` + this note)
+once production execution is confirmed.

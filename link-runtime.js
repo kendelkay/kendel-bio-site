@@ -287,6 +287,74 @@
   }
 
   /* ======================================================================== *
+   * TEMPORARY PRODUCTION DIAGNOSTIC — proves runtime execution on production.
+   * Purpose: answer, on a real device, (1) did the runtime load? (2) which build?
+   * (3) did detection classify the environment as embedded? (4) did interception
+   * execute? A one-line console banner always logs; a visible on-page badge is
+   * DEBUG-GATED (opt-in) so real visitors never see it. REMOVE once execution is
+   * proven — this block is self-contained.
+   * ======================================================================== */
+
+  var VERSION = 1;
+  // Build tag. A build-less static page cannot embed its own git SHA at serve time
+  // without a build step, so this is a manually-bumped tag mapped to a commit/PR in
+  // the changelog; the authoritative SHA is in Vercel's deployment metadata.
+  var BUILD = "lr-diag-1";
+  var diagState = { loaded: true, intercepted: 0, last: null };
+
+  /** A snapshot of runtime execution state (safe to call anytime). */
+  function diagnostics() {
+    var env = null; try { env = environment(); } catch (e) {}
+    return { version: VERSION, build: BUILD, loaded: diagState.loaded, enabled: enabled(), environment: env, intercepted: diagState.intercepted, last: diagState.last };
+  }
+
+  function debugOn() {
+    try {
+      if (root.LINK_RUNTIME_DEBUG === true) return true;
+      if (root.location && /[?&]lrdebug=1(&|$)/.test(root.location.search)) return true;
+      if (root.localStorage && root.localStorage.getItem("lr_debug") === "1") return true;
+    } catch (e) {}
+    return false;
+  }
+
+  var BADGE_ID = "lb-rt-debug";
+  function renderBadge() {
+    if (!doc || !doc.body || !debugOn()) return;
+    var s = diagnostics();
+    var el = doc.getElementById(BADGE_ID);
+    if (!el) {
+      el = doc.createElement("div");
+      el.id = BADGE_ID;
+      el.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:2147483001;max-width:92vw;padding:8px 10px;border-radius:8px;background:rgba(0,0,0,.85);color:#7CFFB2;font:11px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-break:break-all;";
+      doc.body.appendChild(el);
+    }
+    var e = s.environment;
+    el.textContent =
+      "LinkRuntime v" + s.version + "  build " + s.build + "\n" +
+      "loaded: yes   enabled: " + s.enabled + "\n" +
+      "env: " + (e ? ((e.source || "none") + " / " + e.platform + "   embedded=" + e.embedded) : "n/a") + "\n" +
+      "intercepted: " + s.intercepted + (s.last ? ("   last=" + s.last.action) : "");
+  }
+
+  function announce() {
+    try {
+      var s = diagnostics();
+      var e = s.environment;
+      if (root.console && root.console.info) {
+        root.console.info("[LinkRuntime] v" + s.version + " build " + s.build + " loaded; env=" +
+          (e ? ((e.source || "none") + "/" + e.platform + " embedded=" + e.embedded) : "n/a"));
+      }
+    } catch (err) {}
+  }
+
+  /** Records an interception for the diagnostic (does not affect behavior). */
+  function noteInterception(action, dest, env) {
+    diagState.intercepted += 1;
+    diagState.last = { action: action, dest: dest.url, source: env.source, platform: env.platform };
+    renderBadge();
+  }
+
+  /* ======================================================================== *
    * PUBLIC API — the permanent interface. navigate() is the ONE outbound entry.
    * ======================================================================== */
 
@@ -307,12 +375,14 @@
     var env = environment();
     if (!env.embedded) { openNative(dest.url); return false; } // normal browser — no prompt
     track("link_runtime.embedded", dest, env);
+    var action = env.platform === "android" && !androidIntentTried ? "android_intent+fallback" : "fallback";
     if (env.platform === "android" && !androidIntentTried) {
       tryAndroidIntent(dest, env); // evidence-supported escape first…
       showFallback(dest, env);      // …fallback stays available beneath it
     } else {
       showFallback(dest, env);      // iOS/other embedded: no reliable auto-escape
     }
+    noteInterception(action, dest, env); // diagnostic only — no behavior change
     return true;
   }
 
@@ -335,11 +405,14 @@
 
   var LinkRuntime = Object.freeze({
     version: 1,
+    build: BUILD,
     // The permanent interface:
     navigate: navigate,
     Destination: Destination,
     environment: environment,
     setEnvironmentProvider: setEnvironmentProvider,
+    // Temporary production diagnostic:
+    diagnostics: diagnostics,
     // Introspection / testing / UI control:
     detectFromUA: detectFromUA,
     isValidHttpUrl: isValidHttpUrl,
@@ -351,6 +424,11 @@
   if (typeof root !== "undefined" && root.document) {
     root.LinkRuntime = LinkRuntime;
     bind();
+    announce();     // one-line console banner: proves load + build + detection
+    // Debug-gated on-page badge (opt-in via ?lrdebug=1). The script runs in <head>
+    // before <body> exists, so render once the DOM is ready if it isn't already.
+    if (doc.body) renderBadge();
+    else if (doc.addEventListener) doc.addEventListener("DOMContentLoaded", renderBadge);
   }
   if (typeof module !== "undefined" && module.exports) {
     module.exports = LinkRuntime; // node-loadable for deterministic self-checks
