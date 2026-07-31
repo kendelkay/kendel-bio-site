@@ -76,8 +76,8 @@ window.SITE_CONFIG = {
   tipCard: {
     title: "make my day a little sweeter with matcha 💗",
     bubbles: [
-      { text: "$15 matcha 🤍",  href: "https://cash.app/$misskendel/15" },
-      { text: "make me blush ☺️", href: "https://cash.app/$misskendel" },
+      { text: "$15 matcha 🤍",  href: "https://cash.app/$kendelkay/15" },
+      { text: "make me blush ☺️", href: "https://cash.app/$kendelkay" },
     ],
     referral: { text: "new to cash app? start here ✨", href: "https://cash.app/app/3ZGKCKCW" },
   },
