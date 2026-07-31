@@ -364,50 +364,40 @@
     return { version: VERSION, build: BUILD, loaded: diagState.loaded, enabled: enabled(), environment: env, intercepted: diagState.intercepted, last: diagState.last };
   }
 
-  function debugOn() {
+  // Midnight Diagnostics consumer: this runtime REGISTERS a probe with the shared
+  // framework (console banner + aggregated debug badge + live events come from
+  // Midnight Diagnostics, not from here). If the framework is absent, we still emit
+  // a one-line banner so load stays observable.
+  var mdChannel = null;
+  function registerDiagnostics() {
     try {
-      if (root.LINK_RUNTIME_DEBUG === true) return true;
-      if (root.location && /[?&]lrdebug=1(&|$)/.test(root.location.search)) return true;
-      if (root.localStorage && root.localStorage.getItem("lr_debug") === "1") return true;
-    } catch (e) {}
-    return false;
-  }
-
-  var BADGE_ID = "lb-rt-debug";
-  function renderBadge() {
-    if (!doc || !doc.body || !debugOn()) return;
-    var s = diagnostics();
-    var el = doc.getElementById(BADGE_ID);
-    if (!el) {
-      el = doc.createElement("div");
-      el.id = BADGE_ID;
-      el.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:2147483001;max-width:92vw;padding:8px 10px;border-radius:8px;background:rgba(0,0,0,.85);color:#7CFFB2;font:11px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-break:break-all;";
-      doc.body.appendChild(el);
-    }
-    var e = s.environment;
-    el.textContent =
-      "LinkRuntime v" + s.version + "  build " + s.build + "\n" +
-      "loaded: yes   enabled: " + s.enabled + "\n" +
-      "env: " + (e ? ((e.source || "none") + " / " + e.platform + "   embedded=" + e.embedded) : "n/a") + "\n" +
-      "intercepted: " + s.intercepted + (s.last ? ("   last=" + s.last.action) : "");
-  }
-
-  function announce() {
-    try {
-      var s = diagnostics();
-      var e = s.environment;
-      if (root.console && root.console.info) {
+      if (root.MidnightDiagnostics && root.MidnightDiagnostics.register) {
+        mdChannel = root.MidnightDiagnostics.register({
+          name: "LinkRuntime", version: VERSION, build: BUILD,
+          snapshot: function () {
+            var s = diagnostics(), e = s.environment;
+            return {
+              loaded: true, enabled: s.enabled,
+              env: e ? ((e.source || "none") + "/" + e.platform) : "n/a",
+              embedded: e ? e.embedded : null,
+              intercepted: s.intercepted,
+              last: s.last ? s.last.action : null,
+            };
+          },
+        });
+      } else if (root.console && root.console.info) {
+        var s = diagnostics(), e = s.environment;
         root.console.info("[LinkRuntime] v" + s.version + " build " + s.build + " loaded; env=" +
           (e ? ((e.source || "none") + "/" + e.platform + " embedded=" + e.embedded) : "n/a"));
       }
     } catch (err) {}
   }
 
-  /** Records an interception for the diagnostic (does not affect behavior). */
+  /** Records an interception for diagnostics (does not affect behavior). */
   function noteInterception(action, dest, env) {
     diagState.intercepted += 1;
     diagState.last = { action: action, dest: dest.url, source: env.source, platform: env.platform };
-    renderBadge();
+    if (mdChannel) mdChannel.event("intercept", { action: action, source: env.source });
   }
 
   /* ======================================================================== *
@@ -480,11 +470,7 @@
   if (typeof root !== "undefined" && root.document) {
     root.LinkRuntime = LinkRuntime;
     bind();
-    announce();     // one-line console banner: proves load + build + detection
-    // Debug-gated on-page badge (opt-in via ?lrdebug=1). The script runs in <head>
-    // before <body> exists, so render once the DOM is ready if it isn't already.
-    if (doc.body) renderBadge();
-    else if (doc.addEventListener) doc.addEventListener("DOMContentLoaded", renderBadge);
+    registerDiagnostics(); // Midnight Diagnostics owns the badge + banner
   }
   if (typeof module !== "undefined" && module.exports) {
     module.exports = LinkRuntime; // node-loadable for deterministic self-checks

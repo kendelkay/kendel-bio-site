@@ -4,6 +4,10 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG -->
   <script src="config.js"></script>
 
+  <!-- Midnight Diagnostics — reusable diagnostics framework. Loaded before any
+       system that registers a probe (e.g. the Link Runtime below). -->
+  <script src="midnight-diagnostics.js"></script>
+
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
        handling, platform routing, analytics). Isolated and removable: delete this
