@@ -80,8 +80,8 @@ window.SITE_CONFIG = {
      (only on exclusive pages). All wording is config-driven. `emoji` is
      optional and appended to the label. Omit href or text to hide a button. */
   links: [
-    { text: "free exclusive content 💖", href: "https://onlyfans.com/kendelkay",  ageGate: true },
-    { text: "fansly 🎀",                 href: "https://fansly.com/KendelKayxo/", ageGate: true },
+    { text: "my private world 💖",       href: "https://onlyfans.com/kendelkay",  ageGate: true },
+    { text: "come say hi 🎀",            href: "https://fansly.com/KendelKayxo/", ageGate: true },
     { text: "vlogs 🎥",                   href: "https://www.youtube.com/@kendelkay" },
     { text: "my amazon wishlist 💝",      href: "https://www.amazon.com/registries/gl/guest-view/15Q7J6COMX8AT" },
   ],
