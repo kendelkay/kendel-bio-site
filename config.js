@@ -32,7 +32,16 @@ window.SITE_CONFIG = {
              buttonBorder, accent, accentText
      font:   { family, weights }   (loaded from Google Fonts)
      emojiSet: name of the emoji personality used below (metadata for tooling) */
-  // theme: { ... }   // Kendel uses the defaults — no overrides needed.
+  /* Branding preserved — colors and typeface are unchanged. The ONLY override
+     is the name's visual prominence for the video-hero layout: a single
+     responsive clamp (bigger + heavier, same font) so it still scales down on
+     phones. */
+  theme: {
+    vars: {
+      "--lb-name-size": "clamp(56px, 11vw, 90px)",
+      "--lb-name-weight": "900",
+    },
+  },
 
   /* Background: type is "video" | "image" | "color".
      video -> set `video`; image -> set `image`; color -> `color`/`gradient`. */
@@ -45,9 +54,16 @@ window.SITE_CONFIG = {
     overlay: true,
   },
 
-  /* Avatar (omit to hide) */
-  avatar: "avatar.jpg",
-  avatarAlt: "kendel kay",
+  /* Avatar intentionally omitted — the hero video is the primary visual
+     (parity with the Brandi hero). Restoring `avatar: "avatar.jpg"` re-adds
+     the square profile image. */
+
+  /* Hero layout: video-primary, no avatar. Name + handles sit at the top; a
+     flexible spacer drops the CTA / tip card into the lower third so nothing
+     covers Kendel's face in the video. Mirrors the Brandi hero exactly. */
+  layout: {
+    order: ["name", "socials", "spacer", "cta", "tipCard", "custom", "footer"],
+  },
 
   /* Socials — plug-and-play. Map form: platform key -> URL (uses the built-in
      label/aria defaults). Known keys: instagram, tiktok, youtube, x, threads,
@@ -64,8 +80,8 @@ window.SITE_CONFIG = {
      (only on exclusive pages). All wording is config-driven. `emoji` is
      optional and appended to the label. Omit href or text to hide a button. */
   links: [
-    { text: "free exclusive content 💖", href: "https://onlyfans.com/kendelkay",  ageGate: true },
-    { text: "fansly 🎀",                 href: "https://fansly.com/KendelKayxo/", ageGate: true },
+    { text: "my private world 💖",       href: "https://onlyfans.com/kendelkay",  ageGate: true },
+    { text: "come say hi 🎀",            href: "https://fansly.com/KendelKayxo/", ageGate: true },
     { text: "vlogs 🎥",                   href: "https://www.youtube.com/@kendelkay" },
     { text: "my amazon wishlist 💝",      href: "https://www.amazon.com/registries/gl/guest-view/15Q7J6COMX8AT" },
   ],
@@ -76,8 +92,8 @@ window.SITE_CONFIG = {
   tipCard: {
     title: "make my day a little sweeter with matcha 💗",
     bubbles: [
-      { text: "$15 matcha 🤍",  href: "https://cash.app/$misskendel/15" },
-      { text: "make me blush ☺️", href: "https://cash.app/$misskendel" },
+      { text: "$15 matcha 🤍",  href: "https://cash.app/$kendelkay/15" },
+      { text: "make me blush ☺️", href: "https://cash.app/$kendelkay" },
     ],
     referral: { text: "new to cash app? start here ✨", href: "https://cash.app/app/3ZGKCKCW" },
   },
