@@ -119,6 +119,22 @@ window.SITE_CONFIG = {
     "/xx":       "x_bykendelkay",
     "/tt":       "tiktok_kendelkay",
     "/yt":       "youtube_kendelkay",
+
+    /* Rotation set — new public aliases (same attribution src preserved).
+       Additive: the originals above stay live during the grace window. */
+    "/hey":      "instagram_kendelkay",
+    "/hello":    "instagram_kendelkayofficial",
+    "/hi":       "instagram_bykendelkay",
+    "/me":       "instagram_kendelkayy",
+    "/play":     "instagram_ringtossgirl",
+    "/pages":    "instagram_kendelkaydiary",
+    "/saved":    "instagram_kendelkayarchives",
+    "/fits":     "instagram_kendelkaycloset",
+    "/muse":     "instagram_kendelkay_ai",
+    "/more":     "x_kendelkay",
+    "/extra":    "x_bykendelkay",
+    "/clips":    "tiktok_kendelkay",
+    "/watch":    "youtube_kendelkay",
   },
 
   /* 18+ modal copy — only used by exclusive funnels. All wording is config. */
