@@ -4,7 +4,7 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG.
        Versioned (?v=) so config edits (e.g. new aliases) can't be served stale from
        browser/CDN cache — bump v on every config change. -->
-  <script src="config.js?v=2"></script>
+  <script src="config.js?v=3"></script>
 
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
@@ -568,6 +568,22 @@
     "use strict";
 
     var CONFIG = window.SITE_CONFIG || {};
+
+    /* ---- Attribution-scoped profile override -------------------------------
+     * A creator may define `profiles: { "<src>": { ...overrides } }`. When a
+     * visitor arrives with `?src=<key>` (e.g. the /yt vanity redirect sets
+     * ?src=youtube_kendelkay), those keys shallow-override CONFIG for THIS
+     * render only — presentation, not routing/analytics. Absent a matching
+     * profile, CONFIG is unchanged (default behavior for every other entry). */
+    (function applyAttributionProfile() {
+      try {
+        var src = new URLSearchParams(window.location.search).get("src");
+        var profiles = CONFIG.profiles || {};
+        if (src && Object.prototype.hasOwnProperty.call(profiles, src)) {
+          CONFIG = Object.assign({}, CONFIG, profiles[src]);
+        }
+      } catch (e) {}
+    })();
 
     /* ---- Registries (generic, brand-neutral defaults; not client-specific) - */
     var SOCIAL_REGISTRY = {
