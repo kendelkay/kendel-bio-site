@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG -->
-  <script src="config.js"></script>
+  <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG.
+       Versioned (?v=) so config edits (e.g. new aliases) can't be served stale from
+       browser/CDN cache — bump v on every config change. -->
+  <script src="config.js?v=2"></script>
 
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
