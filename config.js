@@ -145,4 +145,22 @@ window.SITE_CONFIG = {
     confirmText: "I am 18+ • Continue",
     cancelText: "Cancel",
   },
+
+  /* Attribution-scoped profiles — override presentation for a given ?src, for
+     that render only (not routing, not analytics). The base config (video,
+     name, branding, runtime) is preserved; only the listed keys change.
+
+     YouTube Bridge — /yt redirects to ?src=youtube_kendelkay: a clean bridge
+     that moves YouTube visitors to Instagram through one CTA. No socials row,
+     no tip card, no monetization links, no age gate. */
+  profiles: {
+    youtube_kendelkay: {
+      socials: {},
+      links: [
+        { text: "Follow the trail 🩰", href: "https://www.instagram.com/Kendelkay/" },
+      ],
+      tipCard: null,
+      layout: { order: ["name", "spacer", "cta", "footer"] },
+    },
+  },
 };
