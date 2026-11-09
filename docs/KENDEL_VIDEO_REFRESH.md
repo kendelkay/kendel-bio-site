@@ -1,14 +1,14 @@
-# Kendel landing refresh — video + bio candidate
+# Kendel landing refresh — video candidate
 
-Status: **candidate, not released.** Founder approval required for the bio, the
+Status: **candidate, not released.** Founder approval required for the
 replacement video and the final presentation before anything reaches production.
 
 ## What changed
 
 | File | Change |
 |---|---|
-| `config.js` | Proposed bio (2 lines) rendered under the name; `background.poster`; layout order adds `bio`; tighter bio→socials spacing; name size keeps one line on 320px phones (unchanged ≥394px). **No link, route, profile, age-gate or GTM value changed.** |
-| `index.html` (engine, additive) | `poster` support on the background video; `prefers-reduced-motion` → still poster image, no video download; `disablepictureinpicture` / `disableremoteplayback` / `aria-hidden`; resume playback when returning to the tab (iOS pauses backgrounded video); video backdrop = page colour (no black flash); `viewport-fit=cover` + safe-area padding; `100svh` (no jump when mobile browser chrome collapses); two-layer text shadow for small text over the video; tip bubbles don't wrap; CTA labels don't wrap at 320px; `config.js?v=4` cache-bust. |
+| `config.js` | `background.poster`; name size keeps one line on 320px phones (unchanged ≥394px). **No link, route, profile, age-gate or GTM value changed.** |
+| `index.html` (engine, additive) | `poster` support on the background video; `prefers-reduced-motion` → still poster image, no video download; `disablepictureinpicture` / `disableremoteplayback` / `aria-hidden`; resume playback when returning to the tab (iOS pauses backgrounded video); video backdrop = page colour (no black flash); `viewport-fit=cover` + safe-area padding; `100svh` (no jump when mobile browser chrome collapses); two-layer text shadow for small text over the video; tip bubbles don't wrap; CTA labels don't wrap at 320px; `config.js?v=5` cache-bust. |
 | `background.mp4` | **Replaced** with the Founder's clip `kk_link_vid_new_-_2.mov` (see below). |
 | `poster.jpg` | New. First frame of the new `background.mp4` (720×1280, 29 KB). |
 
@@ -28,7 +28,9 @@ replacement video and the final presentation before anything reaches production.
 | footer | terms · privacy policy · Powered by Midnight | terms.html · privacy.html · themidnightcreator.com?ref=kendel-kay&utm_* | — |
 
 Analytics: GTM `GTM-M6PJ9FJC` unchanged. 26 vanity routes (`/xo`…`/watch`) → `/?src=…` unchanged.
-`/yt` YouTube Bridge profile unchanged (it has its own layout order, so the bio does not appear there).
+`/yt` YouTube Bridge profile unchanged.
+
+Header: name, then socials directly underneath. A proposed bio was tried and then removed at the Founder's request. The layout order and spacing match `main`.
 
 ## Replacement video — installed
 
@@ -77,7 +79,6 @@ Don't crossfade it in code.
 - [x] Replacement video supplied, encoded, swapped; framing checked headless
 - [ ] Video approved: full 8.3 s length and B&W grade as shipped
 - [ ] Visual appearance approved
-- [ ] Bio approved: "just a little glimpse into my world 🎀 / come get to know me ♡"
 - [x] All existing links, routes, age gate and profiles preserved (DOM diff identical)
 - [x] Mobile layout verified headless: iPhone SE, iPhone 15 Pro, Pixel 7, Galaxy S9+, desktop 1440
 - [x] Analytics preserved (GTM id unchanged)
