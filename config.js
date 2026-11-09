@@ -57,6 +57,10 @@ window.SITE_CONFIG = {
          phones; 7% gutters each side = 8.14% of the card), so "can you make my
          day a little sweeter? 💗" stays on one line at 320px. Same font size. */
       "--lb-tip-title-bleed": "-8.14%",
+      /* Main CTA buttons 90% opaque white (shared default is 94%), Founder
+         choice. Fill only; text, emoji, size, blur and hover unchanged. Tip
+         bubbles keep the shared 94%. */
+      "--lb-cta-bg": "rgba(255,255,255,0.90)",
     },
   },
 

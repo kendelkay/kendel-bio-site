@@ -8,7 +8,7 @@ replacement video and the final presentation before anything reaches production.
 | File | Change |
 |---|---|
 | `config.js` | `background.poster`; name size keeps one line on 320px phones (unchanged ≥394px). **No link, route, profile, age-gate or GTM value changed.** |
-| `index.html` (engine, additive) | `poster` support on the background video; `prefers-reduced-motion` → still poster image, no video download; `disablepictureinpicture` / `disableremoteplayback` / `aria-hidden`; resume playback when returning to the tab (iOS pauses backgrounded video); video backdrop = page colour (no black flash); `viewport-fit=cover` + safe-area padding; `100svh` (no jump when mobile browser chrome collapses); two-layer text shadow for small text over the video; tip bubbles don't wrap; CTA labels don't wrap at 320px; `config.js?v=7` cache-bust. |
+| `index.html` (engine, additive) | `poster` support on the background video; `prefers-reduced-motion` → still poster image, no video download; `disablepictureinpicture` / `disableremoteplayback` / `aria-hidden`; resume playback when returning to the tab (iOS pauses backgrounded video); video backdrop = page colour (no black flash); `viewport-fit=cover` + safe-area padding; `100svh` (no jump when mobile browser chrome collapses); two-layer text shadow for small text over the video; tip bubbles don't wrap; CTA labels don't wrap at 320px; `config.js?v=8` cache-bust. |
 | `background.mp4` | **Replaced** with the Founder's clip `kk_link_vid_new_-_2.mov` (see below). |
 | `poster.jpg` | New. First frame of the new `background.mp4` (720×1280, 29 KB). |
 
@@ -43,6 +43,7 @@ Analytics: GTM `GTM-M6PJ9FJC` unchanged. 26 vanity routes (`/xo`…`/watch`) →
 - **Header unchanged:** the 44px boxes overhang the 21px row (−11.5px block margins), so the header and everything below it stay put.
 - **Tip heading** is now "can you make my day a little sweeter? 💗". On phones it may span the card's side gutters (`--lb-tip-title-bleed`), so it stays on one line at 320px at the same font size.
 - **New engine tokens:** `--lb-social-font`, `--lb-social-gap`, `--lb-social-pad-x`, `--lb-social-hit`, `--lb-social-mb`, `--lb-tip-title-bleed`. All default to the previous values.
+- **Main CTA fill:** 90% opaque white (`--lb-cta-bg`), Founder choice. The buttons were already 94%, so a literal 95% would have made them more opaque. Only the fill changes: text, emoji, size, blur and hover stay the same. Tip bubbles keep the shared 94%. Worst-case text contrast across 9 video frames is 15.8:1 (was 17.0:1; WCAG AAA is 7:1).
 
 Header: name, then socials directly underneath. A proposed bio was tried and then removed at the Founder's request. The layout order and spacing match `main`.
 

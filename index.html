@@ -4,7 +4,7 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG.
        Versioned (?v=) so config edits (e.g. new aliases) can't be served stale from
        browser/CDN cache — bump v on every config change. -->
-  <script src="config.js?v=7"></script>
+  <script src="config.js?v=8"></script>
 
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
@@ -318,6 +318,10 @@
       transition: transform var(--lb-anim) ease, background var(--lb-anim) ease, box-shadow var(--lb-anim) ease;
       cursor: pointer;
     }
+
+    /* Main CTA buttons may take their own fill (--lb-cta-bg); defaults to the
+       shared button colour, so tip bubbles and other sites are unchanged. */
+    .links .button { background: var(--lb-cta-bg, var(--lb-btn-bg)); }
 
     .button:hover {
       transform: translateY(-2px);
