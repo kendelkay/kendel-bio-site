@@ -4,7 +4,7 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG.
        Versioned (?v=) so config edits (e.g. new aliases) can't be served stale from
        browser/CDN cache — bump v on every config change. -->
-  <script src="config.js?v=8"></script>
+  <script src="config.js?v=9"></script>
 
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
@@ -415,7 +415,7 @@
     .footer {
       margin-top: var(--lb-footer-mt, auto);
       padding-top: var(--lb-footer-pt, 34px);
-      padding-bottom: 8px;
+      padding-bottom: var(--lb-footer-pb, 8px);
       display: flex;
       justify-content: center;
       gap: 8px;
@@ -437,9 +437,9 @@
        referralSignature:false, nothing renders — no element, no leftover space. */
     .lb-refsig {
       --lb-refsig-accent: #01B4BE;
-      margin-top: 10px;          /* small, fixed gap below the Terms/Privacy row; footer above now bottom-anchors the pair */
+      margin-top: var(--lb-refsig-mt, 10px);          /* small, fixed gap below the Terms/Privacy row; footer above now bottom-anchors the pair */
       padding-top: 0;
-      padding-bottom: 8px;
+      padding-bottom: var(--lb-refsig-pb, 8px);
       display: flex;
       justify-content: center;
     }
@@ -548,7 +548,10 @@
         --lb-gap-socials: 34px;
         --lb-links-gap: 24px;
       }
-      .page { padding: 16px 18px 12px; }
+      /* Same 16/18/12 padding as before, but never less than the device's
+         safe-area insets (notch / home indicator) on phones too. */
+      .page { padding: max(16px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right))
+                       max(12px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)); }
       .bio { max-width: 100%; }
       .avatar { width: 92px; height: 92px; }
       .bio-text { width: 100%; }

@@ -57,10 +57,10 @@ window.SITE_CONFIG = {
          phones; 7% gutters each side = 8.14% of the card), so "can you make my
          day a little sweeter? 💗" stays on one line at 320px. Same font size. */
       "--lb-tip-title-bleed": "-8.14%",
-      /* Main CTA buttons 90% opaque white (shared default is 94%), Founder
+      /* Main CTA buttons 80% opaque white (shared default is 94%), Founder
          choice. Fill only; text, emoji, size, blur and hover unchanged. Tip
          bubbles keep the shared 94%. */
-      "--lb-cta-bg": "rgba(255,255,255,0.90)",
+      "--lb-cta-bg": "rgba(255,255,255,0.80)",
     },
   },
 
@@ -98,7 +98,15 @@ window.SITE_CONFIG = {
   layout: {
     vars: {
       "--lb-spacer-min-mobile": "max(0px, calc(38svh - 146px))",
-      "--lb-footer-pt": "18px",
+      /* Footer group: space moved from BELOW terms/Midnight to ABOVE terms
+         (zero-sum: 18+8+10+8 = 33+4+7+0 = 44px), so the legal group sits
+         lower with ~34px of air above it, page height and every element
+         above it unchanged. Midnight's bottom clearance = page padding
+         (>= device safe area). */
+      "--lb-footer-pt": "33px",
+      "--lb-footer-pb": "4px",
+      "--lb-refsig-mt": "7px",
+      "--lb-refsig-pb": "0px",
     },
     order: ["name", "socials", "spacer", "cta", "tipCard", "custom", "footer"],
   },
