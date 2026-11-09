@@ -51,14 +51,17 @@ window.SITE_CONFIG = {
      video -> set `video`; image -> set `image`; color -> `color`/`gradient`. */
   background: {
     type: "video",
-    video: "background.mp4?v=10",
+    video: "background.mp4?v=11",
     /* First frame of the video: shown while it buffers (no blank/black flash),
        and used as a still for visitors with prefers-reduced-motion. Regenerate
        together with the video (same ?v=). */
-    poster: "poster.jpg?v=10",
+    poster: "poster.jpg?v=11",
     color: "#f3ebe7",
     position: "65% 15%",
-    filter: "brightness(1.08) contrast(1.16) saturate(1.22) sepia(0.04)",
+    /* "none": the replacement clip is a finished B&W grade — the old
+       brightness/contrast/saturate/sepia boost (tuned for the previous warm
+       footage) blew out its highlights and tinted it. Shown as delivered. */
+    filter: "none",
     overlay: true,
   },
 

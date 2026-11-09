@@ -9,7 +9,8 @@ replacement video and the final presentation before anything reaches production.
 |---|---|
 | `config.js` | Proposed bio (2 lines) rendered under the name; `background.poster`; layout order adds `bio`; tighter bio→socials spacing; name size keeps one line on 320px phones (unchanged ≥394px). **No link, route, profile, age-gate or GTM value changed.** |
 | `index.html` (engine, additive) | `poster` support on the background video; `prefers-reduced-motion` → still poster image, no video download; `disablepictureinpicture` / `disableremoteplayback` / `aria-hidden`; resume playback when returning to the tab (iOS pauses backgrounded video); video backdrop = page colour (no black flash); `viewport-fit=cover` + safe-area padding; `100svh` (no jump when mobile browser chrome collapses); two-layer text shadow for small text over the video; tip bubbles don't wrap; CTA labels don't wrap at 320px; `config.js?v=4` cache-bust. |
-| `poster.jpg` | New. First frame of the current `background.mp4` (720×1280, 46 KB). |
+| `background.mp4` | **Replaced** with the Founder's clip `kk_link_vid_new_-_2.mov` (see below). |
+| `poster.jpg` | New. First frame of the new `background.mp4` (720×1280, 29 KB). |
 
 `deploy/brandi-burr/` is untouched.
 
@@ -29,7 +30,20 @@ replacement video and the final presentation before anything reaches production.
 Analytics: GTM `GTM-M6PJ9FJC` unchanged. 26 vanity routes (`/xo`…`/watch`) → `/?src=…` unchanged.
 `/yt` YouTube Bridge profile unchanged (it has its own layout order, so the bio does not appear there).
 
-## Replacement video — swap procedure (≈2 minutes)
+## Replacement video — installed
+
+| | Source (`kk_link_vid_new_-_2.mov`) | Shipped (`background.mp4?v=11`) |
+|---|---|---|
+| Codec | HEVC Main + AAC audio | H.264 High@4.0, yuv420p, bt709, **no audio** |
+| Size / rate | 720×1280, 23.976 fps, 8.28 s, 2.5 MB | 720×1280, 23.976 fps, 8.26 s, 2.8 MB (~2.7 Mbps) |
+| Container | QuickTime | MP4, `+faststart` (moov first) |
+
+- Re-encoded because HEVC doesn't play reliably in Android Chrome or Firefox. CRF 22, SSIM 0.988 against the source. Not trimmed, scaled or cropped.
+- Clip is ~8.3 s, not the 3–4 s in the brief. Shipped at full length; trimming is a Founder decision.
+- Black-and-white montage with hard cuts. The loop seam is one more cut. No black frames (minimum mean luma 89/255).
+- `background.filter` set to `"none"`: the old warm-footage boost blew out this grade's highlights and tinted it sepia.
+
+## Future video swap procedure (≈2 minutes)
 
 Drop the Founder's file in as `new.mp4`, then:
 
@@ -47,11 +61,11 @@ ffmpeg -i new.mp4 -an -c:v libx264 -profile:v high -pix_fmt yuv420p -crf 20 -pre
 # 3. poster = first frame (so loop start and poster match)
 ffmpeg -y -i background.mp4 -frames:v 1 -q:v 4 poster.jpg
 
-# 4. cache-bust: config.js -> video/poster ?v=10 -> ?v=11 ; index.html config.js?v=4 -> ?v=5
+# 4. cache-bust: config.js -> video/poster ?v=11 -> ?v=12 ; index.html config.js?v=N -> ?v=N+1
 ```
 
 Then check framing at 320 / 393 / 412 px wide; if the face sits under the name or
-buttons, tune only `background.position` in `config.js` (currently `"65% 15%"`).
+buttons, tune only `background.position` in `config.js` (currently `"65% 15%"`, and keep `filter` matched to the footage).
 
 Seamless loop note: `loop` restarts at frame 0. A visible jump at the loop point
 comes from the footage itself (last frame ≠ first frame), not the page. If the
@@ -60,7 +74,8 @@ Don't crossfade it in code.
 
 ## Release checklist
 
-- [ ] Replacement video supplied, swapped, framing checked on phone
+- [x] Replacement video supplied, encoded, swapped; framing checked headless
+- [ ] Video approved: full 8.3 s length and B&W grade as shipped
 - [ ] Visual appearance approved
 - [ ] Bio approved: "just a little glimpse into my world 🎀 / come get to know me ♡"
 - [x] All existing links, routes, age gate and profiles preserved (DOM diff identical)
