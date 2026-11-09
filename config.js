@@ -20,6 +20,10 @@ window.SITE_CONFIG = {
   pageTitle: "kendel kay",
   name: "kendel kay",
 
+  /* Bio — PROPOSED copy, pending Founder approval. Two short lines under the
+     name; `html` form only for the line break (static, author-controlled). */
+  bio: { html: "just a little glimpse into my world 🎀<br>come get to know me ♡" },
+
   /* Funnel type: "exclusive" (NSFW, age-gated) or "clean" (SFW).
      "clean" structurally disables the age gate no matter what links request. */
   pageType: "exclusive",
@@ -38,7 +42,7 @@ window.SITE_CONFIG = {
      phones. */
   theme: {
     vars: {
-      "--lb-name-size": "clamp(56px, 11vw, 90px)",
+      "--lb-name-size": "min(90px, max(56px, 11vw), 14.2vw)", /* = old clamp, but keeps one line on 320px phones */
       "--lb-name-weight": "900",
     },
   },
@@ -48,6 +52,10 @@ window.SITE_CONFIG = {
   background: {
     type: "video",
     video: "background.mp4?v=10",
+    /* First frame of the video: shown while it buffers (no blank/black flash),
+       and used as a still for visitors with prefers-reduced-motion. Regenerate
+       together with the video (same ?v=). */
+    poster: "poster.jpg?v=10",
     color: "#f3ebe7",
     position: "65% 15%",
     filter: "brightness(1.08) contrast(1.16) saturate(1.22) sepia(0.04)",
@@ -61,8 +69,14 @@ window.SITE_CONFIG = {
   /* Hero layout: video-primary, no avatar. Name + handles sit at the top; a
      flexible spacer drops the CTA / tip card into the lower third so nothing
      covers Kendel's face in the video. Mirrors the Brandi hero exactly. */
+  /* Bio sits directly under the name, slightly tighter gap to the socials. */
   layout: {
-    order: ["name", "socials", "spacer", "cta", "tipCard", "custom", "footer"],
+    vars: {
+      "--lb-gap-bio": "14px",
+      "--lb-gap-socials": "26px",
+      "--lb-bio-font": "clamp(13px, 3.95vw, 15.5px)",
+    },
+    order: ["name", "bio", "socials", "spacer", "cta", "tipCard", "custom", "footer"],
   },
 
   /* Socials — plug-and-play. Map form: platform key -> URL (uses the built-in

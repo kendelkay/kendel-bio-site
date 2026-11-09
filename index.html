@@ -4,7 +4,7 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG.
        Versioned (?v=) so config edits (e.g. new aliases) can't be served stale from
        browser/CDN cache — bump v on every config change. -->
-  <script src="config.js?v=3"></script>
+  <script src="config.js?v=4"></script>
 
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
@@ -58,7 +58,7 @@
   </script>
 
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>bio</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,6 +95,9 @@
       --lb-gap-bio: 22px;
       --lb-gap-socials: 44px;
       --lb-gap-tip: 24px;
+      /* Two-layer shadow for small text over bright, moving video: a tight
+         edge for legibility + a soft halo. */
+      --lb-small-shadow: 0 1px 2px rgba(0,0,0,0.28), 0 2px 12px rgba(0,0,0,0.38);
     }
 
     .age-modal {
@@ -171,6 +174,10 @@
       height: 100%;
       object-fit: cover;
       z-index: 0;
+      /* Matches the page tone so nothing ever flashes black before the first
+         frame / between loops; the poster covers the gap while video decodes. */
+      background-color: var(--lb-body);
+      pointer-events: none;
     }
 
     .soft-overlay {
@@ -190,12 +197,16 @@
       display: flex;
       justify-content: center;
       padding: 22px 24px 14px;
+      /* Notch / home-indicator safe areas (viewport-fit=cover). */
+      padding: max(22px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right))
+               max(14px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
     }
 
     .bio {
       width: 100%;
       max-width: 620px;
       min-height: calc(100vh - 36px);
+      min-height: calc(100svh - 36px); /* stable on mobile: no jump as browser chrome hides */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -236,10 +247,11 @@
       margin: 6px 0 var(--lb-gap-bio);
       color: var(--lb-text);
       text-align: center;
-      font-size: 15px;
+      font-size: var(--lb-bio-font, 15px);
       line-height: 1.55;
       font-weight: 500;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+      letter-spacing: -0.01em;
+      text-shadow: var(--lb-small-shadow);
     }
 
  .socials {
@@ -317,7 +329,7 @@
       text-align: center;
       font-size: 15px;
       font-weight: 700;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+      text-shadow: var(--lb-small-shadow);
     }
 
     .matcha-actions {
@@ -337,9 +349,10 @@
       justify-content: center;
       text-align: center;
       text-decoration: none;
-      font-size: var(--lb-bubble-font, 14px);
+      font-size: var(--lb-bubble-font, clamp(12.5px, 3.6vw, 14px));
       font-weight: 700;
-      padding: 9px 12px;
+      white-space: nowrap;
+      padding: 9px 10px;
       box-shadow: 0 8px 18px rgba(0,0,0,0.08);
       backdrop-filter: blur(var(--lb-glass-blur));
       -webkit-backdrop-filter: blur(var(--lb-glass-blur));
@@ -353,7 +366,7 @@
       text-decoration: none;
       font-size: 11px;
       font-weight: 700;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+      text-shadow: var(--lb-small-shadow);
     }
 
     /* Newsletter component (optional) */
@@ -392,7 +405,7 @@
       color: var(--lb-text-muted);
       font-size: 10px;
       font-weight: 700;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+      text-shadow: var(--lb-small-shadow);
     }
 
     .footer a {
@@ -514,14 +527,14 @@
       :root {
         --lb-name-size: clamp(44px, 11.55vw, 61px);
         --lb-btn-min-h: 58px;
-        --lb-btn-font: 19px;
+        --lb-btn-font: clamp(17px, 5.3vw, 19px); /* no label wrap on 320px phones */
         --lb-gap-socials: 34px;
         --lb-links-gap: 24px;
       }
       .page { padding: 16px 18px 12px; }
       .bio { max-width: 100%; }
       .avatar { width: 92px; height: 92px; }
-      .bio-text { width: 88%; }
+      .bio-text { width: 100%; }
       .socials { gap: 14px; }
       .button { width: 86%; }
       .matcha-card { width: 86%; }
@@ -711,6 +724,9 @@
       return merged;
     }
 
+    var REDUCED_MOTION = false;
+    try { REDUCED_MOTION = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches); } catch (e) {}
+
     /* ---- Page mode -------------------------------------------------------- */
     var IS_CLEAN = CONFIG.pageType === "clean";
 
@@ -792,7 +808,8 @@
         type: type, source: source,
         color: b.color || fallbackColor, gradient: b.gradient || null,
         position: b.position || "65% 15%", filter: filter,
-        opacity: b.opacity, overlay: b.overlay
+        opacity: b.opacity, overlay: b.overlay,
+        poster: b.poster || ""
       };
     }
     function renderBackground() {
@@ -805,10 +822,15 @@
 
       var style = "object-position:" + esc(b.position) + ";filter:" + esc(b.filter) + ";" +
         (has(b.opacity) ? ("opacity:" + esc(b.opacity) + ";") : "");
-      if ((b.type === "video") && has(b.source)) {
+      if ((b.type === "video") && has(b.source) && REDUCED_MOTION && has(b.poster)) {
+        // prefers-reduced-motion: a still of the first frame, and no video download.
+        root.innerHTML = '<img id="bgImage" class="background-media" alt="" style="' + style + '" src="' + esc(b.poster) + '" />';
+      } else if ((b.type === "video") && has(b.source)) {
         root.innerHTML =
-          '<video id="bgVideo" class="background-media" autoplay muted loop playsinline ' +
-          'webkit-playsinline preload="auto" style="' + style + '">' +
+          '<video id="bgVideo" class="background-media" ' + (REDUCED_MOTION ? '' : 'autoplay ') +
+          'muted loop playsinline webkit-playsinline disablepictureinpicture disableremoteplayback ' +
+          'aria-hidden="true" tabindex="-1" preload="' + (REDUCED_MOTION ? 'metadata' : 'auto') + '"' +
+          (has(b.poster) ? ' poster="' + esc(b.poster) + '"' : '') + ' style="' + style + '">' +
           '<source src="' + esc(b.source) + '" type="video/mp4" /></video>';
       } else if ((b.type === "image") && has(b.source)) {
         root.innerHTML = '<img id="bgImage" class="background-media" alt="" style="' + style + '" src="' + esc(b.source) + '" />';
@@ -1056,7 +1078,7 @@
     /* ---- Background video autoplay (mobile-friendly) ---------------------- */
     function startVideo() {
       var v = document.getElementById("bgVideo");
-      if (!v) return;
+      if (!v || REDUCED_MOTION) return;
       v.muted = true; v.playsInline = true;
       v.play().catch(function () {});
     }
@@ -1084,6 +1106,8 @@
       document.addEventListener("DOMContentLoaded", startVideo);
       window.addEventListener("load", startVideo);
       document.addEventListener("touchstart", startVideo, { once: true });
+      // iOS pauses inline video when the tab/app is backgrounded; resume on return.
+      document.addEventListener("visibilitychange", function () { if (!document.hidden) startVideo(); });
       startVideo();
     }
   })();
