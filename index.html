@@ -4,7 +4,7 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG.
        Versioned (?v=) so config edits (e.g. new aliases) can't be served stale from
        browser/CDN cache — bump v on every config change. -->
-  <script src="config.js?v=5"></script>
+  <script src="config.js?v=6"></script>
 
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
@@ -393,11 +393,11 @@
 
     /* Optional flexible spacer (used via a "spacer" entry in layout.order) to
        push controls into the lower negative space of a hero photo. */
-    .lb-spacer { flex: 1 1 auto; min-height: 0; }
+    .lb-spacer { flex: 1 1 auto; min-height: var(--lb-spacer-min, 0px); }
 
     .footer {
       margin-top: var(--lb-footer-mt, auto);
-      padding-top: 34px;
+      padding-top: var(--lb-footer-pt, 34px);
       padding-bottom: 8px;
       display: flex;
       justify-content: center;
@@ -541,6 +541,7 @@
       .matcha-title { font-size: 13px; }
       .newsletter { width: 86%; }
       .custom-section { width: 86%; }
+      .lb-spacer { min-height: var(--lb-spacer-min-mobile, var(--lb-spacer-min, 0px)); }
     }
   </style>
 </head>

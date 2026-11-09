@@ -8,7 +8,7 @@ replacement video and the final presentation before anything reaches production.
 | File | Change |
 |---|---|
 | `config.js` | `background.poster`; name size keeps one line on 320px phones (unchanged ≥394px). **No link, route, profile, age-gate or GTM value changed.** |
-| `index.html` (engine, additive) | `poster` support on the background video; `prefers-reduced-motion` → still poster image, no video download; `disablepictureinpicture` / `disableremoteplayback` / `aria-hidden`; resume playback when returning to the tab (iOS pauses backgrounded video); video backdrop = page colour (no black flash); `viewport-fit=cover` + safe-area padding; `100svh` (no jump when mobile browser chrome collapses); two-layer text shadow for small text over the video; tip bubbles don't wrap; CTA labels don't wrap at 320px; `config.js?v=5` cache-bust. |
+| `index.html` (engine, additive) | `poster` support on the background video; `prefers-reduced-motion` → still poster image, no video download; `disablepictureinpicture` / `disableremoteplayback` / `aria-hidden`; resume playback when returning to the tab (iOS pauses backgrounded video); video backdrop = page colour (no black flash); `viewport-fit=cover` + safe-area padding; `100svh` (no jump when mobile browser chrome collapses); two-layer text shadow for small text over the video; tip bubbles don't wrap; CTA labels don't wrap at 320px; `config.js?v=6` cache-bust. |
 | `background.mp4` | **Replaced** with the Founder's clip `kk_link_vid_new_-_2.mov` (see below). |
 | `poster.jpg` | New. First frame of the new `background.mp4` (720×1280, 29 KB). |
 
@@ -29,6 +29,13 @@ replacement video and the final presentation before anything reaches production.
 
 Analytics: GTM `GTM-M6PJ9FJC` unchanged. 26 vanity routes (`/xo`…`/watch`) → `/?src=…` unchanged.
 `/yt` YouTube Bridge profile unchanged.
+
+### Editorial pass (Founder visual audit)
+- **Name:** Poppins **300 (Light)** instead of the ExtraBold 800 it rendered at. 900 was requested, but only 400–800 were loaded. Font size is unchanged (45.4 / 55.8 / 56 / 90px at 320 / 393 / 412 / 1440px). Tracking eased from −0.06em to −0.02em, so the light name keeps ~98% of its previous width.
+- **Lower group, phones (≤700px):** new token `--lb-spacer-min-mobile`: `38svh − 146px`. The first button starts ~38–40% down the screen. A tall phone like the Pixel 7 still fits with no scroll. On shorter phones the tip card and footer continue below the fold.
+- **Footer:** top padding cut from 34 to 18px (`--lb-footer-pt`), on all viewports.
+- **Desktop:** already bottom-anchored. It changes only through the footer padding (+16px).
+- Both tokens default to the previous values, so other sites on the engine are unaffected.
 
 Header: name, then socials directly underneath. A proposed bio was tried and then removed at the Founder's request. The layout order and spacing match `main`.
 

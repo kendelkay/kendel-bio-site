@@ -32,14 +32,17 @@ window.SITE_CONFIG = {
              buttonBorder, accent, accentText
      font:   { family, weights }   (loaded from Google Fonts)
      emojiSet: name of the emoji personality used below (metadata for tooling) */
-  /* Branding preserved — colors and typeface are unchanged. The ONLY override
-     is the name's visual prominence for the video-hero layout: a single
-     responsive clamp (bigger + heavier, same font) so it still scales down on
-     phones. */
+  /* Branding: colors and Poppins unchanged. Name = editorial treatment:
+     same size, Poppins Light (300) instead of the ExtraBold it rendered at
+     (900 was requested but only 400–800 were loaded). Tracking eased from
+     -0.06em to -0.02em so the lighter name keeps ~98% of its previous width.
+     `weights` adds 300 to the default Google Fonts request. */
   theme: {
+    font: { weights: "300;400;500;600;700;800" },
     vars: {
       "--lb-name-size": "min(90px, max(56px, 11vw), 14.2vw)", /* = old clamp, but keeps one line on 320px phones */
-      "--lb-name-weight": "900",
+      "--lb-name-weight": "300",
+      "--lb-name-tracking": "-0.02em",
     },
   },
 
@@ -68,7 +71,17 @@ window.SITE_CONFIG = {
   /* Hero layout: video-primary, no avatar. Name + handles sit at the top; a
      flexible spacer drops the CTA / tip card into the lower third so nothing
      covers Kendel's face in the video. Mirrors the Brandi hero exactly. */
+  /* Bottom-weighted (phones, <=700px wide): the space above the buttons is at
+     least 38svh - 146px, so the first button starts ~38-40% down the screen
+     (svh = stable under iOS Safari's collapsing address bar). Tall phones
+     still fit exactly; on shorter phones the tip card / footer continue below
+     the fold and scroll. Desktop keeps its natural bottom-anchored spacing.
+     Footer top padding trimmed (34 -> 18px) to pull terms/privacy down. */
   layout: {
+    vars: {
+      "--lb-spacer-min-mobile": "max(0px, calc(38svh - 146px))",
+      "--lb-footer-pt": "18px",
+    },
     order: ["name", "socials", "spacer", "cta", "tipCard", "custom", "footer"],
   },
 
