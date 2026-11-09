@@ -124,3 +124,11 @@ Production" on the previous deployment. Either way, nothing outside this repo ch
   - `/yt` never scrolls; its CTA ends ~115px above the visible bottom.
   - On tall screens with toolbars shown, the full page's lower group ends at the visible bottom (46–74px higher than the old hidden-under-toolbar position).
   - Shorter phones, toolbar-hidden states and desktop are unchanged.
+
+## Clean profile (`/yt`, `/watch`) composition refinement
+Scoped to `profiles.youtube_kendelkay.layout.vars`, so the full page `/` is unchanged.
+- **Name:** Poppins Light, `clamp(36px, 11.2vw, 50px)`, about 49px on a 440px phone (was 56px). Tracking 0.01em; top margin `clamp(14px, 3.5svh, 32px)`.
+- **CTA:** `min(76%, 320px)` wide (was 86%), 54px tall, 17px text. Same text, emoji, link and 70% fill.
+- **Footer:** air above terms is `clamp(28px, 6svh, 56px)`; extra bottom clearance is `clamp(8px, 2svh, 20px)`.
+- **Midnight credit:** 8px type, 4/10px padding, 8px spark (128×21px visible, was 155×27). Its link fills the capsule, so the tap area is 126×20 (was 127×14).
+- **New engine tokens:** `--lb-btn-width`, `--lb-name-mt`, `--lb-refsig-pad`, `--lb-refsig-font`, `--lb-refsig-gap`, `--lb-refsig-spark`, `--lb-refsig-hit-x`, `--lb-refsig-hit-y`. All default to the previous values.
