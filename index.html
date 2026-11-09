@@ -4,7 +4,7 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG.
        Versioned (?v=) so config edits (e.g. new aliases) can't be served stale from
        browser/CDN cache — bump v on every config change. -->
-  <script src="config.js?v=9"></script>
+  <script src="config.js?v=10"></script>
 
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
@@ -425,8 +425,13 @@
       text-shadow: var(--lb-small-shadow);
     }
 
+    /* Legal links + their "|" separator; --lb-legal-color lets a creator
+       quiet them without touching the rest of the footer. */
+    .footer a,
+    .footer span {
+      color: var(--lb-legal-color, var(--lb-text-muted));
+    }
     .footer a {
-      color: var(--lb-text-muted);
       text-decoration: none;
     }
 

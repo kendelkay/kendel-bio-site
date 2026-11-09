@@ -8,7 +8,7 @@ replacement video and the final presentation before anything reaches production.
 | File | Change |
 |---|---|
 | `config.js` | `background.poster`; name size keeps one line on 320px phones (unchanged ≥394px). **No link, route, profile, age-gate or GTM value changed.** |
-| `index.html` (engine, additive) | `poster` support on the background video; `prefers-reduced-motion` → still poster image, no video download; `disablepictureinpicture` / `disableremoteplayback` / `aria-hidden`; resume playback when returning to the tab (iOS pauses backgrounded video); video backdrop = page colour (no black flash); `viewport-fit=cover` + safe-area padding; `100svh` (no jump when mobile browser chrome collapses); two-layer text shadow for small text over the video; tip bubbles don't wrap; CTA labels don't wrap at 320px; `config.js?v=9` cache-bust. |
+| `index.html` (engine, additive) | `poster` support on the background video; `prefers-reduced-motion` → still poster image, no video download; `disablepictureinpicture` / `disableremoteplayback` / `aria-hidden`; resume playback when returning to the tab (iOS pauses backgrounded video); video backdrop = page colour (no black flash); `viewport-fit=cover` + safe-area padding; `100svh` (no jump when mobile browser chrome collapses); two-layer text shadow for small text over the video; tip bubbles don't wrap; CTA labels don't wrap at 320px; `config.js?v=10` cache-bust. |
 | `background.mp4` | **Replaced** with the Founder's clip `kk_link_vid_new_-_2.mov` (see below). |
 | `poster.jpg` | New. First frame of the new `background.mp4` (720×1280, 29 KB). |
 
@@ -43,7 +43,10 @@ Analytics: GTM `GTM-M6PJ9FJC` unchanged. 26 vanity routes (`/xo`…`/watch`) →
 - **Header unchanged:** the 44px boxes overhang the 21px row (−11.5px block margins), so the header and everything below it stay put.
 - **Tip heading** is now "can you make my day a little sweeter? 💗". On phones it may span the card's side gutters (`--lb-tip-title-bleed`), so it stays on one line at 320px at the same font size.
 - **New engine tokens:** `--lb-social-font`, `--lb-social-gap`, `--lb-social-pad-x`, `--lb-social-hit`, `--lb-social-mb`, `--lb-tip-title-bleed`. All default to the previous values.
-- **Main CTA fill:** 80% opaque white (`--lb-cta-bg`), Founder choice. Only the fill changes: text, emoji, size, blur and hover stay the same. Tip bubbles keep the shared 94%. Worst-case text contrast is 13.0:1 on the darkest video frame and 16.9:1 on the brightest (WCAG AAA is 7:1).
+- **Button fill:** all six white buttons (4 main CTAs + 2 tip bubbles) share one 70% opaque fill (`theme.colors.buttonBg`), Founder choice. Hover stays solid white. Only the fill changes: text, emoji, size and blur stay the same. Worst-case text contrast is 10.6:1 on the darkest video frame and 15.4:1 on the brightest (WCAG AAA is 7:1).
+- **Legal text:** terms, privacy and the "|" separator are 60% white (`--lb-legal-color`), Founder choice made knowing the trade-off below. "Powered by Midnight" is unchanged.
+  - Measured against the footage behind it: 6.0:1 on dark frames, ~2:1 on mid and bright frames (was 2.6–2.9:1 at 92%).
+  - WCAG AA's 4.5:1 isn't reached on mid or bright frames at any opacity, even 100%. The existing text shadow carries readability there.
 - **Footer group:** space moved from below the terms row and the Midnight credit to above it. This is zero-sum, so page height and everything above stay the same.
   - Cash App text → terms: 19 → 34px.
   - Terms → Midnight: 19 → 12px.

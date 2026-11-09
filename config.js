@@ -39,6 +39,13 @@ window.SITE_CONFIG = {
      `weights` adds 300 to the default Google Fonts request. */
   theme: {
     font: { weights: "300;400;500;600;700;800" },
+    /* All six white buttons (4 main CTAs + 2 tip bubbles) share one 70%
+       opaque fill (engine default 94%), Founder choice. Fill only: text,
+       emoji, size, blur unchanged; hover still goes solid white. */
+    colors: {
+      buttonBg: "rgba(255,255,255,0.70)",
+      buttonBgHover: "#ffffff",
+    },
     vars: {
       "--lb-name-size": "min(90px, max(56px, 11vw), 14.2vw)", /* = old clamp, but keeps one line on 320px phones */
       "--lb-name-weight": "300",
@@ -57,10 +64,6 @@ window.SITE_CONFIG = {
          phones; 7% gutters each side = 8.14% of the card), so "can you make my
          day a little sweeter? 💗" stays on one line at 320px. Same font size. */
       "--lb-tip-title-bleed": "-8.14%",
-      /* Main CTA buttons 80% opaque white (shared default is 94%), Founder
-         choice. Fill only; text, emoji, size, blur and hover unchanged. Tip
-         bubbles keep the shared 94%. */
-      "--lb-cta-bg": "rgba(255,255,255,0.80)",
     },
   },
 
@@ -107,6 +110,11 @@ window.SITE_CONFIG = {
       "--lb-footer-pb": "4px",
       "--lb-refsig-mt": "7px",
       "--lb-refsig-pb": "0px",
+      /* Terms | privacy text + separator at 60% white (was the 92% muted
+         text), Founder choice: quieter than the buttons. Same size, spacing
+         and shadow; Powered by Midnight unchanged. Readability over the
+         bright footage relies on the existing text shadow. */
+      "--lb-legal-color": "rgba(255,255,255,0.60)",
     },
     order: ["name", "socials", "spacer", "cta", "tipCard", "custom", "footer"],
   },
