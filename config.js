@@ -225,8 +225,10 @@ window.SITE_CONFIG = {
           "--lb-name-size": "clamp(36px, 11.2vw, 50px)",
           "--lb-name-tracking": "0.01em",
           "--lb-name-mt": "clamp(14px, 3.5svh, 32px)",
-          /* CTA: ~76% of the content width (capped), 54px tall, 17px text. */
-          "--lb-btn-width": "min(76%, 320px)",
+          /* CTA: intrinsic width (label + fluid side padding, ~240px on a
+             440px phone) instead of a % of the screen; 54px tall, 17px. */
+          "--lb-btn-width": "auto",
+          "--lb-btn-pad-x": "clamp(40px, 11.5vw, 52px)",
           "--lb-btn-min-h": "54px",
           "--lb-btn-pad-y": "10px",
           "--lb-btn-font": "17px",
