@@ -4,7 +4,7 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG.
        Versioned (?v=) so config edits (e.g. new aliases) can't be served stale from
        browser/CDN cache — bump v on every config change. -->
-  <script src="config.js?v=12"></script>
+  <script src="config.js?v=15"></script>
 
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
@@ -193,7 +193,12 @@
     .page {
       position: relative;
       z-index: 2;
+      /* Fill the SMALL viewport (svh = visible area with mobile browser
+         toolbars shown). Plain 100vh is the LARGE viewport on iOS/Android,
+         so the bottom of the page (footer, bottom-anchored CTAs) landed
+         under the toolbars. 100vh stays as the fallback for old browsers. */
       min-height: 100vh;
+      min-height: 100svh;
       display: flex;
       justify-content: center;
       padding: 22px 24px 14px;
@@ -205,8 +210,8 @@
     .bio {
       width: 100%;
       max-width: 620px;
-      min-height: calc(100vh - 36px);
-      min-height: calc(100svh - 36px); /* stable on mobile: no jump as browser chrome hides */
+      /* Height comes from stretching to .page's content box (100svh minus its
+         real padding, safe-area insets included), not a fixed "- 36px". */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -231,7 +236,7 @@
     }
 
     .name {
-      margin: 12px 0 4px;
+      margin: var(--lb-name-mt, 12px) 0 4px;
       color: var(--lb-text);
       font-family: var(--lb-font-display, var(--lb-font));
       font-size: var(--lb-name-size);
@@ -297,7 +302,7 @@
     }
 
     .button {
-      width: 58%;
+      width: var(--lb-btn-width, 58%);
       min-height: var(--lb-btn-min-h);
       border-radius: var(--lb-radius);
       background: var(--lb-btn-bg);
@@ -458,7 +463,7 @@
       flex-direction: column;
       align-items: center;
       gap: 1px;
-      padding: 6px 13px 5px;
+      padding: var(--lb-refsig-pad, 6px 13px 5px);
       border-radius: 999px;
       color: var(--lb-text-muted);
       background: color-mix(in srgb, currentColor 5%, transparent);
@@ -510,18 +515,22 @@
       z-index: 1;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: var(--lb-refsig-gap, 6px);
       color: var(--lb-text-muted);
       text-decoration: none;
-      font-size: 9.5px;
+      font-size: var(--lb-refsig-font, 9.5px);
       font-weight: 500;
+      /* Optional hit-area growth inside the capsule (padding + equal negative
+         margin: bigger tap target, identical visible design). Default 0. */
+      padding: var(--lb-refsig-hit-y, 0px) var(--lb-refsig-hit-x, 0px);
+      margin: calc(var(--lb-refsig-hit-y, 0px) * -1) calc(var(--lb-refsig-hit-x, 0px) * -1);
       letter-spacing: 0.06em;
       opacity: 0.5;
       transition: opacity .2s ease;
     }
     .lb-refsig-spark { display: inline-flex; color: var(--lb-refsig-accent); opacity: 0.6; }
     .lb-refsig-spark svg {
-      width: 10px; height: 10px;
+      width: var(--lb-refsig-spark, 10px); height: var(--lb-refsig-spark, 10px);
       stroke: currentColor; stroke-width: 1.6;
       stroke-linejoin: round; stroke-linecap: round; fill: none;
     }
@@ -561,7 +570,7 @@
       .avatar { width: 92px; height: 92px; }
       .bio-text { width: 100%; }
       .socials { gap: var(--lb-social-gap, 14px); }
-      .button { width: 86%; }
+      .button { width: var(--lb-btn-width, 86%); }
       .matcha-card { width: 86%; }
       .matcha-title { font-size: 13px; }
       .newsletter { width: 86%; }

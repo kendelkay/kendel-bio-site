@@ -214,7 +214,46 @@ window.SITE_CONFIG = {
         { text: "Follow the trail 🩰", href: "https://www.instagram.com/Kendelkay/" },
       ],
       tipCard: null,
-      layout: { order: ["name", "spacer", "cta", "footer"] },
+      /* Clean-profile composition (this profile only; layout.vars are applied
+         after the base theme, and the full page never sees them):
+         signature-scale name, a slimmer single CTA, a discreet footer.
+         All values are fluid (vw / svh), not tuned to one device. */
+      layout: {
+        order: ["name", "spacer", "cta", "footer"],
+        vars: {
+          /* Name: Poppins Light kept; ~49px on a 440px phone, 36px at 320px. */
+          "--lb-name-size": "clamp(36px, 11.2vw, 50px)",
+          "--lb-name-tracking": "0.01em",
+          "--lb-name-mt": "clamp(14px, 3.5svh, 32px)",
+          /* CTA: intrinsic width (label + fluid side padding, ~240px on a
+             440px phone) instead of a % of the screen; 54px tall, 17px. */
+          "--lb-btn-width": "auto",
+          "--lb-btn-pad-x": "clamp(40px, 11.5vw, 52px)",
+          "--lb-btn-min-h": "54px",
+          "--lb-btn-pad-y": "10px",
+          "--lb-btn-font": "17px",
+          /* Footer rhythm: air above terms scales with height; Midnight
+             credit smaller and quieter; extra clearance above the toolbar. */
+          "--lb-footer-pt": "clamp(28px, 6svh, 56px)",
+          "--lb-footer-pb": "4px",
+          "--lb-refsig-mt": "8px",
+          "--lb-refsig-pb": "0px",
+          "--lb-refsig-font": "8px",
+          "--lb-refsig-pad": "4px 10px 3px",
+          "--lb-refsig-gap": "4px",
+          "--lb-refsig-spark": "8px",
+          /* Midnight link fills the whole (smaller) capsule as its tap area. */
+          "--lb-refsig-hit-y": "4px",
+          "--lb-refsig-hit-x": "10px",
+          "--lb-content-pb": "clamp(8px, 2svh, 20px)",
+          /* Terms | privacy at 46% white: the same effective alpha as the
+             Midnight credit (92% x 0.5), so the two read as one quiet
+             footer. The existing text shadow is kept, which holds
+             legibility over bright frames. (This profile replaces the base
+             layout, so it never inherited the full page's 60% setting.) */
+          "--lb-legal-color": "rgba(255,255,255,0.46)",
+        },
+      },
     },
   },
 };

@@ -115,3 +115,21 @@ Don't crossfade it in code.
 Production is built by Vercel, presumably from `main`: every recent production hotfix was merged there, and `kendel-prod` is stale. Confirm this in the Vercel project before releasing. To roll back after a merge, revert the
 merge commit on `main` (`git revert -m 1 <merge-sha>`). Or, in Vercel, "Promote to
 Production" on the previous deployment. Either way, nothing outside this repo changes.
+
+## Hotfix: mobile viewport height (post-release)
+- **Symptom:** on iPhone with Safari toolbars showing, `/yt` put "Follow the trail" against the bottom toolbar, with the footer off-screen.
+- **Cause:** `.page` used `min-height: 100vh`. On iOS and Android, `100vh` is the large viewport (toolbars hidden). `.page` is a flex container that stretches `.bio`, so the bottom-anchored content landed under the toolbars. The full page had the same defect.
+- **Fix (`index.html` only):** `.page` now uses `min-height: 100svh`, with `100vh` as the fallback. `.bio` drops its fixed `calc(100svh − 36px)` and fills `.page`'s padded content box instead. That fixed value had also caused 14–57px of extra scroll whenever safe-area insets were present.
+- **Effect:**
+  - `/yt` never scrolls; its CTA ends ~115px above the visible bottom.
+  - On tall screens with toolbars shown, the full page's lower group ends at the visible bottom (46–74px higher than the old hidden-under-toolbar position).
+  - Shorter phones, toolbar-hidden states and desktop are unchanged.
+
+## Clean profile (`/yt`, `/watch`) composition refinement
+Scoped to `profiles.youtube_kendelkay.layout.vars`, so the full page `/` is unchanged.
+- **Name:** Poppins Light, `clamp(36px, 11.2vw, 50px)`, about 49px on a 440px phone (was 56px). Tracking 0.01em; top margin `clamp(14px, 3.5svh, 32px)`.
+- **CTA:** intrinsic width: the label plus `clamp(40px, 11.5vw, 52px)` of side padding, about 242px on a 440px phone (was 86%, then 76%). 54px tall, 17px text. Same text, emoji, link and 70% fill.
+- **Footer:** air above terms is `clamp(28px, 6svh, 56px)`; extra bottom clearance is `clamp(8px, 2svh, 20px)`.
+- **Midnight credit:** 8px type, 4/10px padding, 8px spark (128×21px visible, was 155×27). Its link fills the capsule, so the tap area is 126×20 (was 127×14).
+- **Legal text:** terms, privacy and "|" are 46% white (`--lb-legal-color`), the same effective alpha as the Midnight credit (92% × 0.5). The text shadow is kept for legibility. The profile replaces the base layout, so it had been rendering at the 92% default, not the full page's 60%.
+- **New engine tokens:** `--lb-btn-width`, `--lb-name-mt`, `--lb-refsig-pad`, `--lb-refsig-font`, `--lb-refsig-gap`, `--lb-refsig-spark`, `--lb-refsig-hit-x`, `--lb-refsig-hit-y`. All default to the previous values.
