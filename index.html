@@ -4,7 +4,7 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG.
        Versioned (?v=) so config edits (e.g. new aliases) can't be served stale from
        browser/CDN cache — bump v on every config change. -->
-  <script src="config.js?v=6"></script>
+  <script src="config.js?v=7"></script>
 
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
@@ -258,14 +258,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: var(--lb-social-gap, 20px);
   margin-bottom: var(--lb-gap-socials);
 }
 
+/* Optional touch-target tokens (all default to the original glyph-sized
+   links): --lb-social-hit sets a minimum square hit box, --lb-social-pad-x
+   widens it around the glyph, and a negative --lb-social-mb lets the taller
+   box overhang the row so the header layout height doesn't change. */
 .socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--lb-social-hit, 0px);
+  min-height: var(--lb-social-hit, 0px);
+  padding-inline: var(--lb-social-pad-x, 0px);
+  margin-block: var(--lb-social-mb, 0px);
   color: var(--lb-text);
   text-decoration: none;
-  font-size: 14px;
+  font-size: var(--lb-social-font, 14px);
   font-weight: 700;
   letter-spacing: -0.03em;
   text-shadow: 0 3px 8px rgba(0,0,0,0.45);
@@ -324,7 +335,9 @@
     }
 
     .matcha-title {
-      margin: 0 0 11px;
+      /* --lb-tip-title-bleed (negative %) lets the heading use the card's side
+         gutters so a short line doesn't wrap on narrow phones; default 0. */
+      margin: 0 var(--lb-tip-title-bleed, 0px) 11px;
       color: var(--lb-text);
       text-align: center;
       font-size: 15px;
@@ -535,7 +548,7 @@
       .bio { max-width: 100%; }
       .avatar { width: 92px; height: 92px; }
       .bio-text { width: 100%; }
-      .socials { gap: 14px; }
+      .socials { gap: var(--lb-social-gap, 14px); }
       .button { width: 86%; }
       .matcha-card { width: 86%; }
       .matcha-title { font-size: 13px; }

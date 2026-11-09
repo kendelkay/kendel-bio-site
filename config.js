@@ -43,6 +43,20 @@ window.SITE_CONFIG = {
       "--lb-name-size": "min(90px, max(56px, 11vw), 14.2vw)", /* = old clamp, but keeps one line on 320px phones */
       "--lb-name-weight": "300",
       "--lb-name-tracking": "-0.02em",
+      /* Social row: labels +5% (14 -> 14.7px). Each link is a >=44x44px tap
+         target (glyph + 33px wide, boxes touching, never overlapping), so the
+         visible glyph-to-glyph gap is a uniform 33px. The 44px-tall box
+         overhangs the 21px row (-11.5px block margins): header layout and
+         everything below it stay exactly where they were. */
+      "--lb-social-font": "14.7px",
+      "--lb-social-gap": "0px",
+      "--lb-social-pad-x": "16.5px",
+      "--lb-social-hit": "44px",
+      "--lb-social-mb": "-11.5px",
+      /* Tip heading may span the full content column (the card is 86% wide on
+         phones; 7% gutters each side = 8.14% of the card), so "can you make my
+         day a little sweeter? 💗" stays on one line at 320px. Same font size. */
+      "--lb-tip-title-bleed": "-8.14%",
     },
   },
 
@@ -110,7 +124,7 @@ window.SITE_CONFIG = {
      the plug-and-play map (cashapp, venmo, paypal, coinbase, crypto, wishlist).
      Kendel uses custom bubbles to keep the original "matcha" wording. */
   tipCard: {
-    title: "make my day a little sweeter with matcha 💗",
+    title: "can you make my day a little sweeter? 💗",
     bubbles: [
       { text: "$15 matcha 🤍",  href: "https://cash.app/$kendelkay/15" },
       { text: "make me blush ☺️", href: "https://cash.app/$kendelkay" },

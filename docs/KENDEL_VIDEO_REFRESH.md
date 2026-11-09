@@ -8,7 +8,7 @@ replacement video and the final presentation before anything reaches production.
 | File | Change |
 |---|---|
 | `config.js` | `background.poster`; name size keeps one line on 320px phones (unchanged ≥394px). **No link, route, profile, age-gate or GTM value changed.** |
-| `index.html` (engine, additive) | `poster` support on the background video; `prefers-reduced-motion` → still poster image, no video download; `disablepictureinpicture` / `disableremoteplayback` / `aria-hidden`; resume playback when returning to the tab (iOS pauses backgrounded video); video backdrop = page colour (no black flash); `viewport-fit=cover` + safe-area padding; `100svh` (no jump when mobile browser chrome collapses); two-layer text shadow for small text over the video; tip bubbles don't wrap; CTA labels don't wrap at 320px; `config.js?v=6` cache-bust. |
+| `index.html` (engine, additive) | `poster` support on the background video; `prefers-reduced-motion` → still poster image, no video download; `disablepictureinpicture` / `disableremoteplayback` / `aria-hidden`; resume playback when returning to the tab (iOS pauses backgrounded video); video backdrop = page colour (no black flash); `viewport-fit=cover` + safe-area padding; `100svh` (no jump when mobile browser chrome collapses); two-layer text shadow for small text over the video; tip bubbles don't wrap; CTA labels don't wrap at 320px; `config.js?v=7` cache-bust. |
 | `background.mp4` | **Replaced** with the Founder's clip `kk_link_vid_new_-_2.mov` (see below). |
 | `poster.jpg` | New. First frame of the new `background.mp4` (720×1280, 29 KB). |
 
@@ -36,6 +36,13 @@ Analytics: GTM `GTM-M6PJ9FJC` unchanged. 26 vanity routes (`/xo`…`/watch`) →
 - **Footer:** top padding cut from 34 to 18px (`--lb-footer-pt`), on all viewports.
 - **Desktop:** already bottom-anchored. It changes only through the footer padding (+16px).
 - Both tokens default to the previous values, so other sites on the engine are unaffected.
+
+### Micro-polish (Founder)
+- **Social labels** (`ig` / `𝕏` / `tt` / `sc` are text glyphs, not SVGs): 14px → 14.7px (+5%).
+- **Tap targets:** each link is a ≥44×44px target (glyph + 33px wide). The boxes touch but never overlap, and the visible glyph gap is a uniform 33px (was 14px on phones, 20px on desktop). A literal +10% gap (15.4px) can't hold 44px targets without overlap, so the targets took priority.
+- **Header unchanged:** the 44px boxes overhang the 21px row (−11.5px block margins), so the header and everything below it stay put.
+- **Tip heading** is now "can you make my day a little sweeter? 💗". On phones it may span the card's side gutters (`--lb-tip-title-bleed`), so it stays on one line at 320px at the same font size.
+- **New engine tokens:** `--lb-social-font`, `--lb-social-gap`, `--lb-social-pad-x`, `--lb-social-hit`, `--lb-social-mb`, `--lb-tip-title-bleed`. All default to the previous values.
 
 Header: name, then socials directly underneath. A proposed bio was tried and then removed at the Founder's request. The layout order and spacing match `main`.
 
