@@ -62,7 +62,7 @@ window.SITE_CONFIG = {
       "--lb-social-mb": "-11.5px",
       /* Tip heading may span the full content column (the card is 86% wide on
          phones; 7% gutters each side = 8.14% of the card), so "can you make my
-         day a little sweeter? 💗" stays on one line at 320px. Same font size. */
+         day a little sweeter?" stays on one line at 320px. Same font size. */
       "--lb-tip-title-bleed": "-8.14%",
     },
   },
@@ -144,7 +144,7 @@ window.SITE_CONFIG = {
      the plug-and-play map (cashapp, venmo, paypal, coinbase, crypto, wishlist).
      Kendel uses custom bubbles to keep the original "matcha" wording. */
   tipCard: {
-    title: "can you make my day a little sweeter? 💗",
+    title: "can you make my day a little sweeter?",
     bubbles: [
       { text: "$15 matcha 🤍",  href: "https://cash.app/$kendelkay/15" },
       { text: "make me blush ☺️", href: "https://cash.app/$kendelkay" },
