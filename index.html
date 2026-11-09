@@ -193,7 +193,12 @@
     .page {
       position: relative;
       z-index: 2;
+      /* Fill the SMALL viewport (svh = visible area with mobile browser
+         toolbars shown). Plain 100vh is the LARGE viewport on iOS/Android,
+         so the bottom of the page (footer, bottom-anchored CTAs) landed
+         under the toolbars. 100vh stays as the fallback for old browsers. */
       min-height: 100vh;
+      min-height: 100svh;
       display: flex;
       justify-content: center;
       padding: 22px 24px 14px;
@@ -205,8 +210,8 @@
     .bio {
       width: 100%;
       max-width: 620px;
-      min-height: calc(100vh - 36px);
-      min-height: calc(100svh - 36px); /* stable on mobile: no jump as browser chrome hides */
+      /* Height comes from stretching to .page's content box (100svh minus its
+         real padding, safe-area insets included), not a fixed "- 36px". */
       display: flex;
       flex-direction: column;
       align-items: center;

@@ -115,3 +115,12 @@ Don't crossfade it in code.
 Production is built by Vercel, presumably from `main`: every recent production hotfix was merged there, and `kendel-prod` is stale. Confirm this in the Vercel project before releasing. To roll back after a merge, revert the
 merge commit on `main` (`git revert -m 1 <merge-sha>`). Or, in Vercel, "Promote to
 Production" on the previous deployment. Either way, nothing outside this repo changes.
+
+## Hotfix: mobile viewport height (post-release)
+- **Symptom:** on iPhone with Safari toolbars showing, `/yt` put "Follow the trail" against the bottom toolbar, with the footer off-screen.
+- **Cause:** `.page` used `min-height: 100vh`. On iOS and Android, `100vh` is the large viewport (toolbars hidden). `.page` is a flex container that stretches `.bio`, so the bottom-anchored content landed under the toolbars. The full page had the same defect.
+- **Fix (`index.html` only):** `.page` now uses `min-height: 100svh`, with `100vh` as the fallback. `.bio` drops its fixed `calc(100svh − 36px)` and fills `.page`'s padded content box instead. That fixed value had also caused 14–57px of extra scroll whenever safe-area insets were present.
+- **Effect:**
+  - `/yt` never scrolls; its CTA ends ~115px above the visible bottom.
+  - On tall screens with toolbars shown, the full page's lower group ends at the visible bottom (46–74px higher than the old hidden-under-toolbar position).
+  - Shorter phones, toolbar-hidden states and desktop are unchanged.
