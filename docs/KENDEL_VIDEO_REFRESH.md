@@ -131,4 +131,5 @@ Scoped to `profiles.youtube_kendelkay.layout.vars`, so the full page `/` is unch
 - **CTA:** intrinsic width: the label plus `clamp(40px, 11.5vw, 52px)` of side padding, about 242px on a 440px phone (was 86%, then 76%). 54px tall, 17px text. Same text, emoji, link and 70% fill.
 - **Footer:** air above terms is `clamp(28px, 6svh, 56px)`; extra bottom clearance is `clamp(8px, 2svh, 20px)`.
 - **Midnight credit:** 8px type, 4/10px padding, 8px spark (128×21px visible, was 155×27). Its link fills the capsule, so the tap area is 126×20 (was 127×14).
+- **Legal text:** terms, privacy and "|" are 46% white (`--lb-legal-color`), the same effective alpha as the Midnight credit (92% × 0.5). The text shadow is kept for legibility. The profile replaces the base layout, so it had been rendering at the 92% default, not the full page's 60%.
 - **New engine tokens:** `--lb-btn-width`, `--lb-name-mt`, `--lb-refsig-pad`, `--lb-refsig-font`, `--lb-refsig-gap`, `--lb-refsig-spark`, `--lb-refsig-hit-x`, `--lb-refsig-hit-y`. All default to the previous values.

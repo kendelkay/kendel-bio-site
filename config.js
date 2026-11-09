@@ -246,6 +246,12 @@ window.SITE_CONFIG = {
           "--lb-refsig-hit-y": "4px",
           "--lb-refsig-hit-x": "10px",
           "--lb-content-pb": "clamp(8px, 2svh, 20px)",
+          /* Terms | privacy at 46% white: the same effective alpha as the
+             Midnight credit (92% x 0.5), so the two read as one quiet
+             footer. The existing text shadow is kept, which holds
+             legibility over bright frames. (This profile replaces the base
+             layout, so it never inherited the full page's 60% setting.) */
+          "--lb-legal-color": "rgba(255,255,255,0.46)",
         },
       },
     },
