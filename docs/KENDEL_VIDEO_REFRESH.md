@@ -152,3 +152,16 @@ Scoped to `profiles.youtube_kendelkay.layout.vars`, so the full page `/` is unch
 - **Contrast** (worst case on the new clip's darkest and brightest frames): 8.5–9.8:1 on dark, 13.9–15.6:1 on bright.
 - **New engine tokens** all default to the previous look: `--lb-btn-shadow`, `--lb-btn-glow`, `--lb-btn-glow-active`, `--lb-btn-bg-active`, `--lb-btn-press`, `--lb-anim-in/out`, `--lb-ease`, `--lb-pay-display`, `--lb-pay-bleed`, `--lb-bubble-pad-x`, `--lb-bubble-shadow`, `--lb-bubble-hover-lift`, `--lb-bubble-bg-hover/active`, `--lb-btn-glow-bubble`, `--lb-bubble-press`. `config.js?v=17`.
 
+## Blush Glass V2
+- **Fill:** all 7 buttons are `rgba(255,255,255,0.50)` (was 0.60). Worst-case text contrast is 6.7:1 on the darkest frame (matcha bubble, Pixel 7): above WCAG AA's 4.5:1, and just under AAA's 7:1 in that one case. Other buttons measure 7.1–8.1:1 dark and 12.8–14.8:1 bright.
+- **Glow, now reusable and opt-in:** the engine provides glow recipes (`--lb-glow-btn`, `--lb-glow-btn-active`, `--lb-glow-bubble`, `--lb-glow-social`, `--lb-glow-social-active`) driven by `--lb-glow-rgb` (colour) and `--lb-glow-k` (alpha multiplier). Nothing uses them unless a creator points `--lb-btn-glow`, `--lb-social-glow` and the like at them. All 10 template configs render identically to before.
+- **Kendel:** `--lb-glow-rgb: 245 166 203`, `--lb-glow-k: 1.25`.
+  - Main hover glow: `0 8px 26px -8px rgb(245 166 203 / .75)` and `0 0 18px 2px … / .275`.
+  - Press: `.975` / `.40`.
+  - Radii unchanged. Measured glow energy against V1: +23% hover and +24% press on the main buttons and `/yt` CTA; +16% hover and +24% press on the bubbles.
+- **Social links (ig / 𝕏 / tt / sc):**
+  - Hover adds a text glow on the glyph (`0 0 8px … / .875`, `0 0 18px … / .475`, plus the original dark shadow), a `#ffeef6` tint and a 1.5px lift.
+  - Press is stronger and lifts 0.5px.
+  - Touch uses the same `.lb-pressed` handler. No capsule; the 44px targets are unchanged.
+- `config.js?v=18`.
+

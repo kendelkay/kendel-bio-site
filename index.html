@@ -4,7 +4,7 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG.
        Versioned (?v=) so config edits (e.g. new aliases) can't be served stale from
        browser/CDN cache — bump v on every config change. -->
-  <script src="config.js?v=17"></script>
+  <script src="config.js?v=18"></script>
 
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
@@ -95,6 +95,23 @@
       --lb-gap-bio: 22px;
       --lb-gap-socials: 44px;
       --lb-gap-tip: 24px;
+      /* Optional interaction glow recipes (opt-in, nothing uses them unless a
+         creator points --lb-btn-glow / --lb-social-glow etc. at them).
+         --lb-glow-rgb = colour as "R G B"; --lb-glow-k = intensity multiplier
+         applied to every alpha (1 = base recipe, 1.2 = 20% stronger). */
+      --lb-glow-k: 1;
+      --lb-glow-btn: 0 8px 26px -8px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.60 * var(--lb-glow-k))),
+                     0 0 18px 2px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.22 * var(--lb-glow-k)));
+      --lb-glow-btn-active: 0 6px 22px -6px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.78 * var(--lb-glow-k))),
+                            0 0 26px 4px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.32 * var(--lb-glow-k)));
+      --lb-glow-bubble: 0 6px 18px -6px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.55 * var(--lb-glow-k))),
+                        0 0 12px 1px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.20 * var(--lb-glow-k)));
+      --lb-glow-social: 0 0 8px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.70 * var(--lb-glow-k))),
+                        0 0 18px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.38 * var(--lb-glow-k))),
+                        0 3px 8px rgba(0,0,0,0.45);
+      --lb-glow-social-active: 0 0 9px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.80 * var(--lb-glow-k))),
+                               0 0 22px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.48 * var(--lb-glow-k))),
+                               0 3px 8px rgba(0,0,0,0.45);
       /* Two-layer shadow for small text over bright, moving video: a tight
          edge for legibility + a soft halo. */
       --lb-small-shadow: 0 1px 2px rgba(0,0,0,0.28), 0 2px 12px rgba(0,0,0,0.38);
@@ -284,8 +301,29 @@
   font-size: var(--lb-social-font, 14px);
   font-weight: 700;
   letter-spacing: -0.03em;
-  text-shadow: 0 3px 8px rgba(0,0,0,0.45);
+  text-shadow: var(--lb-social-shadow, 0 3px 8px rgba(0,0,0,0.45));
   opacity: 1;
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--lb-anim-out, var(--lb-anim)) var(--lb-ease, ease),
+              text-shadow var(--lb-anim-out, var(--lb-anim)) var(--lb-ease, ease),
+              transform var(--lb-anim-out, var(--lb-anim)) var(--lb-ease, ease);
+}
+/* Optional social-link glow (defaults = no visible change): text glow on the
+   glyph itself, no capsule; same timing and touch handling as the buttons. */
+@media (hover: hover) {
+  .socials a:hover {
+    color: var(--lb-social-color-hover, var(--lb-text));
+    text-shadow: var(--lb-social-glow, var(--lb-social-shadow, 0 3px 8px rgba(0,0,0,0.45)));
+    transform: var(--lb-social-lift, none);
+    transition-duration: var(--lb-anim-in, var(--lb-anim));
+  }
+}
+.socials a:active,
+.socials a.lb-pressed {
+  color: var(--lb-social-color-active, var(--lb-social-color-hover, var(--lb-text)));
+  text-shadow: var(--lb-social-glow-active, var(--lb-social-glow, var(--lb-social-shadow, 0 3px 8px rgba(0,0,0,0.45))));
+  transform: var(--lb-social-press, var(--lb-social-lift, none));
+  transition-duration: 90ms;
 }
 
 .socials svg {
@@ -425,7 +463,8 @@
     /* Reduced motion: no lift/press movement; the light change stays. */
     @media (prefers-reduced-motion: reduce) {
       .button, .button:hover, .button:active, .button.lb-pressed,
-      .matcha-bubble, .matcha-bubble:hover, .matcha-bubble:active, .matcha-bubble.lb-pressed { transform: none !important; }
+      .matcha-bubble, .matcha-bubble:hover, .matcha-bubble:active, .matcha-bubble.lb-pressed,
+      .socials a, .socials a:hover, .socials a:active, .socials a.lb-pressed { transform: none !important; }
     }
 
     .cash-referral {
@@ -1197,7 +1236,7 @@
       // removed ~140ms after release, at once if the touch becomes a scroll.
       // Purely visual: navigation/age gate/analytics untouched.
       (function () {
-        var SEL = ".button, .matcha-bubble";
+        var SEL = ".button, .matcha-bubble, .socials a";
         function target(e) { return e.target && e.target.closest ? e.target.closest(SEL) : null; }
         document.addEventListener("pointerdown", function (e) {
           if (e.pointerType === "mouse") return;

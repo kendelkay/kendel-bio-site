@@ -43,7 +43,7 @@ window.SITE_CONFIG = {
        opaque fill (engine default 94%), Founder choice. Fill only: text,
        emoji, size, blur unchanged; hover still goes solid white. */
     colors: {
-      buttonBg: "rgba(255,255,255,0.60)",
+      buttonBg: "rgba(255,255,255,0.50)",
       /* "Blush glass": hover = barely-pink frosted tint (was solid white). */
       buttonBgHover: "rgba(255,241,247,0.72)",
     },
@@ -57,13 +57,24 @@ window.SITE_CONFIG = {
       "--lb-ease": "cubic-bezier(0.22, 0.61, 0.36, 1)",
       "--lb-anim-in": "220ms",
       "--lb-anim-out": "320ms",
-      "--lb-btn-glow": "0 8px 26px -8px rgba(245,166,203,0.60), 0 0 18px 2px rgba(245,166,203,0.22)",
-      "--lb-btn-glow-active": "0 6px 22px -6px rgba(245,166,203,0.78), 0 0 26px 4px rgba(245,166,203,0.32)",
+      /* Blush Glass V2: opt into the engine's glow recipes in #F5A6CB at 1.2x
+         intensity (every glow alpha +20%; radii unchanged). */
+      "--lb-glow-rgb": "245 166 203",
+      "--lb-glow-k": "1.25",
+      "--lb-btn-glow": "var(--lb-glow-btn)",
+      "--lb-btn-glow-active": "var(--lb-glow-btn-active)",
       "--lb-btn-bg-active": "rgba(255,238,246,0.76)",
       "--lb-btn-press": "translateY(0) scale(0.985)",
       "--lb-bubble-hover-lift": "translateY(-1px)",
       "--lb-bubble-bg-hover": "rgba(255,241,247,0.72)",
-      "--lb-btn-glow-bubble": "0 6px 18px -6px rgba(245,166,203,0.55), 0 0 12px 1px rgba(245,166,203,0.20)",
+      "--lb-btn-glow-bubble": "var(--lb-glow-bubble)",
+      /* Social labels (ig / X / tt / sc): same blush glow on the glyph, a
+         faint pink tint and a 1.5px lift; no capsule, same 44px targets. */
+      "--lb-social-glow": "var(--lb-glow-social)",
+      "--lb-social-glow-active": "var(--lb-glow-social-active)",
+      "--lb-social-color-hover": "#ffeef6",
+      "--lb-social-lift": "translateY(-1.5px)",
+      "--lb-social-press": "translateY(-0.5px)",
       "--lb-bubble-press": "scale(0.98)",
       "--lb-bubble-bg-active": "rgba(255,238,246,0.76)",
       /* Social row: labels +5% (14 -> 14.7px). Each link is a >=44x44px tap
