@@ -142,6 +142,12 @@ window.SITE_CONFIG = {
          and shadow; Powered by Midnight unchanged. Readability over the
          bright footage relies on the existing text shadow. */
       "--lb-legal-color": "rgba(255,255,255,0.60)",
+      /* Phones only (<=700px): quieter lower-section type. The header (name,
+         socials) and desktop/iPad are untouched; /yt has its own layout. */
+      "--lb-btn-font-mobile": "clamp(15.5px, 3.8vw, 16.5px)",
+      "--lb-tip-title-font-mobile": "clamp(12px, 2.85vw, 12.5px)",
+      "--lb-tip-title-lh-mobile": "20px",  /* = the 13px heading's line box, so nothing below moves */
+      "--lb-bubble-font-mobile": "clamp(12px, 2.95vw, 13px)",
       /* Content-fitted capsules: each main button hugs its label (no fixed
          % width); side padding shrinks with the screen before any wrap. */
       "--lb-btn-width": "auto",

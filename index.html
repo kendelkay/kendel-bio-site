@@ -4,7 +4,7 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG.
        Versioned (?v=) so config edits (e.g. new aliases) can't be served stale from
        browser/CDN cache — bump v on every config change. -->
-  <script src="config.js?v=18"></script>
+  <script src="config.js?v=19"></script>
 
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
@@ -645,7 +645,7 @@
       :root {
         --lb-name-size: clamp(44px, 11.55vw, 61px);
         --lb-btn-min-h: 58px;
-        --lb-btn-font: clamp(17px, 5.3vw, 19px); /* no label wrap on 320px phones */
+        --lb-btn-font: var(--lb-btn-font-mobile, clamp(17px, 5.3vw, 19px)); /* no label wrap on 320px phones */
         --lb-gap-socials: 34px;
         --lb-links-gap: 24px;
       }
@@ -659,7 +659,8 @@
       .socials { gap: var(--lb-social-gap, 14px); }
       .button { width: var(--lb-btn-width, 86%); }
       .matcha-card { width: 86%; }
-      .matcha-title { font-size: 13px; }
+      .matcha-title { font-size: var(--lb-tip-title-font-mobile, 13px); line-height: var(--lb-tip-title-lh-mobile, normal); }
+      .matcha-bubble { font-size: var(--lb-bubble-font-mobile, var(--lb-bubble-font, clamp(12.5px, 3.6vw, 14px))); }
       .newsletter { width: 86%; }
       .custom-section { width: 86%; }
       .lb-spacer { min-height: var(--lb-spacer-min-mobile, var(--lb-spacer-min, 0px)); }
