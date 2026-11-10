@@ -141,3 +141,14 @@ Scoped to `profiles.youtube_kendelkay.layout.vars`, so the full page `/` is unch
 - **Clip content:** no black frames. There is a brief white flash at frames 9–11, which is part of the edit.
 - **Cache:** `config.js?v=16`. Shared by `/` and `/yt`.
 
+## Blush Glass buttons (all 7: 4 main + 2 tip on `/`, 1 CTA on `/yt` and `/watch`)
+- **Fill:** `rgba(255,255,255,0.60)` (was 0.70). Blur and pill shape unchanged; text and emoji fully opaque.
+- **Main buttons (`/` only):** content-fitted (`--lb-btn-width: auto`) with `clamp(22px, 8.5vw, 38px)` of side padding, and `max-width: 100%`. Each label is on one line and centred; heights and positions are unchanged.
+- **Tip bubbles (`/` only):** a centred flex row, fitted to their labels with `clamp(8px, 4.4vw − 6px, 20px)` of padding. The row may use the card's gutters (`--lb-pay-bleed`), so it stays side by side down to 320px.
+- **Clean CTA (`/yt`):** keeps its own intrinsic width (242×54 on a 440px phone) and 17px type; it shares the 60% fill and the glow.
+- **Hover (devices that hover):** 2px lift (1px on bubbles), a frosted blush tint `rgba(255,241,247,0.72)`, and a diffused `#F5A6CB` glow (`0 8px 26px -8px rgba(245,166,203,.60), 0 0 18px 2px rgba(245,166,203,.22)`). Fades in over 220ms and out over 320ms with `cubic-bezier(.22,.61,.36,1)`.
+- **Press / tap:** a slightly stronger glow plus `scale(.985)` (`.98` on bubbles) for 90ms. Touch taps use an `.lb-pressed` class set by pointer events, cleared about 140ms after release, or at once when the touch becomes a scroll. Hover is gated by `@media (hover: hover)`, so nothing stays stuck on touch screens.
+- **Reduced motion:** no lift or press movement.
+- **Contrast** (worst case on the new clip's darkest and brightest frames): 8.5–9.8:1 on dark, 13.9–15.6:1 on bright.
+- **New engine tokens** all default to the previous look: `--lb-btn-shadow`, `--lb-btn-glow`, `--lb-btn-glow-active`, `--lb-btn-bg-active`, `--lb-btn-press`, `--lb-anim-in/out`, `--lb-ease`, `--lb-pay-display`, `--lb-pay-bleed`, `--lb-bubble-pad-x`, `--lb-bubble-shadow`, `--lb-bubble-hover-lift`, `--lb-bubble-bg-hover/active`, `--lb-btn-glow-bubble`, `--lb-bubble-press`. `config.js?v=17`.
+

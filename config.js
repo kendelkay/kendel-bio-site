@@ -43,13 +43,29 @@ window.SITE_CONFIG = {
        opaque fill (engine default 94%), Founder choice. Fill only: text,
        emoji, size, blur unchanged; hover still goes solid white. */
     colors: {
-      buttonBg: "rgba(255,255,255,0.70)",
-      buttonBgHover: "#ffffff",
+      buttonBg: "rgba(255,255,255,0.60)",
+      /* "Blush glass": hover = barely-pink frosted tint (was solid white). */
+      buttonBgHover: "rgba(255,241,247,0.72)",
     },
     vars: {
       "--lb-name-size": "min(90px, max(56px, 11vw), 14.2vw)", /* = old clamp, but keeps one line on 320px phones */
       "--lb-name-weight": "300",
       "--lb-name-tracking": "-0.02em",
+      /* Blush glow (#F5A6CB) on hover / press, buttons + tip bubbles. Diffused
+         shadow only: no outline, no pulse, nothing at rest. Fades in 220ms,
+         out 320ms; press is a brief, slightly stronger glow + tiny scale. */
+      "--lb-ease": "cubic-bezier(0.22, 0.61, 0.36, 1)",
+      "--lb-anim-in": "220ms",
+      "--lb-anim-out": "320ms",
+      "--lb-btn-glow": "0 8px 26px -8px rgba(245,166,203,0.60), 0 0 18px 2px rgba(245,166,203,0.22)",
+      "--lb-btn-glow-active": "0 6px 22px -6px rgba(245,166,203,0.78), 0 0 26px 4px rgba(245,166,203,0.32)",
+      "--lb-btn-bg-active": "rgba(255,238,246,0.76)",
+      "--lb-btn-press": "translateY(0) scale(0.985)",
+      "--lb-bubble-hover-lift": "translateY(-1px)",
+      "--lb-bubble-bg-hover": "rgba(255,241,247,0.72)",
+      "--lb-btn-glow-bubble": "0 6px 18px -6px rgba(245,166,203,0.55), 0 0 12px 1px rgba(245,166,203,0.20)",
+      "--lb-bubble-press": "scale(0.98)",
+      "--lb-bubble-bg-active": "rgba(255,238,246,0.76)",
       /* Social row: labels +5% (14 -> 14.7px). Each link is a >=44x44px tap
          target (glyph + 33px wide, boxes touching, never overlapping), so the
          visible glyph-to-glyph gap is a uniform 33px. The 44px-tall box
@@ -115,6 +131,16 @@ window.SITE_CONFIG = {
          and shadow; Powered by Midnight unchanged. Readability over the
          bright footage relies on the existing text shadow. */
       "--lb-legal-color": "rgba(255,255,255,0.60)",
+      /* Content-fitted capsules: each main button hugs its label (no fixed
+         % width); side padding shrinks with the screen before any wrap. */
+      "--lb-btn-width": "auto",
+      "--lb-btn-pad-x": "clamp(22px, 8.5vw, 38px)",
+      /* Tip bubbles: fitted to their labels, centred side by side; padding
+         scales with the screen so the pair fits on phones; they wrap to two
+         rows only where both can't fit (e.g. 320px). */
+      "--lb-pay-display": "flex",
+      "--lb-pay-bleed": "-8.14%",  /* same gutter allowance as the tip heading */
+      "--lb-bubble-pad-x": "clamp(8px, calc(4.4vw - 6px), 20px)",
     },
     order: ["name", "socials", "spacer", "cta", "tipCard", "custom", "footer"],
   },
