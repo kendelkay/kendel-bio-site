@@ -133,3 +133,35 @@ Scoped to `profiles.youtube_kendelkay.layout.vars`, so the full page `/` is unch
 - **Midnight credit:** 8px type, 4/10px padding, 8px spark (128×21px visible, was 155×27). Its link fills the capsule, so the tap area is 126×20 (was 127×14).
 - **Legal text:** terms, privacy and "|" are 46% white (`--lb-legal-color`), the same effective alpha as the Midnight credit (92% × 0.5). The text shadow is kept for legibility. The profile replaces the base layout, so it had been rendering at the 92% default, not the full page's 60%.
 - **New engine tokens:** `--lb-btn-width`, `--lb-name-mt`, `--lb-refsig-pad`, `--lb-refsig-font`, `--lb-refsig-gap`, `--lb-refsig-spark`, `--lb-refsig-hit-x`, `--lb-refsig-hit-y`. All default to the previous values.
+
+## Background video swap: shorter edit (`kk_link_vid_new_-_4.mov`)
+- **Source:** HEVC + AAC, 720×1280, 23.976 fps, 154 frames (6.42s video; the container reports 6.46s because of the audio track).
+- **Shipped as `background.mp4?v=12`:** H.264 High@4.0, yuv420p, bt709, CRF 22, no audio, fast-start, 2.3 MB. All 154 frames kept; no trim, crop, reorder or recolour; SSIM 0.988 against the source.
+- **Poster:** `poster.jpg?v=12` is frame 0 of the shipped video (PSNR 46.9 dB against it).
+- **Clip content:** no black frames. There is a brief white flash at frames 9–11, which is part of the edit.
+- **Cache:** `config.js?v=16`. Shared by `/` and `/yt`.
+
+## Blush Glass buttons (all 7: 4 main + 2 tip on `/`, 1 CTA on `/yt` and `/watch`)
+- **Fill:** `rgba(255,255,255,0.60)` (was 0.70). Blur and pill shape unchanged; text and emoji fully opaque.
+- **Main buttons (`/` only):** content-fitted (`--lb-btn-width: auto`) with `clamp(22px, 8.5vw, 38px)` of side padding, and `max-width: 100%`. Each label is on one line and centred; heights and positions are unchanged.
+- **Tip bubbles (`/` only):** a centred flex row, fitted to their labels with `clamp(8px, 4.4vw − 6px, 20px)` of padding. The row may use the card's gutters (`--lb-pay-bleed`), so it stays side by side down to 320px.
+- **Clean CTA (`/yt`):** keeps its own intrinsic width (242×54 on a 440px phone) and 17px type; it shares the 60% fill and the glow.
+- **Hover (devices that hover):** 2px lift (1px on bubbles), a frosted blush tint `rgba(255,241,247,0.72)`, and a diffused `#F5A6CB` glow (`0 8px 26px -8px rgba(245,166,203,.60), 0 0 18px 2px rgba(245,166,203,.22)`). Fades in over 220ms and out over 320ms with `cubic-bezier(.22,.61,.36,1)`.
+- **Press / tap:** a slightly stronger glow plus `scale(.985)` (`.98` on bubbles) for 90ms. Touch taps use an `.lb-pressed` class set by pointer events, cleared about 140ms after release, or at once when the touch becomes a scroll. Hover is gated by `@media (hover: hover)`, so nothing stays stuck on touch screens.
+- **Reduced motion:** no lift or press movement.
+- **Contrast** (worst case on the new clip's darkest and brightest frames): 8.5–9.8:1 on dark, 13.9–15.6:1 on bright.
+- **New engine tokens** all default to the previous look: `--lb-btn-shadow`, `--lb-btn-glow`, `--lb-btn-glow-active`, `--lb-btn-bg-active`, `--lb-btn-press`, `--lb-anim-in/out`, `--lb-ease`, `--lb-pay-display`, `--lb-pay-bleed`, `--lb-bubble-pad-x`, `--lb-bubble-shadow`, `--lb-bubble-hover-lift`, `--lb-bubble-bg-hover/active`, `--lb-btn-glow-bubble`, `--lb-bubble-press`. `config.js?v=17`.
+
+## Blush Glass V2
+- **Fill:** all 7 buttons are `rgba(255,255,255,0.50)` (was 0.60). Worst-case text contrast is 6.7:1 on the darkest frame (matcha bubble, Pixel 7): above WCAG AA's 4.5:1, and just under AAA's 7:1 in that one case. Other buttons measure 7.1–8.1:1 dark and 12.8–14.8:1 bright.
+- **Glow, now reusable and opt-in:** the engine provides glow recipes (`--lb-glow-btn`, `--lb-glow-btn-active`, `--lb-glow-bubble`, `--lb-glow-social`, `--lb-glow-social-active`) driven by `--lb-glow-rgb` (colour) and `--lb-glow-k` (alpha multiplier). Nothing uses them unless a creator points `--lb-btn-glow`, `--lb-social-glow` and the like at them. All 10 template configs render identically to before.
+- **Kendel:** `--lb-glow-rgb: 245 166 203`, `--lb-glow-k: 1.25`.
+  - Main hover glow: `0 8px 26px -8px rgb(245 166 203 / .75)` and `0 0 18px 2px … / .275`.
+  - Press: `.975` / `.40`.
+  - Radii unchanged. Measured glow energy against V1: +23% hover and +24% press on the main buttons and `/yt` CTA; +16% hover and +24% press on the bubbles.
+- **Social links (ig / 𝕏 / tt / sc):**
+  - Hover adds a text glow on the glyph (`0 0 8px … / .875`, `0 0 18px … / .475`, plus the original dark shadow), a `#ffeef6` tint and a 1.5px lift.
+  - Press is stronger and lifts 0.5px.
+  - Touch uses the same `.lb-pressed` handler. No capsule; the 44px targets are unchanged.
+- `config.js?v=18`.
+

@@ -4,7 +4,7 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG.
        Versioned (?v=) so config edits (e.g. new aliases) can't be served stale from
        browser/CDN cache — bump v on every config change. -->
-  <script src="config.js?v=15"></script>
+  <script src="config.js?v=18"></script>
 
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
@@ -95,6 +95,23 @@
       --lb-gap-bio: 22px;
       --lb-gap-socials: 44px;
       --lb-gap-tip: 24px;
+      /* Optional interaction glow recipes (opt-in, nothing uses them unless a
+         creator points --lb-btn-glow / --lb-social-glow etc. at them).
+         --lb-glow-rgb = colour as "R G B"; --lb-glow-k = intensity multiplier
+         applied to every alpha (1 = base recipe, 1.2 = 20% stronger). */
+      --lb-glow-k: 1;
+      --lb-glow-btn: 0 8px 26px -8px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.60 * var(--lb-glow-k))),
+                     0 0 18px 2px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.22 * var(--lb-glow-k)));
+      --lb-glow-btn-active: 0 6px 22px -6px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.78 * var(--lb-glow-k))),
+                            0 0 26px 4px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.32 * var(--lb-glow-k)));
+      --lb-glow-bubble: 0 6px 18px -6px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.55 * var(--lb-glow-k))),
+                        0 0 12px 1px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.20 * var(--lb-glow-k)));
+      --lb-glow-social: 0 0 8px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.70 * var(--lb-glow-k))),
+                        0 0 18px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.38 * var(--lb-glow-k))),
+                        0 3px 8px rgba(0,0,0,0.45);
+      --lb-glow-social-active: 0 0 9px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.80 * var(--lb-glow-k))),
+                               0 0 22px rgb(var(--lb-glow-rgb, 0 0 0) / calc(0.48 * var(--lb-glow-k))),
+                               0 3px 8px rgba(0,0,0,0.45);
       /* Two-layer shadow for small text over bright, moving video: a tight
          edge for legibility + a soft halo. */
       --lb-small-shadow: 0 1px 2px rgba(0,0,0,0.28), 0 2px 12px rgba(0,0,0,0.38);
@@ -284,8 +301,29 @@
   font-size: var(--lb-social-font, 14px);
   font-weight: 700;
   letter-spacing: -0.03em;
-  text-shadow: 0 3px 8px rgba(0,0,0,0.45);
+  text-shadow: var(--lb-social-shadow, 0 3px 8px rgba(0,0,0,0.45));
   opacity: 1;
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--lb-anim-out, var(--lb-anim)) var(--lb-ease, ease),
+              text-shadow var(--lb-anim-out, var(--lb-anim)) var(--lb-ease, ease),
+              transform var(--lb-anim-out, var(--lb-anim)) var(--lb-ease, ease);
+}
+/* Optional social-link glow (defaults = no visible change): text glow on the
+   glyph itself, no capsule; same timing and touch handling as the buttons. */
+@media (hover: hover) {
+  .socials a:hover {
+    color: var(--lb-social-color-hover, var(--lb-text));
+    text-shadow: var(--lb-social-glow, var(--lb-social-shadow, 0 3px 8px rgba(0,0,0,0.45)));
+    transform: var(--lb-social-lift, none);
+    transition-duration: var(--lb-anim-in, var(--lb-anim));
+  }
+}
+.socials a:active,
+.socials a.lb-pressed {
+  color: var(--lb-social-color-active, var(--lb-social-color-hover, var(--lb-text)));
+  text-shadow: var(--lb-social-glow-active, var(--lb-social-glow, var(--lb-social-shadow, 0 3px 8px rgba(0,0,0,0.45))));
+  transform: var(--lb-social-press, var(--lb-social-lift, none));
+  transition-duration: 90ms;
 }
 
 .socials svg {
@@ -308,9 +346,11 @@
       background: var(--lb-btn-bg);
       color: var(--lb-btn-text);
       border: 1px solid var(--lb-btn-border);
-      box-shadow: 0 12px 34px rgba(0,0,0,0.06);
+      max-width: 100%;
+      box-shadow: var(--lb-btn-shadow, 0 12px 34px rgba(0,0,0,0.06));
       backdrop-filter: blur(var(--lb-glass-blur));
       -webkit-backdrop-filter: blur(var(--lb-glass-blur));
+      -webkit-tap-highlight-color: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -320,7 +360,10 @@
       font-weight: var(--lb-btn-weight);
       letter-spacing: -0.035em;
       padding: var(--lb-btn-pad-y) var(--lb-btn-pad-x);
-      transition: transform var(--lb-anim) ease, background var(--lb-anim) ease, box-shadow var(--lb-anim) ease;
+      /* Base-state duration = the fade-OUT after hover/press ends. */
+      transition: transform var(--lb-anim-out, var(--lb-anim)) var(--lb-ease, ease),
+                  background var(--lb-anim-out, var(--lb-anim)) var(--lb-ease, ease),
+                  box-shadow var(--lb-anim-out, var(--lb-anim)) var(--lb-ease, ease);
       cursor: pointer;
     }
 
@@ -328,10 +371,23 @@
        shared button colour, so tip bubbles and other sites are unchanged. */
     .links .button { background: var(--lb-cta-bg, var(--lb-btn-bg)); }
 
-    .button:hover {
-      transform: translateY(-2px);
-      background: var(--lb-btn-bg-hover);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.10);
+    /* Hover only on devices that really hover: touch screens no longer keep
+       a "stuck" hover state after a tap. --lb-btn-glow / --lb-btn-glow-active
+       default to the original shadow, so sites without them look the same. */
+    @media (hover: hover) {
+      .button:hover {
+        transform: translateY(-2px);
+        background: var(--lb-btn-bg-hover);
+        box-shadow: var(--lb-btn-glow, 0 18px 40px rgba(0,0,0,0.10));
+        transition-duration: var(--lb-anim-in, var(--lb-anim));
+      }
+    }
+    .button:active,
+    .button.lb-pressed {
+      transform: var(--lb-btn-press, translateY(-2px));
+      background: var(--lb-btn-bg-active, var(--lb-btn-bg-hover));
+      box-shadow: var(--lb-btn-glow-active, var(--lb-btn-glow, 0 18px 40px rgba(0,0,0,0.10)));
+      transition-duration: 90ms;
     }
 
     .matcha-card {
@@ -354,10 +410,15 @@
       text-shadow: var(--lb-small-shadow);
     }
 
+    /* --lb-pay-display: flex => content-fitted bubbles, centred, wrapping to
+       a second row only when they don't fit side by side. Default: 2-col grid. */
     .matcha-actions {
-      display: grid;
+      display: var(--lb-pay-display, grid);
       grid-template-columns: 1fr 1fr;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: var(--lb-pay-gap, 12px);
+      margin-inline: var(--lb-pay-bleed, 0px); /* may use the card's side gutters */
     }
 
     .matcha-bubble {
@@ -374,10 +435,36 @@
       font-size: var(--lb-bubble-font, clamp(12.5px, 3.6vw, 14px));
       font-weight: 700;
       white-space: nowrap;
-      padding: 9px 10px;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+      padding: 9px var(--lb-bubble-pad-x, 10px);
+      box-shadow: var(--lb-bubble-shadow, 0 8px 18px rgba(0,0,0,0.08));
       backdrop-filter: blur(var(--lb-glass-blur));
       -webkit-backdrop-filter: blur(var(--lb-glass-blur));
+      -webkit-tap-highlight-color: transparent;
+      transition: transform var(--lb-anim-out, var(--lb-anim)) var(--lb-ease, ease),
+                  background var(--lb-anim-out, var(--lb-anim)) var(--lb-ease, ease),
+                  box-shadow var(--lb-anim-out, var(--lb-anim)) var(--lb-ease, ease);
+    }
+    /* Optional bubble hover/press (defaults = no visible change). */
+    @media (hover: hover) {
+      .matcha-bubble:hover {
+        transform: var(--lb-bubble-hover-lift, none);
+        background: var(--lb-bubble-bg-hover, var(--lb-btn-bg));
+        box-shadow: var(--lb-btn-glow-bubble, var(--lb-bubble-shadow, 0 8px 18px rgba(0,0,0,0.08)));
+        transition-duration: var(--lb-anim-in, var(--lb-anim));
+      }
+    }
+    .matcha-bubble:active,
+    .matcha-bubble.lb-pressed {
+      transform: var(--lb-bubble-press, none);
+      background: var(--lb-bubble-bg-active, var(--lb-bubble-bg-hover, var(--lb-btn-bg)));
+      box-shadow: var(--lb-btn-glow-active, var(--lb-bubble-shadow, 0 8px 18px rgba(0,0,0,0.08)));
+      transition-duration: 90ms;
+    }
+    /* Reduced motion: no lift/press movement; the light change stays. */
+    @media (prefers-reduced-motion: reduce) {
+      .button, .button:hover, .button:active, .button.lb-pressed,
+      .matcha-bubble, .matcha-bubble:hover, .matcha-bubble:active, .matcha-bubble.lb-pressed,
+      .socials a, .socials a:hover, .socials a:active, .socials a.lb-pressed { transform: none !important; }
     }
 
     .cash-referral {
@@ -1141,6 +1228,33 @@
       document.addEventListener("DOMContentLoaded", startVideo);
       window.addEventListener("load", startVideo);
       document.addEventListener("touchstart", startVideo, { once: true });
+      // iOS Safari only applies :active (tap feedback) to links when a touch
+      // listener exists; this passive no-op keeps it for every tap.
+      document.addEventListener("touchstart", function () {}, { passive: true });
+      // Deterministic tap feedback for touch/pen: .lb-pressed mirrors :active
+      // (browsers apply :active to touches inconsistently). Added on press,
+      // removed ~140ms after release, at once if the touch becomes a scroll.
+      // Purely visual: navigation/age gate/analytics untouched.
+      (function () {
+        var SEL = ".button, .matcha-bubble, .socials a";
+        function target(e) { return e.target && e.target.closest ? e.target.closest(SEL) : null; }
+        document.addEventListener("pointerdown", function (e) {
+          if (e.pointerType === "mouse") return;
+          var el = target(e); if (!el) return;
+          clearTimeout(el.__lbT); el.classList.add("lb-pressed");
+        }, { passive: true });
+        function release(delay) {
+          return function () {
+            var on = document.querySelectorAll(".lb-pressed");
+            for (var i = 0; i < on.length; i++) (function (el) {
+              clearTimeout(el.__lbT);
+              el.__lbT = setTimeout(function () { el.classList.remove("lb-pressed"); }, delay);
+            })(on[i]);
+          };
+        }
+        document.addEventListener("pointerup", release(140), { passive: true });
+        document.addEventListener("pointercancel", release(0), { passive: true });
+      })();
       // iOS pauses inline video when the tab/app is backgrounded; resume on return.
       document.addEventListener("visibilitychange", function () { if (!document.hidden) startVideo(); });
       startVideo();
