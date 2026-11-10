@@ -165,3 +165,15 @@ Scoped to `profiles.youtube_kendelkay.layout.vars`, so the full page `/` is unch
   - Touch uses the same `.lb-pressed` handler. No capsule; the 44px targets are unchanged.
 - `config.js?v=18`.
 
+## Smart mobile typography (phones ≤700px, full page only)
+| | Before (iPhone 17 Pro Max) | After |
+|---|---|---|
+| Main buttons | 19px | **16.5px**: `clamp(15.5px, 3.8vw, 16.5px)`, so 15.5–16.5px on phones |
+| Matcha heading | 13px | **12.5px**: `clamp(12px, 2.85vw, 12.5px)`; line height pinned at 20px, so nothing below moves |
+| Matcha bubbles | 14px | **13px**: `clamp(12px, 2.95vw, 13px)` |
+| Cash App helper | 11px | 11px (already proportionate) |
+
+- **Unchanged:** the header (name and socials), iPad, desktop and `/yt` are pixel-identical. Button heights, gaps and positions are unchanged; widths shrink with the text.
+- **New tokens:** `--lb-btn-font-mobile`, `--lb-tip-title-font-mobile`, `--lb-tip-title-lh-mobile`, `--lb-bubble-font-mobile`, all defaulting to the previous values.
+- `config.js?v=19`.
+
