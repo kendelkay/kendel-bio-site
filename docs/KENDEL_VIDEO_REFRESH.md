@@ -133,3 +133,11 @@ Scoped to `profiles.youtube_kendelkay.layout.vars`, so the full page `/` is unch
 - **Midnight credit:** 8px type, 4/10px padding, 8px spark (128×21px visible, was 155×27). Its link fills the capsule, so the tap area is 126×20 (was 127×14).
 - **Legal text:** terms, privacy and "|" are 46% white (`--lb-legal-color`), the same effective alpha as the Midnight credit (92% × 0.5). The text shadow is kept for legibility. The profile replaces the base layout, so it had been rendering at the 92% default, not the full page's 60%.
 - **New engine tokens:** `--lb-btn-width`, `--lb-name-mt`, `--lb-refsig-pad`, `--lb-refsig-font`, `--lb-refsig-gap`, `--lb-refsig-spark`, `--lb-refsig-hit-x`, `--lb-refsig-hit-y`. All default to the previous values.
+
+## Background video swap: shorter edit (`kk_link_vid_new_-_4.mov`)
+- **Source:** HEVC + AAC, 720×1280, 23.976 fps, 154 frames (6.42s video; the container reports 6.46s because of the audio track).
+- **Shipped as `background.mp4?v=12`:** H.264 High@4.0, yuv420p, bt709, CRF 22, no audio, fast-start, 2.3 MB. All 154 frames kept; no trim, crop, reorder or recolour; SSIM 0.988 against the source.
+- **Poster:** `poster.jpg?v=12` is frame 0 of the shipped video (PSNR 46.9 dB against it).
+- **Clip content:** no black frames. There is a brief white flash at frames 9–11, which is part of the edit.
+- **Cache:** `config.js?v=16`. Shared by `/` and `/yt`.
+

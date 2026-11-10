@@ -71,11 +71,11 @@ window.SITE_CONFIG = {
      video -> set `video`; image -> set `image`; color -> `color`/`gradient`. */
   background: {
     type: "video",
-    video: "background.mp4?v=11",
+    video: "background.mp4?v=12",
     /* First frame of the video: shown while it buffers (no blank/black flash),
        and used as a still for visitors with prefers-reduced-motion. Regenerate
        together with the video (same ?v=). */
-    poster: "poster.jpg?v=11",
+    poster: "poster.jpg?v=12",
     color: "#f3ebe7",
     position: "65% 15%",
     /* "none": the replacement clip is a finished B&W grade — the old
