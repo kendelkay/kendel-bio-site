@@ -53,6 +53,22 @@ One repository · one renderer · one Vercel project · one production branch (`
 one CI pipeline · creator configuration resolved by slug/domain · **zero** manual
 creator deployments · **zero** creator-specific renderer forks.
 
+### Branch consolidation — `kendel-prod` retirement (Founder-approved, 2026-07)
+A Kendel production hotfix (Cash App handle + video-hero preset) had to be landed on
+**both** `main` and `kendel-prod` because the Vercel Production-Branch setting was not
+confirmable from the repo, and the two branches had diverged. That duplication is the
+last symptom of the fragmentation this incident closed.
+
+**Resolution (approved):** `main` is the single production branch. Once the current
+hotfix is verified live, **retire `kendel-prod`** (a frozen Jul-11 snapshot with no
+Link Runtime). Target end state: one production branch, one deployment pipeline, one
+source of truth — **no future duplicate hotfixes**.
+
+**Ops steps:** (1) confirm Vercel → Project → Settings → Git → Production Branch =
+`main`; (2) verify the hotfix live on Kendel's domain; (3) delete the `kendel-prod`
+branch; (4) if verification shows `kendel-prod` *was* serving production, escalate —
+that means Kendel's live site was missing the Link Runtime — before deleting.
+
 ## Open — Founder Product Decision (next work item gate)
 Select the canonical creator URL model (A / B / C) — see
 [`../CREATOR_IDENTITY_AND_ADDRESS_STRATEGY.md`](../CREATOR_IDENTITY_AND_ADDRESS_STRATEGY.md).
