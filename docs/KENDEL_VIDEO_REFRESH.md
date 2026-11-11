@@ -177,3 +177,9 @@ Scoped to `profiles.youtube_kendelkay.layout.vars`, so the full page `/` is unch
 - **New tokens:** `--lb-btn-font-mobile`, `--lb-tip-title-font-mobile`, `--lb-tip-title-lh-mobile`, `--lb-bubble-font-mobile`, all defaulting to the previous values.
 - `config.js?v=19`.
 
+## Equal-width main buttons (Kendel's preference)
+- **Width:** the four main buttons on `/` share one width, `min(84%, 360px)`, which is 84% of the content column on phones and 360px on iPad and desktop. The column is centred and the labels are centred inside.
+  - iPhone 17 Pro Max 339px; 17 Pro 307px; 15 Pro 300px; SE 285px; SE (1st gen) 239px; Pixel 7 316px.
+- **Unchanged:** fonts (PR #18), heights, gaps, glow and tap behaviour, the matcha bubbles, and `/yt` / `/watch` (they keep their own intrinsic CTA).
+- `config.js?v=20`.
+

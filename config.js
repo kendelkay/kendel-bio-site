@@ -148,9 +148,11 @@ window.SITE_CONFIG = {
       "--lb-tip-title-font-mobile": "clamp(12px, 2.85vw, 12.5px)",
       "--lb-tip-title-lh-mobile": "20px",  /* = the 13px heading's line box, so nothing below moves */
       "--lb-bubble-font-mobile": "clamp(12px, 2.95vw, 13px)",
-      /* Content-fitted capsules: each main button hugs its label (no fixed
-         % width); side padding shrinks with the screen before any wrap. */
-      "--lb-btn-width": "auto",
+      /* Equal-width capsules (Kendel's preference): all four main buttons share
+         one width - 84% of the content column on phones, capped at 360px on
+         wide screens - forming a centred column; labels stay centred inside.
+         Side padding is only a minimum for very narrow screens. */
+      "--lb-btn-width": "min(84%, 360px)",
       "--lb-btn-pad-x": "clamp(22px, 8.5vw, 38px)",
       /* Tip bubbles: fitted to their labels, centred side by side; padding
          scales with the screen so the pair fits on phones; they wrap to two
