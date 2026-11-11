@@ -64,24 +64,25 @@ Expected outcome legend: **Native** = destination opens normally, no fallback ·
   on the token list fall through to Native (safe default — never a false prompt in
   a real browser).
 
-## Temporary production diagnostic (remove once execution is proven)
+## Production diagnostic — via Midnight Diagnostics
 
-Purpose: prove the Link Runtime executes on production and answer four questions
-on a real device without a console.
+Diagnostics now run through the reusable **Midnight Diagnostics** framework
+(`MIDNIGHT_DIAGNOSTICS.md`); the Link Runtime is one consumer. Purpose here: prove
+the Link Runtime executes on production and answer four questions on a real device
+without a console.
 
-- **Console banner (always):** on load the runtime logs
-  `[LinkRuntime] v1 build lr-diag-1 loaded; env=<source>/<platform> embedded=<bool>`.
-- **On-page badge (opt-in):** append `?lrdebug=1` to the URL (or set
-  `localStorage.lr_debug='1'`, or `window.LINK_RUNTIME_DEBUG=true`). A small
-  bottom-left badge shows: build, loaded, enabled, detected environment, and a live
-  interception counter.
-- **Programmatic:** `window.LinkRuntime.diagnostics()` →
-  `{ version, build, loaded, enabled, environment, intercepted, last }`.
+- **Console banner (always):** `[Midnight Diagnostics] LinkRuntime build lr-diag-1 registered`.
+- **On-page badge (opt-in):** append `?mdebug=1` (or the legacy `?lrdebug=1`) to the
+  URL — or set `localStorage.md_debug='1'` / `window.MIDNIGHT_DEBUG=true`. A bottom-left
+  badge lists every registered system; LinkRuntime shows loaded, enabled, env,
+  embedded, and a live interception counter.
+- **Programmatic:** `MidnightDiagnostics.snapshot()` (all systems) or
+  `window.LinkRuntime.diagnostics()` (LinkRuntime only).
 
 Answers: (1) loaded? badge/console present. (2) which build? `build` tag (maps to a
 commit/PR; authoritative SHA in Vercel's deployment). (3) detection embedded?
-`env … embedded=true`. (4) interception executed? `intercepted` increments and
-`last=fallback` after tapping a protected CTA.
+`embedded=true`. (4) interception executed? the counter increments (`last: intercept`)
+after tapping a protected CTA.
 
-**Remove** this block (the diagnostic section of `link-runtime.js` + this note)
-once production execution is confirmed.
+**Temporary:** remove the LinkRuntime diagnostic probe once production execution is
+confirmed. The Midnight Diagnostics framework itself is permanent (future systems use it).
