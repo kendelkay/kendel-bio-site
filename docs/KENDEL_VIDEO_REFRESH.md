@@ -183,3 +183,10 @@ Scoped to `profiles.youtube_kendelkay.layout.vars`, so the full page `/` is unch
 - **Unchanged:** fonts (PR #18), heights, gaps, glow and tap behaviour, the matcha bubbles, and `/yt` / `/watch` (they keep their own intrinsic CTA).
 - `config.js?v=20`.
 
+## Equal-width buttons: mobile correction
+- **Phones (≤700px):** the button list is one shared grid column, `fit-content(100%)`, sized by the longest label ("my amazon wishlist 💝") plus its padding, which is the existing value +8px per side. All four buttons fill it, so they are equal and centred.
+  - iPhone 17 Pro Max 271px (was 339px); 17 Pro 254px; 15 Pro 252px; SE 249px; SE (1st gen) 240px; Pixel 7 257px.
+- **Unchanged:** iPad and desktop stay 360px and are pixel-identical; `/yt` is pixel-identical.
+- **New mobile-only tokens:** `--lb-links-cols-mobile`, `--lb-btn-width-mobile`, `--lb-btn-pad-x-mobile`. They default to the old behaviour.
+- `config.js?v=21`.
+

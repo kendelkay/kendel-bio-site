@@ -154,6 +154,13 @@ window.SITE_CONFIG = {
          Side padding is only a minimum for very narrow screens. */
       "--lb-btn-width": "min(84%, 360px)",
       "--lb-btn-pad-x": "clamp(22px, 8.5vw, 38px)",
+      /* Phones only (<=700px): still equal width, but sized by the content.
+         One shared grid column = the longest label ("my amazon wishlist 💝")
+         + its padding (+8px/side of breathing room); every button fills it.
+         Desktop/iPad keep the approved 360px; /yt keeps its own CTA. */
+      "--lb-links-cols-mobile": "fit-content(100%)",
+      "--lb-btn-width-mobile": "100%",
+      "--lb-btn-pad-x-mobile": "calc(clamp(22px, 8.5vw, 38px) + 8px)",
       /* Tip bubbles: fitted to their labels, centred side by side; padding
          scales with the screen so the pair fits on phones; they wrap to two
          rows only where both can't fit (e.g. 320px). */

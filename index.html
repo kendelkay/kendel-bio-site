@@ -4,7 +4,7 @@
   <!-- Config MUST load first: the whole page is rendered from window.SITE_CONFIG.
        Versioned (?v=) so config edits (e.g. new aliases) can't be served stale from
        browser/CDN cache — bump v on every config change. -->
-  <script src="config.js?v=20"></script>
+  <script src="config.js?v=21"></script>
 
   <!-- Link Runtime — the canonical owner of every outbound-navigation concern
        (destination validation, attribution, age-gate continuation, embedded-browser
@@ -657,7 +657,17 @@
       .avatar { width: 92px; height: 92px; }
       .bio-text { width: 100%; }
       .socials { gap: var(--lb-social-gap, 14px); }
-      .button { width: var(--lb-btn-width, 86%); }
+      .button {
+        width: var(--lb-btn-width-mobile, var(--lb-btn-width, 86%));
+        padding-inline: var(--lb-btn-pad-x-mobile, var(--lb-btn-pad-x));
+      }
+      /* Optional shared column (e.g. "fit-content(100%)"): the column is as
+         wide as the longest label, so equal-width buttons hug the text.
+         Default "none" = the original full-width single column. */
+      .links {
+        grid-template-columns: var(--lb-links-cols-mobile, none);
+        justify-content: center;
+      }
       .matcha-card { width: 86%; }
       .matcha-title { font-size: var(--lb-tip-title-font-mobile, 13px); line-height: var(--lb-tip-title-lh-mobile, normal); }
       .matcha-bubble { font-size: var(--lb-bubble-font-mobile, var(--lb-bubble-font, clamp(12.5px, 3.6vw, 14px))); }
